@@ -1,0 +1,6 @@
+[submodule "AccelOpt"]
+	path = AccelOpt
+	url = https://github.com/zhang677/AccelOpt.git
+[submodule "step-artifact"]
+	path = step-artifact
+	url = https://github.com/stanford-ppl/step_artifact.git
