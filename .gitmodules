@@ -1,6 +1,12 @@
 [submodule "AccelOpt"]
 	path = AccelOpt
 	url = https://github.com/zhang677/AccelOpt.git
-[submodule "step-artifact"]
-	path = step-artifact
-	url = https://github.com/stanford-ppl/step_artifact.git
+[submodule "step-artifact-hdl"]
+	path = step-artifact-hdl
+	url = https://github.com/stanford-ppl/step-artifact-hdl.git
+[submodule "AccelOptStep"]
+	path = AccelOptStep
+	url = https://github.com/patrickmcewen/AccelOptStep.git
+[submodule "KernelBench"]
+	path = KernelBench
+	url = https://github.com/ScalingIntelligence/KernelBench.git
