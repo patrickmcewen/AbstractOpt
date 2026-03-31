@@ -1,0 +1,16 @@
+# Machine-specific hardware constraints for the STeP simulator.
+
+default:
+  total_compute_bw: 65536
+  on_chip_memory_bytes: 33554432  # 32 MB
+  hbm:
+    addr_offset: 64
+    channel_num: 32
+    per_channel_latency: 2
+    per_channel_init_interval: 2
+    per_channel_outstanding: 1
+    per_channel_start_up_time: 14
+  sim:
+    channel_depth: 2
+    functional_sim: true
+    mock_bf16: false

@@ -1,0 +1,26 @@
+# StepSandbox/sandbox_config.yaml
+
+gemm:
+  problem: problems/gemm.py
+  params: [M, K, N]
+  presets:
+    small:       {M: 256,   K: 256,    N: 256}
+    square:      {M: 4096,  K: 4096,   N: 4096}
+    rectangular: {M: 2048,  K: 8192,   N: 4096}
+
+activation:
+  problem: problems/activation.py
+  params: [batch_size, dim, fn]
+  presets:
+    swish_small:   {batch_size: 256,  dim: 4096,   fn: swish}
+    softmax_small: {batch_size: 128,  dim: 256,    fn: softmax}
+    relu_small:    {batch_size: 256,  dim: 4096,   fn: relu}
+    gelu_small:    {batch_size: 256,  dim: 4096,   fn: gelu}
+    sigmoid_small: {batch_size: 256,  dim: 4096,   fn: sigmoid}
+
+layernorm:
+  problem: problems/layernorm.py
+  params: [batch_size, features, dim1, dim2]
+  presets:
+    small:   {batch_size: 2,  features: 8,  dim1: 32,  dim2: 32}
+    default: {batch_size: 16, features: 64, dim1: 256, dim2: 256}
