@@ -24,3 +24,25 @@ layernorm:
   presets:
     small:   {batch_size: 2,  features: 8,  dim1: 32,  dim2: 32}
     default: {batch_size: 16, features: 64, dim1: 256, dim2: 256}
+
+mlp:
+  problem: problems/mlp.py
+  params: [batch_size, input_size, layer_sizes, output_size]
+  presets:
+    small:   {batch_size: 16,  input_size: 256,   layer_sizes: [256, 256],     output_size: 128}
+    medium:  {batch_size: 32,  input_size: 1024,  layer_sizes: [1024, 1024],   output_size: 512}
+    default: {batch_size: 128, input_size: 16384, layer_sizes: [16384, 16384], output_size: 8192}
+
+moe:
+  problem: problems/moe.py
+  params: [num_tokens, hidden_dim, intermediate_dim, num_experts]
+  presets:
+    small:   {num_tokens: 64,  hidden_dim: 64,  intermediate_dim: 256, num_experts: 2}
+    default: {num_tokens: 256, hidden_dim: 128, intermediate_dim: 256, num_experts: 4}
+
+minigpt_block:
+  problem: problems/minigpt_block.py
+  params: [batch_size, seq_len, n_embd, n_head, max_seqlen]
+  presets:
+    small:   {batch_size: 4,   seq_len: 64,  n_embd: 128, n_head: 4, max_seqlen: 128}
+    default: {batch_size: 128, seq_len: 512, n_embd: 768, n_head: 8, max_seqlen: 1024}
