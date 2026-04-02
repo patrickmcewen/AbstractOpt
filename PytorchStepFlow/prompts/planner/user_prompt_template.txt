@@ -1,0 +1,21 @@
+## Kernel Specification
+
+```python
+{kernel_spec}
+```
+
+## Operator Reference
+
+{operator_reference}
+
+{top_k_context}
+
+{curated_experiences_context}
+
+## Task
+
+Produce a detailed optimization plan for implementing this kernel as a STeP IR program. Focus on:
+1. Tiling strategy (tile sizes, iteration order)
+2. Data movement (loads, stores, on-chip buffering)
+3. Compute scheduling (operator composition, parallelism)
+4. Any specific STeP operator patterns to leverage

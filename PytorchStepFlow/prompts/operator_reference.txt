@@ -1,0 +1,411 @@
+# STeP Operator Reference
+
+## Shape Notation
+
+All streams have shape `(1, d0, d1, ..., dN)` where the leading `1` is implicit.
+Tile dtype is written as `Tile(rows, cols)`. Shape transformations show how
+input shape maps to output shape.
+
+---
+
+## Data Types
+
+**Element types:**
+- `Float32()` — 4 bytes
+- `Float16()` — 2 bytes
+- `Uint32()` — 4 bytes
+- `Uint64()` — 8 bytes (used for addresses)
+- `Bool()` — 1 byte (used for ack/mask streams)
+
+**Stream dtype types:**
+- `Tile(tile_dtype=ElementTP, shape=(rows, cols))` — fixed-size tile
+- `DynTile(tile_dtype=ElementTP, shape=(rows_or_DynDim, cols_or_DynDim))` — tile with dynamic dimensions
+- `Buffer(buff_dtype=Tile, shape=(...))` — on-chip buffer holding tiles (output of Bufferize)
+- `MultiHot(total_n=int)` — multi-hot selector (used by SelectGen, FlatPartition)
+- `Index(total_n=int)` — index selector
+
+**Dynamic dimensions:**
+- `DynDim(name_or_expr, is_ragged=False)` — symbolic dimension via sympy. Supports `+`, `-`, `*`, `//`, `/`, `%`. `is_ragged=True` marks variable-length dimensions (e.g., per-token sequence lengths).
+
+---
+
+## Data Movement Operators
+
+### LinearOffChipLoad
+```python
+LinearOffChipLoad(underlying, stride, out_shape_tiled, tile_row, tile_col, par_dispatch, mock_bf16=False, save_npy=False, transposed=False)
+```
+- **Output shape:** `(1,) + out_shape_tiled`, dtype = `Tile(tile_row, tile_col)` (swapped if `transposed`).
+- **Dtypes:** float32, float16, uint64.
+- **Stride:** `stride[i]` = tiles to advance when dim `i` increments. `0` = broadcast.
+- **Constraint:** `underlying` must be >= 2D.
+
+### LinearOffChipLoadRef
+```python
+LinearOffChipLoadRef(graph, ref, underlying, stride, out_shape_tiled, tile_row, tile_col, par_dispatch, mock_bf16=False, transposed=False, trigger_rank=0)
+```
+- **Output shape:** `ref.shape[:-trigger_rank] + out_shape_tiled` (or `ref.shape + out_shape_tiled` if trigger_rank==0).
+- Loads tiles driven by a dynamic ref stream.
+
+### DynLinearOffChipLoad
+```python
+DynLinearOffChipLoad(input_tensor_name, tensor_shape_tiled, dtype, tile_row, tile_col, par_dispatch, mock_bf16=False)
+```
+- **Output shape:** `(1,) + tensor_shape_tiled` (may include DynDim).
+- For tensors whose shape is only known at runtime.
+
+### RandomOffChipLoad
+```python
+RandomOffChipLoad(graph, underlying, raddr, tile_row, tile_col, base_addr_byte, par_dispatch, mock_bf16=False, transposed=False)
+```
+- **Output shape:** `raddr.shape`, dtype = `Tile(tile_row, tile_col)`.
+- Indirect load via address stream (e.g., MoE expert weights).
+
+### OffChipStore
+```python
+OffChipStore(graph, input, par_dispatch, store_file_name="output")
+```
+- Graph sink, no output stream. Input must be Tile dtype.
+
+### DynOffChipStore
+```python
+DynOffChipStore(graph, input, shape_file_name, par_dispatch, store_file_name="output")
+```
+- Graph sink for runtime-determined output shapes.
+
+### RandomOffChipStore
+```python
+RandomOffChipStore(graph, underlying, wdata, waddr, tile_row, tile_col, base_addr_byte, par_dispatch, ack_based_on_waddr=True, buffer_depth=1, mock_bf16=False, has_done_stream=False)
+```
+- **Output shape (ack):** `waddr.shape` or `wdata.shape`, dtype = `Bool`.
+- Indirect store via address stream.
+
+---
+
+## Generator Operators
+
+### SelectGen
+```python
+SelectGen(is_multihot, tensor, n)
+```
+- **Output shape:** `(1,) + tensor.shape[:-1]`, dtype = `MultiHot(n)` or `Index(n)`.
+- Creates routing control streams for FlatPartition/FlatReassemble.
+
+### ExpertAddrGen
+```python
+ExpertAddrGen(graph, input, num_tile_per_expert, expert_addr_base)
+```
+- **Output shape:** `input.shape + (num_tile_per_expert, 1)`, dtype = `Tile(Uint64(), (1,1))`.
+
+### MetadataGen
+```python
+MetadataGen(tensor)
+```
+- **Output shape:** `(1,) + tensor.shape`, dtype = `Tile(Uint64(), (1,1))`.
+
+### CacheReadAddrGen
+```python
+CacheReadAddrGen(graph, idx, seq_len, row_offset)
+```
+- **Output shape:** `idx.shape + (DynDim(is_ragged=True),)`, dtype = `Tile(Uint64(), (1,1))`.
+
+### FilterLastTile
+```python
+FilterLastTile(graph, input)
+```
+- **Output shape:** `input.shape + (DynDim,)`, dtype = `MultiHot(2)`.
+- Distinguishes last tile from non-last tiles.
+
+### PrinterContext / ConsumerContext
+```python
+PrinterContext(graph, input)
+ConsumerContext(graph, input)
+```
+- Graph sinks, no output stream. Debug/consumption nodes.
+
+### MockStreamOp
+```python
+MockStreamOp(stream, aten_op_name="", output_idx=0)
+```
+- Temporary placeholder. Must be replaced before simulation.
+
+---
+
+## Compute Operators
+
+**Compute bandwidth budget:** Total = `{total_compute_bw}`. Sum of all `compute_bw` across compute operators must not exceed this. Distribute based on critical path.
+
+### BinaryMap
+```python
+BinaryMap(graph, in1, in2, fn, write_back_mu, compute_bw)
+```
+- **Output shape:** `in1.shape`. Both inputs must match on static dims.
+- **Output dtype:** `fn.apply(in1_tile, in2_tile)`.
+
+### UnaryMap
+```python
+UnaryMap(graph, input, fn, write_back_mu, compute_bw)
+```
+- **Output shape:** `input.shape`.
+- **Output dtype:** `fn.apply((input_tile,))`.
+
+### BinaryMapAccum
+```python
+BinaryMapAccum(graph, in1, in2, fn, init_fn, rank, write_back_mu, compute_bw)
+```
+- **Output shape:** `in1.shape[:-rank]`. Removes last `rank` dims (reduction).
+- **Constraint:** `in1.shape == in2.shape` exactly (including DynDim).
+- **Output dtype:** `fn.apply(in1_tile, in2_tile)`. `init_fn` shape must match output tile.
+
+### Accum
+```python
+Accum(graph, input, output_stream_dtype, fn, init_fn, accum_rank, write_back_mu, compute_bw)
+```
+- **Output shape:** `input.shape[:-accum_rank]`.
+- **Output dtype:** explicitly set via `output_stream_dtype` (accepts DynTile).
+
+---
+
+## Shape Transformation Operators
+
+### Promote
+```python
+Promote(graph, input, promote_rank)
+```
+- Inserts `1` at position `len(shape) - promote_rank`.
+
+### PromoteOuter
+```python
+PromoteOuter(graph, input)
+```
+- **Output shape:** `(1,) + input.shape`. For dynamic outermost dims, uses `Piecewise(1 if dim>=1, 0)`.
+
+### ExpandRef
+```python
+ExpandRef(graph, input, ref, expand_rank)
+```
+- **Output shape:** `ref.shape`. Last `expand_rank` dims of input must be `1`.
+- **Constraint:** `input.shape[:-expand_rank] == ref.shape[:-expand_rank]`.
+
+### RepeatRef
+```python
+RepeatRef(graph, input, ref)
+```
+- **Output shape:** `ref.shape`. `input.shape == ref.shape[:-1]`.
+
+### RepeatStatic
+```python
+RepeatStatic(graph, input, repeat_factor)
+```
+- **Output shape:** `input.shape + (repeat_factor,)`.
+
+### Flatten
+```python
+Flatten(graph, input, min_rank, max_rank)
+```
+- Merges dims at rank positions `min_rank` through `max_rank` (right-to-left, 0-indexed) into their product.
+
+### Reshape
+```python
+Reshape(graph, input, chunk_size, reshape_rank, write_back_mu, add_outer_dim=False, pad_fn=None)
+```
+- Splits dim at `rank - reshape_rank` into `(ceil(dim/chunk_size), chunk_size)`.
+- If `reshape_rank > 0`, dim must be divisible by `chunk_size`.
+- `add_outer_dim=True`: only valid when input rank == 0, prepends extra outermost dim.
+
+### ReshapePadStream
+```python
+ReshapePadStream(graph, input, chunk_size, reshape_rank, write_back_mu, pad_fn=None, have_pad_stream=True)
+```
+- Same split as Reshape, but produces two streams.
+- **Access:** `reshape.data_tuple()` (idx 0), `reshape.pad_tuple()` (idx 1).
+- Pad stream dtype = `Tile(Bool(), (1,1))`.
+
+---
+
+## Data Reuse Operators
+
+### Bufferize
+```python
+Bufferize(graph, input, rank, off_chip=False)
+```
+- **Output shape:** `input.shape[:-rank]`.
+- **Dtype:** `Tile(r,c)` → `Buffer(Tile(r,c), shape=input.shape[-rank:])`.
+- **Constraint:** Input must be Tile. `rank >= 1`.
+
+### Streamify
+```python
+Streamify(graph, input, repeat_factor, rank, off_chip=False)
+```
+- **Output shape:** `input.shape + tuple(repeat_factor) + buffer_shape`.
+- **Dtype:** `Buffer` → unwrapped `Tile`.
+- **Constraint:** Input must be Buffer.
+- `repeat_factor=[]` reproduces original shape. Extra entries add broadcast dims.
+
+### DynStreamify
+```python
+DynStreamify(graph, input, ref, repeat_rank, bufferized_rank, off_chip=False)
+```
+- **Output shape:** `ref.shape + buffer_shape`.
+- **Constraint:** Input must be Buffer. Last `repeat_rank + 1` dims of input must be `1`.
+
+---
+
+## Multi-Consumer Operators
+
+### Broadcast
+```python
+Broadcast(graph, input, num_consumers)
+```
+- Each output = input shape/dtype. Access: `(broadcast, i)`.
+
+### Parallelize
+```python
+Parallelize(graph, input, parallelize_rank, num_consumers, switch_cycles=None, write_back_mu=False)
+```
+- **Each output:** `(shape[0]//num_consumers,) + shape[1:]`.
+- **Constraint:** `parallelize_rank == input.rank`. Outermost dim divisible by `num_consumers`.
+
+### StaticReassemble
+```python
+StaticReassemble(graph, inputs, merge_rank, switch_cycles=None, write_back_mu=False)
+```
+- **Output:** `(inputs[0].shape[0] * len(inputs),) + inputs[0].shape[1:]`.
+
+### EagerMerge
+```python
+EagerMerge(graph, inputs, input_rank)
+```
+- **Data output:** `(sum_of_dim0s,) + inputs[0].shape[1:]`.
+- **Select output:** `(sum_of_dim0s,)`, dtype=`MultiHot(len(inputs))`.
+- **Access:** `eager_merge.data_tuple()`, `eager_merge.select_tuple()`.
+
+### FlatPartition
+```python
+FlatPartition(graph, input, control, partition_rank, switch_cycles, write_back_mu, num_consumers)
+```
+- **Each output:** `(DynDim,) + input.shape[-partition_rank:]`.
+- If control is Select, `control.total_n == num_consumers`.
+
+### FlatReassemble
+```python
+FlatReassemble(graph, inputs, control, reassemble_rank, switch_cycles, write_back_mu)
+```
+- **Output:** `control.shape + (DynDim,) + inputs[0].shape[-reassemble_rank:]`.
+
+### RetileStreamify
+```python
+RetileStreamify(graph, input, split_row, filter_mask=False, chunk=1)
+```
+- **split_row=True:** last dim → `last_dim * (tile_rows // chunk)`, tile → `Tile(chunk, tile_cols)`.
+- **split_row=False:** last dim → `last_dim * (tile_cols // chunk)`, tile → `Tile(tile_rows, chunk)`.
+- `filter_mask=True` → last dim becomes DynDim.
+
+### FlatmapFilterRowStreamify
+```python
+FlatmapFilterRowStreamify(graph, input, mask)
+```
+- **Output:** `input.shape[:-1] + (DynDim,)`, dtype = `Tile(1, input_cols)`.
+- `mask` must have `Bool` tile dtype.
+
+### FlatmapCounter
+```python
+FlatmapCounter(graph, input)
+```
+- **Output:** `input.shape + (DynDim,)`, dtype = `Tile(1, 1)`.
+- Scalar N → stream of 0..N-1.
+
+---
+
+## Functions
+
+### map_fn (for BinaryMap / UnaryMap)
+
+| Function | Arity | Signature |
+|---|---|---|
+| `Matmul(weight_transposed=False)` | binary | `Tile(M,K) @ Tile(K,N) → Tile(M,N)` |
+| `Matmul(weight_transposed=True)` | binary | `Tile(M,K) @ Tile(N,K)^T → Tile(M,N)` |
+| `DynMatmul(weight_transposed=False)` | binary | same, supports DynTile |
+| `Add()` | binary | broadcasts `Tile(1,N)` / `Tile(M,1)` |
+| `Mul()` | binary | broadcasts `Tile(1,N)` / `Tile(M,1)` |
+| `Div()` | binary | broadcasts `Tile(M,1)` denom |
+| `IsEqual()` | binary | returns `MultiHot(2)` |
+| `RowWiseAppend()` | binary | `(Tile(N,D), Tile(1,D)) → Tile(N,D)` |
+| `SetOffset()` | binary | `(Tile(M,N), Tile(1,1)) → Tile(M,N)` |
+| `CacheWriteAddrGen(row_offset)` | binary | `(Uint64 1x1, Uint64 1x1) → Uint64 1x1` |
+| `Silu()` | unary | same shape |
+| `Exp()` | unary | same shape |
+| `Pow2()` | unary | same shape (2^x) |
+| `Rsqrt()` | unary | same shape (1/sqrt(x)) |
+| `RowWiseSum()` | unary | `Tile(M,N) → Tile(M,1)` |
+| `MulImmediate(constant)` | unary | same shape |
+| `AddImmediate(constant)` | unary | same shape |
+| `SubImmediate(constant)` | unary | same shape |
+| `MaskRow(tile)` | unary | → `Tile(tile.rows, 1)` |
+| `SelectToScalar()` | unary | `MultiHot → Tile(Uint64, 1x1)` |
+| `ToConstInt(constant)` | unary | `any → Tile(Uint64, 1x1)` |
+
+### map_accum_fn (for BinaryMapAccum)
+
+| Function | Signature |
+|---|---|
+| `Matmul(weight_transposed=False)` | `Tile(M,K) @ Tile(K,N) → Tile(M,N)` |
+| `Matmul(weight_transposed=True)` | `Tile(M,K) @ Tile(N,K)^T → Tile(M,N)` |
+| `DynMatmul(weight_transposed=False)` | same, supports DynTile |
+
+### accum_fn (for Accum)
+
+| Function | Behavior |
+|---|---|
+| `Add()` | element-wise sum (broadcasts) |
+| `Mul()` | element-wise product (broadcasts) |
+| `RetileRow()` | accumulates rows; returns accum_tile shape |
+| `RetileCol()` | accumulates columns; returns accum_tile shape |
+| `SignalReqAllRead()` | → `Tile(Uint64, 1x1)` |
+
+### init_fn (for BinaryMapAccum / Accum)
+
+| Function | Returns |
+|---|---|
+| `Zero(shape, dtype)` | Tile initialized to zeros |
+| `Empty(shape, dtype)` | uninitialized Tile |
+| `DynEmpty(shape, dtype)` | uninitialized DynTile (dynamic dims) |
+
+---
+
+## Composite Kernel: Linear
+
+```python
+from step_py.kernels.linear import Linear, LinearTileConfig
+
+result = Linear(step_graph, input, weight, tile_config=LinearTileConfig(m, k, n), comp_bw, write_back_mu, par_dispatch=4)
+```
+- `input`: `torch.Tensor` (>= 2D) or `StepOps`.
+- `weight`: `torch.Tensor` of shape `(K, N)`.
+- Tensor input → LinearOffChipLoad. StepOps input → Reshape (if N==tile_n) or Bufferize→Streamify.
+- Computes via `BinaryMapAccum(map_accum_fn.Matmul(), init_fn.Zero(...))`.
+
+---
+
+## Imports
+
+```python
+from math import ceil
+from graph.graph import MultiDiGraph as Graph
+from step_py.datatype import Float32, Float16, Uint32, Uint64, Bool, Tile, DynTile, Buffer, MultiHot, Index, Stream
+from step_py.dyndim import DynDim
+from step_py.ops import (
+    LinearOffChipLoad, LinearOffChipLoadRef, DynLinearOffChipLoad,
+    RandomOffChipLoad, RandomOffChipStore,
+    OffChipStore, DynOffChipStore,
+    BinaryMap, UnaryMap, BinaryMapAccum, Accum,
+    Promote, PromoteOuter, ExpandRef, RepeatRef, RepeatStatic, Flatten, Reshape, ReshapePadStream,
+    Bufferize, Streamify, DynStreamify,
+    Broadcast, Parallelize, StaticReassemble,
+    FlatPartition, FlatReassemble, EagerMerge,
+    RetileStreamify, FlatmapFilterRowStreamify, FlatmapCounter,
+    MockStreamOp,
+)
+from step_py.utility_ops import SelectGen, ExpertAddrGen, MetadataGen, CacheReadAddrGen, FilterLastTile, PrinterContext, ConsumerContext
+from step_py.functions import map_fn, map_accum_fn, accum_fn, init_fn
+```

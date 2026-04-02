@@ -1,0 +1,6 @@
+openai-agents>=0.13
+openai>=2.0
+pandas
+pydantic
+aiohttp
+numpy

@@ -1,0 +1,39 @@
+# Origin: /home/ubuntu/patrick/AbstractOpt/KernelBench/KernelBench/level1/10_3D_tensor_matrix_multiplication.py
+# Notes: Direct copy, identical code and dimensions
+import torch
+import torch.nn as nn
+
+class Model(nn.Module):
+    """
+    Performs 3D tensor-matrix multiplication.
+    """
+    def __init__(self):
+        super(Model, self).__init__()
+    
+    def forward(self, A, B):
+        """
+        Performs 3D tensor-matrix multiplication.
+
+        Args:
+            A (torch.Tensor): Input 3D tensor of shape (N, M, K).
+            B (torch.Tensor): Input matrix of shape (K, L).
+
+        Returns:
+            torch.Tensor: Output tensor of shape (N, M, L), resulting from the multiplication of A and B along the last dimension of A.
+        """
+        return torch.matmul(A, B)
+
+SEED = 42
+
+def get_inputs(dims):
+    torch.manual_seed(SEED)
+    N, M, K, L = dims["N"], dims["M"], dims["K"], dims["L"]
+    return [torch.randn(N, M, K), torch.randn(K, L)]
+
+def get_init_inputs(dims):
+    return []
+
+def compute_gold(dims):
+    model = Model(*get_init_inputs(dims))
+    inputs = get_inputs(dims)
+    return model(*inputs)

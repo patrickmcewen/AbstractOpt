@@ -1,0 +1,20 @@
+## Kernel Specification
+
+```python
+{kernel_spec}
+```
+
+## Optimization Plan
+
+{plan}
+
+## Operator Reference
+
+{operator_reference}
+
+{diagnosed_errors_context}
+
+## Task
+
+Implement the `build_graph(dims)` function following the optimization plan above. Return `(graph, output_op)`. Dimensions are given, but all tensors must be initialized by you. Any pytorch tensors you will need
+should be created at the start of the function, and should be seeded with torch.manual_seed(SEED) in order to match the gold model. Always call `graph = infer_broadcast(graph)` before returning.

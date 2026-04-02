@@ -1,0 +1,49 @@
+# Origin: /home/ubuntu/patrick/AbstractOpt/KernelBench/KernelBench/level2/40_Matmul_Scaling_ResidualAdd.py
+# Notes: Direct copy, identical code
+import torch
+import torch.nn as nn
+
+class Model(nn.Module):
+    """
+    A model that performs a matrix multiplication, scaling, and residual addition.
+
+    Args:
+        in_features (int): Number of input features.
+        out_features (int): Number of output features.
+        scaling_factor (float): Scaling factor to apply after matrix multiplication.
+    """
+    def __init__(self, in_features, out_features, scaling_factor):
+        super(Model, self).__init__()
+        self.matmul = nn.Linear(in_features, out_features)
+        self.scaling_factor = scaling_factor
+
+    def forward(self, x):
+        """
+        Forward pass of the model.
+
+        Args:
+            x (torch.Tensor): Input tensor of shape (batch_size, in_features).
+
+        Returns:
+            torch.Tensor: Output tensor of shape (batch_size, out_features).
+        """
+        x = self.matmul(x)
+        original_x = x.clone().detach()
+        x = x * self.scaling_factor
+        x = x + original_x
+        return x
+
+SEED = 42
+
+def get_inputs(dims):
+    torch.manual_seed(SEED)
+    return [torch.randn(dims["batch_size"], dims["in_features"])]
+
+def get_init_inputs(dims):
+    return [dims["in_features"], dims["out_features"], dims["scaling_factor"]]
+
+def compute_gold(dims):
+    torch.manual_seed(SEED)
+    model = Model(*get_init_inputs(dims))
+    inputs = get_inputs(dims)
+    return model(*inputs)
