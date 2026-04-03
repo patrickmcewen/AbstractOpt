@@ -23,7 +23,7 @@ from step_py.ops import (
     Broadcast, Parallelize, StaticReassemble,
     FlatPartition, FlatReassemble, EagerMerge,
     RetileStreamify, FlatmapFilterRowStreamify, FlatmapCounter,
-    MockStreamOp, OffChipLoad,
+    MockStreamOp,
 )
 from step_py.utility_ops import (
     SelectGen, ExpertAddrGen, MetadataGen, CacheReadAddrGen,
@@ -32,7 +32,7 @@ from step_py.utility_ops import (
 from step_py.functions import map_fn, map_accum_fn, accum_fn, init_fn
 from step_py.functions.map_fn import (
     Matmul, DynMatmul, Mul, MulImmediate, IsEqual, Add, AddImmediate,
-    SubImmediate, Div, Silu, RowWiseSum, Exp, Pow2, Rsqrt, MaskRow,
+    SubImmediate, Div, Silu, RowWiseSum, Exp, Pow2, Rsqrt, Square, MaskRow,
     SetOffset, RowWiseAppend, CacheWriteAddrGen, SelectToScalar, ToConstInt,
 )
 from step_py.functions.map_accum_fn import (
@@ -75,7 +75,7 @@ def build_graph(dims):
     step_graph = Graph()
 
     # Load input: (B // tile_b,) tiles of [tile_b, D]
-    load_x = OffChipLoad(
+    load_x = LinearOffChipLoad(
         underlying=x,
         stride=(1,),
         out_shape_tiled=(B // tile_b,),
@@ -95,7 +95,7 @@ def build_graph(dims):
     # Load weight: (B // tile_b, proj_dim // tile_proj) tiles of [D, tile_proj]
     # stride=(0, 1): outer dim doesn't advance (weight is shared across batch)
     #                inner dim advances through proj_dim tiles
-    load_w = OffChipLoad(
+    load_w = LinearOffChipLoad(
         underlying=W,
         stride=(0, 1),
         out_shape_tiled=(B // tile_b, proj_dim // tile_proj),

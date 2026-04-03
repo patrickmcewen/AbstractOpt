@@ -132,3 +132,13 @@ qkv_projection:
     q_proj:      {B: 16,  D: 128,  proj_dim: 128,  tile_b: 16, tile_proj: 16}
     kv_proj:     {B: 16,  D: 128,  proj_dim: 32,   tile_b: 16, tile_proj: 16}
     qwen_scale:  {B: 16,  D: 128,  proj_dim: 512,  tile_b: 16, tile_proj: 16}
+
+moe_routed:
+  problem: kernels/moe_routed/reference.py
+  step_impl: kernels/moe_routed/step_impl.py
+  params: [B, D, F, n_experts, n_active, tile_n, tile_f]
+  presets:
+    tiny:        {B: 4,   D: 16,  F: 32,  n_experts: 2, n_active: 1, tile_n: 4, tile_f: 32}
+    small:       {B: 8,   D: 32,  F: 48,  n_experts: 4, n_active: 1, tile_n: 4, tile_f: 48}
+    small_topk2: {B: 8,   D: 32,  F: 48,  n_experts: 4, n_active: 2, tile_n: 4, tile_f: 48}
+    tiny_topk2:  {B: 8,   D: 16,  F: 32,  n_experts: 4, n_active: 2, tile_n: 4, tile_f: 32}

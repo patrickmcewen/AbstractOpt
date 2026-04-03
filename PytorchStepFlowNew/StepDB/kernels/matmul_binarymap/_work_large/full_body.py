@@ -23,7 +23,7 @@ from step_py.ops import (
     Broadcast, Parallelize, StaticReassemble,
     FlatPartition, FlatReassemble, EagerMerge,
     RetileStreamify, FlatmapFilterRowStreamify, FlatmapCounter,
-    MockStreamOp, OffChipLoad,
+    MockStreamOp,
 )
 from step_py.utility_ops import (
     SelectGen, ExpertAddrGen, MetadataGen, CacheReadAddrGen,
@@ -32,7 +32,7 @@ from step_py.utility_ops import (
 from step_py.functions import map_fn, map_accum_fn, accum_fn, init_fn
 from step_py.functions.map_fn import (
     Matmul, DynMatmul, Mul, MulImmediate, IsEqual, Add, AddImmediate,
-    SubImmediate, Div, Silu, RowWiseSum, Exp, Pow2, Rsqrt, MaskRow,
+    SubImmediate, Div, Silu, RowWiseSum, Exp, Pow2, Rsqrt, Square, MaskRow,
     SetOffset, RowWiseAppend, CacheWriteAddrGen, SelectToScalar, ToConstInt,
 )
 from step_py.functions.map_accum_fn import (
@@ -71,7 +71,7 @@ def build_graph(dims):
     step_graph = Graph()
 
     # Load input: tile along M dimension, full K in each tile
-    input_stream = OffChipLoad(
+    input_stream = LinearOffChipLoad(
         underlying=A,
         stride=(H // tile_k, 1),
         out_shape_tiled=(B // tile_m, H // tile_k),
@@ -89,7 +89,7 @@ def build_graph(dims):
 
     # Load weight with appropriate stride for N-tiling
     weight_stride = (0, H // tile_n, 1) if H // tile_k == 1 or H // tile_n == 1 else (0, 1, H // tile_n)
-    weight_stream = OffChipLoad(
+    weight_stream = LinearOffChipLoad(
         underlying=W,
         stride=weight_stride,
         out_shape_tiled=(B // tile_m, H // tile_k, H // tile_n),

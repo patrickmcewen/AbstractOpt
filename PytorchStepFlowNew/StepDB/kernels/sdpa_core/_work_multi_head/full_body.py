@@ -23,7 +23,7 @@ from step_py.ops import (
     Broadcast, Parallelize, StaticReassemble,
     FlatPartition, FlatReassemble, EagerMerge,
     RetileStreamify, FlatmapFilterRowStreamify, FlatmapCounter,
-    MockStreamOp, OffChipLoad,
+    MockStreamOp,
 )
 from step_py.utility_ops import (
     SelectGen, ExpertAddrGen, MetadataGen, CacheReadAddrGen,
@@ -32,7 +32,7 @@ from step_py.utility_ops import (
 from step_py.functions import map_fn, map_accum_fn, accum_fn, init_fn
 from step_py.functions.map_fn import (
     Matmul, DynMatmul, Mul, MulImmediate, IsEqual, Add, AddImmediate,
-    SubImmediate, Div, Silu, RowWiseSum, Exp, Pow2, Rsqrt, MaskRow,
+    SubImmediate, Div, Silu, RowWiseSum, Exp, Pow2, Rsqrt, Square, MaskRow,
     SetOffset, RowWiseAppend, CacheWriteAddrGen, SelectToScalar, ToConstInt,
 )
 from step_py.functions.map_accum_fn import (
@@ -81,7 +81,7 @@ def build_graph(dims):
     step_graph = Graph()
 
     # --- Load Q: (M // tile_m,) tiles of [tile_m, D], then repeat for N tiles ---
-    load_q = OffChipLoad(
+    load_q = LinearOffChipLoad(
         underlying=Q_data,
         stride=(1,),
         out_shape_tiled=(M // tile_m,),
@@ -98,7 +98,7 @@ def build_graph(dims):
 
     # --- Load K: (M // tile_m, N // tile_n) tiles of [tile_n, D] ---
     # stride=(0, 1): outer dim (M) doesn't advance in K; inner dim (N) does
-    load_k = OffChipLoad(
+    load_k = LinearOffChipLoad(
         underlying=K_data,
         stride=(0, 1),
         out_shape_tiled=(M // tile_m, N // tile_n),
@@ -131,7 +131,7 @@ def build_graph(dims):
     exp_broadcast = Broadcast(step_graph, exp_qkt, 2)
 
     # --- Load V: (M // tile_m, N // tile_n) tiles of [tile_n, D] ---
-    load_v = OffChipLoad(
+    load_v = LinearOffChipLoad(
         underlying=V_data,
         stride=(0, 1),
         out_shape_tiled=(M // tile_m, N // tile_n),
