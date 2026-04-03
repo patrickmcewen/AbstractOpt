@@ -1,0 +1,1205 @@
+================================================================================
+                        STeP IR API Reference
+================================================================================
+
+STeP (Streaming Tensor Processor) is an intermediate representation for modeling
+dataflow computations on streaming hardware accelerators. Programs are expressed
+as directed acyclic graphs of operators connected by typed, hierarchical streams.
+
+================================================================================
+1. CORE CONCEPTS
+================================================================================
+
+1.1 Streams
+-----------
+All data flows between operators as Streams. A Stream has:
+  - stream_dtype: the type of each element (Tile, Buffer, or Select)
+  - shape: a tuple of dimensions describing the stream's hierarchical nesting
+
+The stream shape represents nested iteration. For example, shape (2, 3, 4) means
+2 groups of 3 groups of 4 elements. The rank of a stream is len(shape) - 1.
+
+1.2 Hierarchical Stop Tokens
+-----------------------------
+Streams use stop tokens to delimit groups at each nesting level. A stop token
+at level k means "end of group at rank k." For a stream with shape (2, 3),
+individual elements flow followed by stop-1 tokens every 3 elements, and a
+stop-2 token after all 6 elements.
+
+1.3 Graph Construction
+-----------------------
+All operators take a `graph: MultiDiGraph` as their first argument (except
+source operators like LinearOffChipLoad). The graph tracks data dependencies.
+Edges are added automatically in each operator's constructor. Inputs to
+operators are specified as either a StepOps instance (for the default output
+stream) or a Tuple[StepOps, int] (for a specific output stream index, used
+when an operator has multiple outputs like Broadcast or Parallelize).
+
+================================================================================
+2. DATA TYPES
+================================================================================
+
+2.1 Element Types
+-----------------
+All element types inherit from ElementTP.
+
+  Float16()
+    Size: 2 bytes
+
+  Float32()
+    Size: 4 bytes
+
+  Uint32()
+    Size: 4 bytes
+
+  Uint64()
+    Size: 8 bytes
+
+  Bool()
+    Size: 1 byte
+
+2.2 Tile
+--------
+The fundamental 2D data unit. All computation operates on Tiles.
+
+  Tile(tile_dtype: ElementTP, shape: Tuple[int, int])
+
+  - tile_dtype: one of Float16, Float32, Uint32, Uint64, Bool
+  - shape: always exactly 2 dimensions (rows, cols)
+  - size_in_bytes() = rows * cols * tile_dtype.size_in_bytes()
+
+2.3 DynTile
+-----------
+A Tile where one or both dimensions may be symbolic (dynamic).
+
+  DynTile(tile_dtype: ElementTP, shape: Tuple[int|DynDim, int|DynDim])
+
+  Same as Tile but dimensions can be DynDim expressions.
+
+2.4 DynDim
+----------
+Wraps a sympy expression for symbolic/dynamic dimensions.
+
+  DynDim(name_or_expr: str | sympy.Expr, is_ragged: bool = False)
+
+  - If name_or_expr is a string, creates a new symbolic integer variable
+  - If name_or_expr is a sympy.Expr, wraps it directly
+  - is_ragged: True if this dimension varies per element (used in streaming)
+  - Supports arithmetic: +, -, *, //, /, %
+
+2.5 Buffer
+----------
+An N-dimensional container of Tiles, used for on-chip buffering.
+
+  Buffer(buff_dtype: Tile, shape: Tuple[int|DynDim, ...])
+
+  - buff_dtype: the Tile type stored in the buffer
+  - shape: N-dimensional shape; only the first dimension may be DynDim
+  - rank property = len(shape)
+  - size_in_bytes() = product(shape) * buff_dtype.size_in_bytes()
+
+2.6 Select Types
+----------------
+Used for expert routing and conditional selection.
+
+  MultiHot(total_n: int)
+    - A boolean vector of length total_n (one-hot or multi-hot encoding)
+    - size_in_bytes() = total_n
+
+  Index(total_n: int)
+    - A list of selected indices, max length total_n
+    - size_in_bytes() = 2 * total_n
+
+2.7 Stream
+----------
+The streaming wrapper that annotates a dtype with hierarchical shape.
+
+  Stream(stream_dtype: Tile|Buffer|Select, shape: Tuple[int|DynDim, ...])
+
+  - rank = len(shape) - 1
+  - total_elements() = product of all dimensions
+  - has_ragged_dim(): True if any dimension is a DynDim with is_ragged=True
+
+================================================================================
+3. FUNCTIONS
+================================================================================
+Functions are used as arguments to computation operators (UnaryMap, BinaryMap,
+Accum, BinaryMapAccum). They define what computation is applied to tiles.
+
+3.1 Map Functions (map_fn)
+--------------------------
+Used with UnaryMap and BinaryMap operators.
+
+  Matmul(weight_transposed: bool = False)
+    - Arity: binary
+    - Interface: (Tile[M,K], Tile[K,N]) -> Tile[M,N]
+                 If weight_transposed: (Tile[M,K], Tile[N,K]) -> Tile[M,N]
+    - Computation: Standard matrix multiplication. out = in1 @ in2
+      If weight_transposed: out = in1 @ in2.T
+    - Cycles: ceil(2*M*K*N / flop_per_cycle)
+
+  DynMatmul(weight_transposed: bool = False)
+    - Same as Matmul but inputs can be DynTile
+    - Returns DynTile if any output dimension is dynamic, else Tile
+
+  Add()
+    - Arity: binary
+    - Interface: (Tile[R1,C1], Tile[R2,C2]) -> Tile[max(R1,R2), max(C1,C2)]
+    - Requires: dimensions must be broadcastable (equal or one is 1)
+    - Computation: Element-wise addition with broadcasting
+    - Cycles: ceil(out_R * out_C / flop_per_cycle)
+
+  Mul()
+    - Arity: binary
+    - Interface: (Tile[R1,C1], Tile[R2,C2]) -> Tile[max(R1,R2), max(C1,C2)]
+    - Requires: dimensions must be broadcastable
+    - Computation: Element-wise multiplication with broadcasting
+    - Cycles: ceil(out_R * out_C / flop_per_cycle)
+
+  Div()
+    - Arity: binary
+    - Interface: (Tile[R1,C1], Tile[R2,C2]) -> Tile[max(R1,R2), max(C1,C2)]
+    - Requires: dimensions must be broadcastable
+    - Computation: Element-wise division with broadcasting
+    - Cycles: ceil(out_R * out_C / flop_per_cycle)
+
+  AddImmediate(constant: int|float)
+    - Arity: unary + scalar
+    - Interface: (Tile[R,C]) -> Tile[R,C]
+    - Computation: out[i,j] = in[i,j] + constant
+    - Cycles: ceil(R * C / flop_per_cycle)
+
+  SubImmediate(constant: int|float)
+    - Arity: unary + scalar
+    - Interface: (Tile[R,C]) -> Tile[R,C]
+    - Computation: out[i,j] = in[i,j] - constant
+    - Cycles: ceil(R * C / flop_per_cycle)
+
+  MulImmediate(constant: int|float)
+    - Arity: unary + scalar
+    - Interface: (Tile[R,C]) -> Tile[R,C]
+    - Computation: out[i,j] = in[i,j] * constant
+    - Cycles: ceil(R * C / flop_per_cycle)
+
+  Silu()
+    - Arity: unary
+    - Interface: (Tile[R,C]) -> Tile[R,C]
+    - Computation: out[i,j] = in[i,j] / (1 + exp(-in[i,j]))
+    - Cycles: ceil(R * C * 8 / flop_per_cycle)
+
+  Exp()
+    - Arity: unary
+    - Interface: (Tile[R,C]) -> Tile[R,C]
+    - Computation: out[i,j] = exp(in[i,j])
+    - Cycles: ceil(R * C * 4 / flop_per_cycle)
+
+  Pow2()
+    - Arity: unary
+    - Interface: (Tile[R,C]) -> Tile[R,C]
+    - Computation: out[i,j] = 2^(in[i,j])
+    - Cycles: ceil(R * C * 4 / flop_per_cycle)
+
+  Rsqrt()
+    - Arity: unary
+    - Interface: (Tile[R,C]) -> Tile[R,C]
+    - Computation: out[i,j] = 1 / sqrt(in[i,j])
+    - Cycles: ceil(R * C * 4 / flop_per_cycle)
+
+  Square()
+    - Arity: unary
+    - Interface: (Tile[R,C]) -> Tile[R,C]
+    - Computation: out[i,j] = in[i,j] * in[i,j]
+    - Cycles: ceil(R * C * 1 / flop_per_cycle)
+
+  RowWiseSum()
+    - Arity: unary
+    - Interface: (Tile[R,C]) -> Tile[R,1]
+    - Computation: out[i,0] = sum(in[i,:]) for each row i
+    - Cycles: ceil(R * C / flop_per_cycle)
+
+  MaskRow(tile: Tile)
+    - Arity: unary
+    - Interface: (Tile[1,1]) -> Tile[tile.shape[0], 1]
+    - Computation: Creates a one-hot row mask. The input scalar value i sets
+      row i to 1.0, all other rows to 0.0. Output shape is [tile.rows, tile.cols].
+    - Cycles: 1
+
+  SetOffset()
+    - Arity: binary
+    - Interface: (Tile[R,C], Tile[1,1] Uint64) -> Tile[R,C]
+    - Computation: Sets the tile's padding offset field to the value in the
+      second input. Does not modify tile data. Used for KV cache management.
+    - Cycles: 1
+
+  RowWiseAppend()
+    - Arity: binary
+    - Interface: (Tile[N,D], Tile[K,D]) -> Tile[N,D]
+    - Computation: Copies data_to_append into the tile starting at the current
+      offset position. Increments offset by K. Requires offset + K <= N.
+    - Cycles: 1
+
+  CacheWriteAddrGen(row_offset: int)
+    - Arity: binary
+    - Interface: (Tile[1,1] Uint64, Tile[1,1] Uint64) -> Tile[1,1] Uint64
+    - Computation: out = idx * row_offset + seq_len
+    - Cycles: 1
+
+  IsEqual()
+    - Arity: binary
+    - Interface: (Tile[1,1], Tile[1,1]) -> MultiHot(2)
+    - Computation: Returns [true, false] if equal, [false, true] if not equal
+    - Cycles: 1
+
+  SelectToScalar()
+    - Arity: unary
+    - Interface: (MultiHot) -> Tile[1,1] Uint64
+    - Computation: Extracts the first selected index from the multi-hot encoding
+    - Cycles: 1
+
+  ToConstInt(constant: int)
+    - Arity: unary
+    - Interface: (any) -> Tile[1,1] Uint64
+    - Computation: Ignores input, returns the constant value as a scalar tile
+    - Cycles: 1
+
+3.2 Accumulation Functions (accum_fn)
+-------------------------------------
+Used with the Accum operator. Take (new_data, accumulator) pairs.
+
+  Add()
+    - Interface: (Tile[R1,C1], Tile[R2,C2]) -> Tile[max(R1,R2), max(C1,C2)]
+    - Computation: Element-wise addition with broadcasting (accumulates by adding)
+
+  Mul()
+    - Interface: (Tile[R1,C1], Tile[R2,C2]) -> Tile[max(R1,R2), max(C1,C2)]
+    - Computation: Element-wise multiplication with broadcasting
+
+  RetileRow()
+    - Interface: (Tile[R1,C], Tile[R2,C]) -> Tile[R1+R2, C]
+    - Requires: in_data.cols == accumulator.cols
+    - Computation: Concatenates rows. Appends in_data below accumulator.
+    - Cycles: 0 (data movement only)
+
+  RetileCol()
+    - Interface: (Tile[R,C1], Tile[R,C2]) -> Tile[R, C1+C2]
+    - Requires: in_data.rows == accumulator.rows
+    - Computation: Concatenates columns. Appends in_data to right of accumulator.
+    - Cycles: 0 (data movement only)
+
+  SignalReqAllRead()
+    - Interface: (Tile[any], Tile[1,1] Uint64) -> Tile[1,1] Uint64
+    - Computation: Synchronization signal. Always returns Tile([1,1]) with value 1.
+    - Cycles: 1
+
+3.3 Map-Accumulate Functions (map_accum_fn)
+-------------------------------------------
+Used with BinaryMapAccum. Combine map + accumulate in one step.
+
+  Matmul(weight_transposed: bool = False)
+    - Interface: (Tile[M,K], Tile[K,N], Tile[M,N]) -> Tile[M,N]
+      If weight_transposed: (Tile[M,K], Tile[N,K], Tile[M,N]) -> Tile[M,N]
+    - Computation: out = in1 @ in2 + accumulator
+      (or in1 @ in2.T + accumulator if weight_transposed)
+    - Cycles: ceil(2*M*K*N / flop_per_cycle)
+
+  DynMatmul(weight_transposed: bool = False)
+    - Same as Matmul but allows empty [0,0] accumulator on first call
+    - On first call with empty accumulator: out = in1 @ in2 (no accumulation)
+    - Subsequent calls: out = in1 @ in2 + accumulator
+
+3.4 Initialization Functions (init_fn)
+---------------------------------------
+Used to initialize accumulators in Accum and BinaryMapAccum.
+
+  Zero(shape: Tuple[int,int], dtype: ElementTP)
+    - Creates a Tile filled with zeros
+
+  Empty(shape: Tuple[int,int], dtype: ElementTP)
+    - Creates an empty Tile (allocated but uninitialized)
+
+  DynEmpty(shape: Tuple[int|DynDim, int|DynDim], dtype: ElementTP)
+    - Creates an empty DynTile with potentially dynamic dimensions
+
+================================================================================
+4. OPERATORS
+================================================================================
+
+All operators inherit from StepOps. Each has:
+  - stream / stream_list: output stream(s)
+  - input / input_list: input connection(s)
+  - stream_idx(idx): access a specific output stream by index
+
+Inputs are specified as Union[StepOps, Tuple[StepOps, int]].
+- StepOps: uses that operator's default (single) output stream
+- (StepOps, int): uses output stream at the given index (for multi-output ops)
+
+--------------------------------------------------------------------------------
+4.1 MEMORY I/O OPERATORS
+--------------------------------------------------------------------------------
+
+LinearOffChipLoad
+  Loads a tensor from off-chip memory (HBM) in linear (strided) order.
+  This is a SOURCE operator (no input stream).
+
+  Constructor:
+    LinearOffChipLoad(
+        underlying: torch.Tensor,    # The tensor data
+        stride: Tuple[int, ...],     # Memory stride pattern (in tiles)
+        out_shape_tiled: Tuple[int,...], # Output shape in tiles
+        tile_row: int,               # Tile height
+        tile_col: int,               # Tile width
+        par_dispatch: int,           # Number of parallel HBM requests
+        mock_bf16: bool = False,     # Simulate bfloat16 with float32
+        save_npy: bool = False,      # Save data to .npy for debugging
+        transposed: bool = False,    # Load tiles in transposed layout
+    )
+
+  Output Stream:
+    dtype: Tile(Float32|Float16|Uint64, (tile_row, tile_col))
+           If transposed: Tile(dtype, (tile_col, tile_row))
+    shape: (1,) + out_shape_tiled
+
+  Computation:
+    Generates linear addresses based on stride pattern, dispatches HBM read
+    requests (par_dispatch at a time), and emits tiles into the output stream.
+    Hierarchical stop tokens are inserted based on out_shape_tiled dimensions.
+
+LinearOffChipLoadRef
+  Like LinearOffChipLoad but triggered by a reference stream. Loads data
+  each time the reference stream provides elements.
+
+  Constructor:
+    LinearOffChipLoadRef(
+        graph: MultiDiGraph,
+        ref: Union[StepOps, Tuple[StepOps, int]],  # Reference/trigger stream
+        underlying: torch.Tensor,
+        stride: Tuple[int, ...],
+        out_shape_tiled: Tuple[int, ...],
+        tile_row: int,
+        tile_col: int,
+        par_dispatch: int,
+        mock_bf16: bool = False,
+        transposed: bool = False,
+        trigger_rank: int = 0,       # Inner dims of ref used as trigger
+    )
+
+  Output Stream:
+    dtype: Tile(Float32|Float16, (tile_row, tile_col))
+    shape: ref_stream.shape[:-trigger_rank] + out_shape_tiled
+           (if trigger_rank > 0, strips that many inner dims from ref shape)
+
+DynLinearOffChipLoad
+  Linear load for tensors with dynamic (symbolic) dimensions.
+  SOURCE operator.
+
+  Constructor:
+    DynLinearOffChipLoad(
+        input_tensor_name: str,
+        tensor_shape_tiled: Tuple[int|DynDim, ...],
+        dtype: torch.dtype,
+        tile_row: int,
+        tile_col: int,
+        par_dispatch: int,
+        mock_bf16: bool = False,
+    )
+
+  Output Stream:
+    dtype: Tile(Float32|Float16, (tile_row, tile_col))
+    shape: (1,) + tensor_shape_tiled
+
+RandomOffChipLoad
+  Loads tiles from HBM at addresses determined by an input address stream.
+
+  Constructor:
+    RandomOffChipLoad(
+        graph: MultiDiGraph,
+        underlying: torch.Tensor,
+        raddr: Union[StepOps, Tuple[StepOps, int]],  # Address stream
+        tile_row: int,
+        tile_col: int,
+        base_addr_byte: int,          # Base address in HBM
+        par_dispatch: int,
+        mock_bf16: bool = False,
+        transposed: bool = False,
+    )
+
+  Output Stream:
+    dtype: Tile(Float32|Float16, (tile_row, tile_col))
+    shape: same as raddr stream's shape
+
+  Computation:
+    For each address in raddr, loads a tile from HBM at that address.
+
+OffChipStore
+  Stores a tile stream to off-chip memory. SINK operator (no output stream).
+
+  Constructor:
+    OffChipStore(
+        graph: MultiDiGraph,
+        input: Union[StepOps, Tuple[StepOps, int]],
+        par_dispatch: int,
+        store_file_name: str = "output",
+    )
+
+  Input: Tile stream
+  tensor_shape_tiled is derived from input stream shape (shape[1:])
+
+DynOffChipStore
+  Like OffChipStore but for streams with dynamic dimensions.
+
+  Constructor:
+    DynOffChipStore(
+        graph: MultiDiGraph,
+        input: Union[StepOps, Tuple[StepOps, int]],
+        shape_file_name: str,        # Path to shape JSON file
+        par_dispatch: int,
+        store_file_name: str = "output",
+    )
+
+RandomOffChipStore
+  Stores tiles to HBM at addresses determined by an address stream.
+
+  Constructor:
+    RandomOffChipStore(
+        graph: MultiDiGraph,
+        underlying: torch.Tensor,
+        wdata: Union[StepOps, Tuple[StepOps, int]],  # Data to store
+        waddr: Union[StepOps, Tuple[StepOps, int]],  # Address stream
+        tile_row: int,
+        tile_col: int,
+        base_addr_byte: int,
+        par_dispatch: int,
+        ack_based_on_waddr: bool = True,  # Ack shape from waddr or wdata
+        buffer_depth: int = 1,
+        mock_bf16: bool = False,
+        has_done_stream: bool = False,
+    )
+
+  Output Stream:
+    dtype: Bool
+    shape: waddr.shape if ack_based_on_waddr else wdata.shape
+
+--------------------------------------------------------------------------------
+4.2 COMPUTATION OPERATORS
+--------------------------------------------------------------------------------
+
+UnaryMap
+  Applies a unary function to each tile in the input stream.
+
+  Constructor:
+    UnaryMap(
+        graph: MultiDiGraph,
+        input: Union[StepOps, Tuple[StepOps, int]],
+        fn: MapFn,                    # The function to apply (Silu, Exp, etc.)
+        write_back_mu: bool,          # Whether output goes to memory unit
+        compute_bw: int,              # Compute bandwidth (FLOPs/cycle)
+    )
+
+  Shape Transform:
+    Input:  Stream(Tile[R,C], shape=(D0,...,Dn))
+    Output: Stream(fn.apply(Tile[R,C]), shape=(D0,...,Dn))
+    Stream shape is preserved. Tile dtype/shape determined by fn.apply().
+
+  Computation:
+    For each input tile, applies fn and emits result. Latency per tile is
+    max(load_cycles, compute_cycles, store_cycles) where:
+      load_cycles = tile_size_bytes / 64 (PMU bandwidth)
+      compute_cycles = fn-specific (see function definitions above)
+      store_cycles = tile_size_bytes / 64 (if write_back_mu)
+
+BinaryMap
+  Applies a binary function to pairs of tiles from two input streams.
+
+  Constructor:
+    BinaryMap(
+        graph: MultiDiGraph,
+        in1: Union[StepOps, Tuple[StepOps, int]],
+        in2: Union[StepOps, Tuple[StepOps, int]],
+        fn: MapFn,                    # Add, Mul, Div, Matmul, etc.
+        write_back_mu: bool,
+        compute_bw: int,
+    )
+
+  Shape Transform:
+    Input1: Stream(Tile1, shape=(D0,...,Dn))
+    Input2: Stream(Tile2, shape=(D0,...,Dn))
+    Output: Stream(fn.apply(Tile1, Tile2), shape=(D0,...,Dn))
+    Both input streams must have identical shapes (static dims must match).
+
+  Computation:
+    Consumes one tile from each input stream, applies fn, emits result.
+    Both inputs must produce stop tokens at the same levels simultaneously.
+
+Accum
+  Accumulates tiles over a specified number of inner dimensions.
+
+  Constructor:
+    Accum(
+        graph: MultiDiGraph,
+        input: Union[StepOps, Tuple[StepOps, int]],
+        output_stream_dtype: Tile|DynTile|Buffer|Select,  # Type of output
+        fn: AccumFn,                  # Add, Mul, RetileRow, RetileCol, etc.
+        init_fn: InitFn,             # Zero, Empty, DynEmpty
+        accum_rank: int,             # Number of inner dims to reduce
+        write_back_mu: bool,
+        compute_bw: int,
+    )
+
+  Shape Transform:
+    Input:  Stream(Tile, shape=(D0,...,Dk,...,Dn))
+    Output: Stream(output_stream_dtype, shape=(D0,...,Dk))
+    where accum_rank = n - k (removes the last accum_rank dimensions)
+
+  Computation:
+    Initializes accumulator via init_fn. For each input tile, applies
+    fn(tile, accumulator) to update the accumulator. When a stop token
+    at level == accum_rank is received, emits the accumulated result and
+    reinitializes. Stop tokens below accum_rank continue accumulating.
+    Stop tokens above accum_rank emit result with adjusted stop level.
+
+BinaryMapAccum
+  Combines binary map and accumulation (e.g., for tiled matrix multiply).
+
+  Constructor:
+    BinaryMapAccum(
+        graph: MultiDiGraph,
+        in1: Union[StepOps, Tuple[StepOps, int]],
+        in2: Union[StepOps, Tuple[StepOps, int]],
+        fn: MapAccumFn,              # Matmul or DynMatmul
+        init_fn: InitFn,
+        rank: int,                   # Number of inner dims to reduce
+        write_back_mu: bool,
+        compute_bw: int,
+    )
+
+  Shape Transform:
+    Input1: Stream(Tile1, shape=(D0,...,Dk,...,Dn))
+    Input2: Stream(Tile2, shape=(D0,...,Dk,...,Dn))
+    Output: Stream(fn.apply(Tile1, Tile2), shape=(D0,...,Dk))
+    Both input shapes must be identical. Rank dims are accumulated.
+
+  Computation:
+    Initializes accumulator via init_fn. For each pair of tiles from in1
+    and in2, applies fn(tile1, tile2, accumulator). At stop token matching
+    rank, emits result and reinitializes.
+    Example: For matmul [M,K]x[K,N] with rank=1, accumulates K-dimension
+    partial products, emitting M×N result tiles.
+
+--------------------------------------------------------------------------------
+4.3 SHAPE TRANSFORMATION OPERATORS
+--------------------------------------------------------------------------------
+
+Promote
+  Inserts a dimension of size 1 at a specified position.
+
+  Constructor:
+    Promote(
+        graph: MultiDiGraph,
+        input: Union[StepOps, Tuple[StepOps, int]],
+        promote_rank: int,           # Position from the right (rank 0 = rightmost)
+    )
+
+  Shape Transform:
+    Input:  (D0, D1, ..., Dn)
+    Output: (D0, D1, ..., D_{pos+1}, 1, D_{pos}, ..., Dn)
+    where pos = len(shape) - promote_rank
+    Inserts 1 at position (len(shape) - promote_rank).
+
+  Computation:
+    No data movement. Adjusts stop token levels: tokens at level >= promote_rank
+    get their level incremented by 1, and a stop-1 token at the promote_rank
+    level is inserted after each element at that level.
+
+PromoteOuter
+  Prepends a dimension of size 1 to the outermost level.
+
+  Constructor:
+    PromoteOuter(
+        graph: MultiDiGraph,
+        input: Union[StepOps, Tuple[StepOps, int]],
+    )
+
+  Shape Transform:
+    Input:  (D0, D1, ..., Dn)
+    Output: (1, D0, D1, ..., Dn)
+    For dynamic D0: uses Piecewise(1 if D0 >= 1, 0 if D0 < 1)
+
+  Computation:
+    No data movement. Wraps the entire stream in one additional stop level.
+
+Flatten
+  Merges a contiguous range of dimensions into one.
+
+  Constructor:
+    Flatten(
+        graph: MultiDiGraph,
+        input: Union[StepOps, Tuple[StepOps, int]],
+        min_rank: int,               # Lowest rank in range (0 = rightmost)
+        max_rank: int,               # Highest rank in range
+    )
+
+  Shape Transform:
+    Input:  (D0, ..., D_{min_idx}, ..., D_{max_idx}, ..., Dn)
+    Output: (D0, ..., D_{min_idx} * ... * D_{max_idx}, ..., Dn)
+    where min_index = len(shape) - 1 - max_rank
+          max_index = len(shape) - 1 - min_rank
+
+  Computation:
+    No data movement. Removes stop tokens between the merged dimensions,
+    collapsing multiple nesting levels into one.
+
+Reshape
+  Splits a dimension into two dimensions at a specified rank.
+
+  Constructor:
+    Reshape(
+        graph: MultiDiGraph,
+        input: Union[StepOps, Tuple[StepOps, int]],
+        chunk_size: int,             # Size of inner chunk after split
+        reshape_rank: int,           # Which rank to split (0 = innermost)
+        write_back_mu: bool,
+        add_outer_dim: bool = False, # Prepend a size-1 outer dim (rank 0 only)
+        pad_fn: Optional[InitFn] = None,  # Padding function if not evenly divisible
+    )
+
+  Shape Transform:
+    rank_pos = input.rank - reshape_rank
+    Input:  (..., D_pos, ...)
+    Output: (..., ceil(D_pos / chunk_size), chunk_size, ...)
+    If add_outer_dim (only when reshape_rank==0):
+    Output: (1, ..., ceil(D_pos / chunk_size), chunk_size, ...)
+
+  Constraints:
+    - If reshape_rank > 0: D_pos must be evenly divisible by chunk_size
+    - If reshape_rank == 0 and not evenly divisible: pad_fn must be provided
+
+  Computation:
+    Counts incoming elements and inserts stop tokens every chunk_size elements.
+    If padding is needed (last chunk incomplete), emits pad tiles from pad_fn.
+
+ReshapePadStream
+  Like Reshape but produces two output streams: data and padding mask.
+
+  Constructor:
+    ReshapePadStream(
+        graph: MultiDiGraph,
+        input: Union[StepOps, Tuple[StepOps, int]],
+        chunk_size: int,
+        reshape_rank: int,
+        write_back_mu: bool,
+        pad_fn: Optional[InitFn] = None,
+        have_pad_stream: bool = True,
+    )
+
+  Output Streams:
+    stream_idx(0): data stream (same shape as Reshape output)
+    stream_idx(1): pad stream (Bool tiles indicating padding)
+
+RetileStreamify
+  Splits tiles along rows or columns and streams the chunks.
+
+  Constructor:
+    RetileStreamify(
+        graph: MultiDiGraph,
+        input: Union[StepOps, Tuple[StepOps, int]],
+        split_row: bool,             # True = split rows, False = split columns
+        filter_mask: bool = False,   # If True, filter based on tile offset
+        chunk: int = 1,              # Chunk size for splitting
+    )
+
+  Shape Transform:
+    If split_row and not filter_mask:
+      Input Tile[R,C], stream shape (..., D_inner)
+      Output Tile[chunk,C], stream shape (..., D_inner * (R // chunk))
+    If split_row and filter_mask:
+      Output Tile[chunk,C], stream shape (..., DynDim) (dynamic output count)
+    Similarly for split_col with roles of R and C swapped.
+
+  Computation:
+    Takes each input tile, splits it into chunks along the specified axis.
+    If filter_mask is True, only emits chunks where the tile has valid
+    (non-padded) data based on the offset field.
+
+FlatmapFilterRowStreamify
+  Filters rows of tiles based on a boolean mask stream, then streamifies.
+
+  Constructor:
+    FlatmapFilterRowStreamify(
+        graph: MultiDiGraph,
+        input: Union[StepOps, Tuple[StepOps, int]],
+        mask: Union[StepOps, Tuple[StepOps, int]],  # Bool tile mask
+    )
+
+  Shape Transform:
+    Input data: Stream(Tile[R,C], (..., D1, D0))
+    Input mask:  Stream(Tile[R,1] Bool, (..., D1, D0))
+    Output:      Stream(Tile[1,C], (..., D1, DynDim))
+
+  Computation:
+    For each (data_tile, mask_tile) pair, emits one row-tile [1,C] for each
+    row where mask is True. Output count is dynamic (depends on mask content).
+
+FlatmapCounter
+  Converts a scalar into a counted stream (like range(n)).
+
+  Constructor:
+    FlatmapCounter(
+        graph: MultiDiGraph,
+        input: Union[StepOps, Tuple[StepOps, int]],
+    )
+
+  Shape Transform:
+    Input:  Stream(Tile[R,C], (..., D0))
+    Output: Stream(Tile[1,1], (..., D0, DynDim))
+
+  Computation:
+    For each input scalar value N, emits N tiles with values 0, 1, ..., N-1.
+
+--------------------------------------------------------------------------------
+4.4 BUFFER/STREAM CONVERSION OPERATORS
+--------------------------------------------------------------------------------
+
+Bufferize
+  Collects a tile stream into Buffers of specified rank.
+
+  Constructor:
+    Bufferize(
+        graph: MultiDiGraph,
+        input: Union[StepOps, Tuple[StepOps, int]],
+        rank: int,                   # Number of inner dims to buffer (>= 1)
+        off_chip: bool = False,      # If True, buffer stored off-chip
+    )
+
+  Shape Transform:
+    Input:  Stream(Tile[R,C], shape=(D0,...,Dk,...,Dn))
+    Output: Stream(Buffer(Tile[R,C], shape=(Dk+1,...,Dn)), shape=(D0,...,Dk))
+    buffer_shape = input.shape[-rank:]
+    output_shape = input.shape[:-rank]
+
+  Computation:
+    Collects tiles until a stop token at level == rank is received,
+    then packages them into a Buffer and emits it. The buffer dimensions
+    correspond to the last `rank` dimensions of the input stream shape.
+
+Streamify
+  Converts a Buffer stream back into a tile stream, with optional repetition.
+
+  Constructor:
+    Streamify(
+        graph: MultiDiGraph,
+        input: Union[StepOps, Tuple[StepOps, int]],
+        repeat_factor: List[int],    # How many times to repeat buffer contents
+        rank: int,                   # Buffer rank
+        off_chip: bool = False,
+    )
+
+  Shape Transform:
+    Input:  Stream(Buffer(Tile[R,C], shape=B), shape=S)
+    Output: Stream(Tile[R,C], shape=S + tuple(repeat_factor) + B)
+
+  Computation:
+    For each buffer received, emits its contents as individual tiles.
+    If repeat_factor is not empty (e.g., [3]), the buffer contents are
+    repeated 3 times in the output, with appropriate stop tokens.
+
+DynStreamify
+  Like Streamify but with dynamic repetition determined by a reference stream.
+
+  Constructor:
+    DynStreamify(
+        graph: MultiDiGraph,
+        input: Union[StepOps, Tuple[StepOps, int]],
+        ref: Union[StepOps, Tuple[StepOps, int]],   # Reference stream
+        repeat_rank: int,            # Ranks in ref that control repetition
+        bufferized_rank: int,        # Buffer rank
+        off_chip: bool = False,
+    )
+
+  Shape Transform:
+    Input:  Stream(Buffer(Tile, shape=B), shape=S)
+    Ref:    Stream(any, shape=R)
+    Output: Stream(Tile, shape=R + B)
+    Requires: S[:-repeat_rank-1] == R[:-repeat_rank-1]
+              S[-repeat_rank-1:] == (1,) * (repeat_rank + 1)
+
+  Computation:
+    For each reference element, emits the buffer contents once. The reference
+    stream controls how many times and in what pattern the buffer is repeated.
+
+--------------------------------------------------------------------------------
+4.5 PARALLELIZATION & ROUTING OPERATORS
+--------------------------------------------------------------------------------
+
+Broadcast
+  Duplicates a single stream to multiple consumers.
+
+  Constructor:
+    Broadcast(
+        graph: MultiDiGraph,
+        input: Union[StepOps, Tuple[StepOps, int]],
+        num_consumers: int,          # Number of output copies
+    )
+
+  Output: num_consumers identical output streams
+  Access: (broadcast_op, i) for the i-th output stream
+
+  Computation:
+    For each input element, copies it to all output channels.
+    All outputs must be ready before the next element is consumed.
+
+Parallelize
+  Splits a stream across multiple parallel consumers.
+
+  Constructor:
+    Parallelize(
+        graph: MultiDiGraph,
+        input: Union[StepOps, Tuple[StepOps, int]],
+        parallelize_rank: int,       # Must equal input stream rank
+        num_consumers: int,          # Parallelism factor
+        switch_cycles: List[int] = None,  # Per-consumer switch latency
+        write_back_mu: bool = False,
+    )
+
+  Shape Transform:
+    Input:  Stream(dtype, shape=(D0, D1, ..., Dn))
+    Output: num_consumers streams, each with shape=(D0//num_consumers, D1,...,Dn)
+    Requires: parallelize_rank == input.rank
+              D0 must be divisible by num_consumers (for static dims)
+
+  Computation:
+    Distributes groups from the outermost dimension round-robin across
+    the output streams. Each consumer gets D0/num_consumers groups.
+
+StaticReassemble
+  Inverse of Parallelize. Merges multiple parallel streams back into one.
+
+  Constructor:
+    StaticReassemble(
+        graph: MultiDiGraph,
+        inputs: List[Union[StepOps, Tuple[StepOps, int]]],
+        merge_rank: int,
+        switch_cycles: List[int] = None,
+        write_back_mu: bool = False,
+    )
+
+  Shape Transform:
+    Inputs: N streams each with shape=(D0, D1, ..., Dn)
+    Output: Stream with shape=(D0 * N, D1, ..., Dn)
+
+  Computation:
+    Reads from each input stream in round-robin order, concatenating
+    their elements into a single merged output stream.
+
+FlatPartition
+  Routes data to different output streams based on a selection signal.
+  Used for expert routing in Mixture-of-Experts models.
+
+  Constructor:
+    FlatPartition(
+        graph: MultiDiGraph,
+        input: Union[StepOps, Tuple[StepOps, int]],
+        control: Union[StepOps, Tuple[StepOps, int]],  # Selection stream
+        partition_rank: int,
+        switch_cycles: List[int],    # Per-expert switching latency
+        write_back_mu: bool,
+        num_consumers: int,          # Number of experts/partitions
+    )
+
+  Shape Transform:
+    Input:    Stream(dtype, shape=(..., Dk, ..., Dn))
+    Control:  Stream(MultiHot(num_consumers) | Index(num_consumers), shape=...)
+    Outputs:  num_consumers streams, each with shape=(DynDim, Dk,...,Dn)
+    The outermost dimension of each output is dynamic (depends on selection).
+
+  Computation:
+    For each element, reads the selection signal to determine which output
+    stream(s) to route the data to. Elements selected for expert i go to
+    output stream i.
+
+FlatReassemble
+  Inverse of FlatPartition. Merges expert outputs back into original order.
+
+  Constructor:
+    FlatReassemble(
+        graph: MultiDiGraph,
+        inputs: List[Union[StepOps, Tuple[StepOps, int]]],  # Per-expert streams
+        control: Union[StepOps, Tuple[StepOps, int]],        # Selection stream
+        reassemble_rank: int,
+        switch_cycles: List[int],
+        write_back_mu: bool,
+    )
+
+  Shape Transform:
+    Inputs:  N streams (one per expert)
+    Control: Selection stream
+    Output:  Stream with shape=control.shape + (DynDim,) + inner_dims
+
+  Computation:
+    Reads from expert streams in the order specified by the control stream,
+    reassembling the data into the original token order.
+
+EagerMerge
+  Eagerly merges multiple input streams as elements arrive.
+
+  Constructor:
+    EagerMerge(
+        graph: MultiDiGraph,
+        inputs: List[Union[StepOps, Tuple[StepOps, int]]],
+        input_rank: int,             # Merge/reassemble rank
+    )
+
+  Output Streams (2):
+    stream_idx(0): merged data stream
+      dtype: same as input (or DynTile if inputs have different DynTile shapes)
+      shape: (sum_of_D0s, D1, ..., Dn)
+    stream_idx(1): selection stream
+      dtype: MultiHot(num_inputs)
+      shape: (sum_of_D0s,)
+
+  Computation:
+    Merges elements from all inputs in arrival order. Produces a selection
+    stream indicating which input each merged element came from.
+
+ExpandRef
+  Expands dimensions of size 1 to match a reference stream's shape.
+
+  Constructor:
+    ExpandRef(
+        graph: MultiDiGraph,
+        input: Union[StepOps, Tuple[StepOps, int]],
+        ref: Union[StepOps, Tuple[StepOps, int]],
+        expand_rank: int,            # Number of trailing 1-dims to expand
+    )
+
+  Shape Transform:
+    Input: Stream(dtype, shape=(..., 1, 1, ...))  [expand_rank trailing 1s]
+    Ref:   Stream(any, shape=(..., R1, R2, ...))
+    Output: Stream(dtype, shape=ref.shape)
+    Requires: input.shape[:-expand_rank] == ref.shape[:-expand_rank]
+
+  Computation:
+    For each reference element at the expanded dimensions, repeats the
+    corresponding input element. Like numpy broadcast but driven by
+    a reference stream's timing.
+
+RepeatStatic
+  Repeats each element of a stream a fixed number of times.
+
+  Constructor:
+    RepeatStatic(
+        graph: MultiDiGraph,
+        input: Union[StepOps, Tuple[StepOps, int]],
+        repeat_factor: int,
+    )
+
+  Shape Transform:
+    Input:  Stream(dtype, shape=(D0,...,Dn))
+    Output: Stream(dtype, shape=(D0,...,Dn, repeat_factor))
+
+  Computation:
+    Each input element is emitted repeat_factor times with a stop token
+    after each repetition group.
+
+RepeatRef
+  Repeats each element a dynamic number of times based on a reference stream.
+
+  Constructor:
+    RepeatRef(
+        graph: MultiDiGraph,
+        input: Union[StepOps, Tuple[StepOps, int]],
+        ref: Union[StepOps, Tuple[StepOps, int]],
+    )
+
+  Shape Transform:
+    Input: Stream(dtype, shape=S)
+    Ref:   Stream(any, shape=S + (R,))
+    Output: Stream(dtype, shape=ref.shape)
+    Requires: input.shape == ref.shape[:-1]
+
+  Computation:
+    For each input element, repeats it once per reference element at the
+    innermost dimension.
+
+--------------------------------------------------------------------------------
+4.6 SELECTION & ADDRESS GENERATION OPERATORS
+--------------------------------------------------------------------------------
+
+SelectGen
+  Generates a selection stream from a pre-computed tensor. SOURCE operator.
+
+  Constructor:
+    SelectGen(is_multihot: bool, tensor: torch.Tensor, n: int)
+
+  Output Stream:
+    dtype: MultiHot(n) if is_multihot else Index(n)
+    shape: (1,) + tensor.shape[:-1]
+
+  Computation:
+    Streams out the selection tensor row by row. Used to drive FlatPartition
+    and FlatReassemble for expert routing.
+
+CacheReadAddrGen
+  Generates read addresses for KV cache access.
+
+  Constructor:
+    CacheReadAddrGen(
+        graph: MultiDiGraph,
+        idx: Union[StepOps, Tuple[StepOps, int]],       # Token index
+        seq_len: Union[StepOps, Tuple[StepOps, int]],   # Sequence length
+        row_offset: int,             # Rows per cache entry
+    )
+
+  Output Stream:
+    dtype: Tile(Uint64, (1,1))
+    shape: idx.shape + (DynDim(ragged=True),)
+
+  Computation:
+    For each (idx, seq_len) pair, generates seq_len addresses:
+    addr_k = idx * row_offset + k, for k in 0..seq_len
+
+ExpertAddrGen
+  Generates addresses for expert weight loading.
+
+  Constructor:
+    ExpertAddrGen(
+        graph: MultiDiGraph,
+        input: Union[StepOps, Tuple[StepOps, int]],     # Expert indices
+        num_tile_per_expert: int,    # Tiles per expert weight
+        expert_addr_base: int,       # Base address for expert weights
+    )
+
+  Output Stream:
+    dtype: Tile(Uint64, (1,1))
+    shape: input.shape + (num_tile_per_expert, 1)
+
+  Computation:
+    For each expert index, generates num_tile_per_expert addresses starting
+    from expert_addr_base + expert_id * num_tile_per_expert.
+
+FilterLastTile
+  Generates a selection mask for filtering based on sequence length.
+
+  Constructor:
+    FilterLastTile(
+        graph: MultiDiGraph,
+        input: Union[StepOps, Tuple[StepOps, int]],
+    )
+
+  Output Stream:
+    dtype: MultiHot(2)
+    shape: input.shape + (DynDim,)
+
+  Computation:
+    Decomposes into FlatmapCounter + IsEqual. For each input scalar N,
+    generates N comparison results used for filtering.
+
+MetadataGen
+  Generates metadata tiles from a pre-computed tensor. SOURCE operator.
+
+  Constructor:
+    MetadataGen(tensor: torch.Tensor)
+
+  Output Stream:
+    dtype: Tile(Uint64, (1,1))
+    shape: (1,) + tensor.shape
+
+--------------------------------------------------------------------------------
+4.7 UTILITY OPERATORS
+--------------------------------------------------------------------------------
+
+PrinterContext
+  Debug sink that prints stream contents. SINK operator (no output).
+
+  Constructor:
+    PrinterContext(graph: MultiDiGraph, input: Union[StepOps, Tuple[StepOps, int]])
+
+ConsumerContext
+  Dummy sink that consumes a stream. SINK operator (no output).
+
+  Constructor:
+    ConsumerContext(graph: MultiDiGraph, input: Union[StepOps, Tuple[StepOps, int]])
+
+================================================================================
+5. PERFORMANCE MODEL
+================================================================================
+
+5.1 Tile-Level Timing
+---------------------
+Each operator uses a roofline model for per-tile latency:
+  cycles = max(load_cycles, compute_cycles, store_cycles)
+
+  load_cycles = tile_size_bytes / PMU_BW  (PMU_BW = 64 bytes/cycle)
+  compute_cycles = depends on function (see function specs above)
+  store_cycles = tile_size_bytes / PMU_BW  (if write_back_mu)
+
+5.2 Off-Chip Memory
+--------------------
+HBM operations are configured with:
+  - base_addr_byte: starting address
+  - par_dispatch: number of concurrent requests
+  - Latency modeled per HBM channel configuration (HBMConfig)
+
+5.3 Operator Pipelining
+------------------------
+Operators execute concurrently in a pipelined fashion. Each operator processes
+tiles as soon as they arrive on its input channels. Back-pressure is handled
+via channel depth (configured in SimConfig).
+
+================================================================================
+6. COMMON PATTERNS
+================================================================================
+
+6.1 Tiled Matrix Multiply (e.g., Linear Layer)
+-----------------------------------------------
+  # Load activations: shape [batch, seq_len_tiles, hidden_tiles]
+  act = LinearOffChipLoad(act_tensor, stride, out_shape, tile_row, tile_col, par)
+
+  # Load weights: triggered by activation stream
+  wt = LinearOffChipLoadRef(graph, act, wt_tensor, stride, out_shape, tile_row, tile_col, par)
+
+  # Matrix multiply with accumulation over hidden dimension
+  out = BinaryMapAccum(graph, act, wt,
+      fn=map_accum_fn.Matmul(),
+      init_fn=init_fn.Zero(shape=(tile_row, tile_col), dtype=Float32()),
+      rank=1,  # accumulate over innermost dim
+      write_back_mu=True, compute_bw=compute_bw)
+
+  # Store result
+  store = OffChipStore(graph, out, par_dispatch)
+
+6.2 Element-wise Operations (e.g., SiLU activation)
+----------------------------------------------------
+  silu_out = UnaryMap(graph, input_stream,
+      fn=map_fn.Silu(), write_back_mu=False, compute_bw=compute_bw)
+
+6.3 Reduction (e.g., Row-wise Sum for LayerNorm)
+-------------------------------------------------
+  # Reduce columns within each tile
+  row_sum = UnaryMap(graph, input_stream,
+      fn=map_fn.RowWiseSum(), write_back_mu=True, compute_bw=compute_bw)
+
+  # Accumulate across tiles in the row dimension
+  total_sum = Accum(graph, row_sum,
+      output_stream_dtype=Tile(Float32(), (tile_row, 1)),
+      fn=accum_fn.Add(),
+      init_fn=init_fn.Zero(shape=(tile_row, 1), dtype=Float32()),
+      accum_rank=1, write_back_mu=True, compute_bw=compute_bw)
+
+6.4 Broadcasting a Value
+--------------------------
+  bc = Broadcast(graph, scalar_stream, num_consumers=3)
+  consumer1 = SomeOp(graph, (bc, 0), ...)
+  consumer2 = SomeOp(graph, (bc, 1), ...)
+  consumer3 = SomeOp(graph, (bc, 2), ...)
+
+6.5 Buffering and Reuse
+------------------------
+  # Buffer tiles into a 2D block
+  buf = Bufferize(graph, tile_stream, rank=2)
+
+  # Stream out the block 3 times (for 3 consumers)
+  reuse = Streamify(graph, buf, repeat_factor=[3], rank=2)
+
+================================================================================
+END OF REFERENCE
+================================================================================

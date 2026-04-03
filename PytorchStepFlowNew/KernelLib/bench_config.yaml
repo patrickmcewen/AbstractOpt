@@ -1,0 +1,411 @@
+# KernelLib/bench_config.yaml
+# Target kernels for StepEvolve — no STeP implementations yet.
+# Sources: KernelBench (levels 1-3) and FlashInfer-bench.
+# Dimensions are STeP-simulator-friendly (small enough to simulate).
+
+# ============================================================
+# KernelBench Level 1 — Element-wise Activations
+# ============================================================
+
+relu:
+  problem: kernels/relu/reference.py
+  source: kernelbench/level1/19
+  params: [M, K]
+  presets:
+    small:    {M: 32, K: 64}
+    medium:   {M: 64, K: 128}
+    large:    {M: 128, K: 256}
+
+leaky_relu:
+  problem: kernels/leaky_relu/reference.py
+  source: kernelbench/level1/20
+  params: [M, K, negative_slope]
+  presets:
+    small:    {M: 32, K: 64, negative_slope: 0.01}
+    medium:   {M: 64, K: 128, negative_slope: 0.01}
+    steep:    {M: 64, K: 128, negative_slope: 0.2}
+
+sigmoid:
+  problem: kernels/sigmoid/reference.py
+  source: kernelbench/level1/21
+  params: [M, K]
+  presets:
+    small:    {M: 32, K: 64}
+    medium:   {M: 64, K: 128}
+    large:    {M: 128, K: 256}
+
+tanh:
+  problem: kernels/tanh/reference.py
+  source: kernelbench/level1/22
+  params: [M, K]
+  presets:
+    small:    {M: 32, K: 64}
+    medium:   {M: 64, K: 128}
+    large:    {M: 128, K: 256}
+
+gelu:
+  problem: kernels/gelu/reference.py
+  source: kernelbench/level1/26
+  params: [M, K]
+  presets:
+    small:    {M: 32, K: 64}
+    medium:   {M: 64, K: 128}
+    large:    {M: 128, K: 256}
+
+softplus:
+  problem: kernels/softplus/reference.py
+  source: kernelbench/level1/29
+  params: [M, K]
+  presets:
+    small:    {M: 32, K: 64}
+    medium:   {M: 64, K: 128}
+    large:    {M: 128, K: 256}
+
+elu:
+  problem: kernels/elu/reference.py
+  source: kernelbench/level1/31
+  params: [M, K, alpha]
+  presets:
+    small:    {M: 32, K: 64, alpha: 1.0}
+    medium:   {M: 64, K: 128, alpha: 1.0}
+    steep:    {M: 64, K: 128, alpha: 2.0}
+
+# ============================================================
+# KernelBench Level 1 — Softmax / LogSoftmax
+# ============================================================
+
+softmax:
+  problem: kernels/softmax/reference.py
+  source: kernelbench/level1/23
+  params: [M, K]
+  presets:
+    small:    {M: 32, K: 64}
+    medium:   {M: 64, K: 128}
+    wide:     {M: 32, K: 256}
+
+log_softmax:
+  problem: kernels/log_softmax/reference.py
+  source: kernelbench/level1/24
+  params: [M, K]
+  presets:
+    small:    {M: 32, K: 64}
+    medium:   {M: 64, K: 128}
+    wide:     {M: 32, K: 256}
+
+# ============================================================
+# KernelBench Level 1 — Normalizations
+# ============================================================
+
+layer_norm:
+  problem: kernels/layer_norm/reference.py
+  source: kernelbench/level1/40
+  params: [M, K, eps]
+  presets:
+    small:    {M: 32, K: 64, eps: 1.0e-5}
+    medium:   {M: 64, K: 128, eps: 1.0e-5}
+    wide:     {M: 32, K: 256, eps: 1.0e-5}
+
+batch_norm:
+  problem: kernels/batch_norm/reference.py
+  source: kernelbench/level1/33
+  params: [B, C, H, W]
+  presets:
+    small:    {B: 4, C: 8, H: 16, W: 16}
+    medium:   {B: 8, C: 16, H: 32, W: 32}
+    large:    {B: 4, C: 32, H: 16, W: 16}
+
+group_norm:
+  problem: kernels/group_norm/reference.py
+  source: kernelbench/level1/35
+  params: [B, C, H, W, G]
+  presets:
+    small:    {B: 4, C: 8, H: 16, W: 16, G: 4}
+    medium:   {B: 8, C: 16, H: 32, W: 32, G: 4}
+    large:    {B: 4, C: 32, H: 16, W: 16, G: 8}
+
+# ============================================================
+# KernelBench Level 1 — Reductions
+# ============================================================
+
+sum_reduction:
+  problem: kernels/sum_reduction/reference.py
+  source: kernelbench/level1/47
+  params: [M, K, reduce_dim]
+  presets:
+    row:      {M: 64, K: 128, reduce_dim: -1}
+    col:      {M: 64, K: 128, reduce_dim: 0}
+    large:    {M: 128, K: 256, reduce_dim: -1}
+
+mean_reduction:
+  problem: kernels/mean_reduction/reference.py
+  source: kernelbench/level1/48
+  params: [M, K, reduce_dim]
+  presets:
+    row:      {M: 64, K: 128, reduce_dim: -1}
+    col:      {M: 64, K: 128, reduce_dim: 0}
+    large:    {M: 128, K: 256, reduce_dim: -1}
+
+max_reduction:
+  problem: kernels/max_reduction/reference.py
+  source: kernelbench/level1/49
+  params: [M, K, reduce_dim]
+  presets:
+    row:      {M: 64, K: 128, reduce_dim: -1}
+    col:      {M: 64, K: 128, reduce_dim: 0}
+    large:    {M: 128, K: 256, reduce_dim: -1}
+
+# ============================================================
+# KernelBench Level 1 — Pooling
+# ============================================================
+
+max_pool_2d:
+  problem: kernels/max_pool_2d/reference.py
+  source: kernelbench/level1/42
+  params: [B, C, H, W, kernel_size, stride, padding]
+  presets:
+    small:    {B: 2, C: 4, H: 32, W: 32, kernel_size: 2, stride: 2, padding: 0}
+    medium:   {B: 4, C: 8, H: 32, W: 32, kernel_size: 3, stride: 1, padding: 1}
+
+avg_pool_2d:
+  problem: kernels/avg_pool_2d/reference.py
+  source: kernelbench/level1/45
+  params: [B, C, H, W, kernel_size, stride, padding]
+  presets:
+    small:    {B: 2, C: 4, H: 32, W: 32, kernel_size: 2, stride: 2, padding: 0}
+    medium:   {B: 4, C: 8, H: 32, W: 32, kernel_size: 3, stride: 1, padding: 1}
+
+# ============================================================
+# KernelBench Level 1 — Loss Functions
+# ============================================================
+
+mse_loss:
+  problem: kernels/mse_loss/reference.py
+  source: kernelbench/level1/94
+  params: [M, K]
+  presets:
+    small:    {M: 32, K: 64}
+    medium:   {M: 64, K: 128}
+    large:    {M: 128, K: 256}
+
+cross_entropy_loss:
+  problem: kernels/cross_entropy_loss/reference.py
+  source: kernelbench/level1/95
+  params: [M, C]
+  presets:
+    small:    {M: 32, C: 16}
+    medium:   {M: 64, C: 64}
+    large:    {M: 128, C: 128}
+
+# ============================================================
+# KernelBench Level 1 — Batched Matmul
+# ============================================================
+
+batched_matmul:
+  problem: kernels/batched_matmul/reference.py
+  source: kernelbench/level1/3
+  params: [B, M, K, N]
+  presets:
+    small:    {B: 4, M: 32, K: 48, N: 64}
+    square:   {B: 4, M: 64, K: 64, N: 64}
+    wide:     {B: 8, M: 32, K: 64, N: 128}
+
+# ============================================================
+# KernelBench Level 2 — Composite Operations
+# ============================================================
+
+matmul_scale_residual:
+  problem: kernels/matmul_scale_residual/reference.py
+  source: kernelbench/level2/40
+  params: [M, K, N]
+  presets:
+    small:    {M: 32, K: 64, N: 64}
+    medium:   {M: 64, K: 128, N: 128}
+
+matmul_dropout_softmax:
+  problem: kernels/matmul_dropout_softmax/reference.py
+  source: kernelbench/level2/66
+  params: [M, K, N]
+  presets:
+    small:    {M: 32, K: 64, N: 64}
+    medium:   {M: 64, K: 128, N: 128}
+
+matmul_add_activations:
+  problem: kernels/matmul_add_activations/reference.py
+  source: kernelbench/level2/95
+  params: [M, K, N]
+  presets:
+    small:    {M: 32, K: 64, N: 64}
+    medium:   {M: 64, K: 128, N: 128}
+
+conv2d_relu_bias:
+  problem: kernels/conv2d_relu_bias/reference.py
+  source: kernelbench/level2/1
+  params: [B, C_in, C_out, H, W, kernel_size]
+  presets:
+    small:    {B: 2, C_in: 4, C_out: 8, H: 16, W: 16, kernel_size: 3}
+    medium:   {B: 4, C_in: 8, C_out: 16, H: 16, W: 16, kernel_size: 3}
+
+matmul_sum_max_pool:
+  problem: kernels/matmul_sum_max_pool/reference.py
+  source: kernelbench/level2/18
+  params: [M, K, N]
+  presets:
+    small:    {M: 32, K: 64, N: 64}
+    medium:   {M: 64, K: 128, N: 128}
+
+# ============================================================
+# KernelBench Level 3 — Models
+# ============================================================
+
+mlp:
+  problem: kernels/mlp/reference.py
+  source: kernelbench/level3/1
+  params: [M, D_in, D_hidden, D_out, n_layers]
+  presets:
+    small:    {M: 16, D_in: 32, D_hidden: 64, D_out: 32, n_layers: 2}
+    medium:   {M: 32, D_in: 64, D_hidden: 128, D_out: 64, n_layers: 2}
+    deep:     {M: 16, D_in: 32, D_hidden: 64, D_out: 32, n_layers: 4}
+
+resnet_basic_block:
+  problem: kernels/resnet_basic_block/reference.py
+  source: kernelbench/level3/8
+  params: [B, C_in, C_out, H, W, stride]
+  presets:
+    small:    {B: 2, C_in: 8, C_out: 8, H: 16, W: 16, stride: 1}
+    downsample: {B: 2, C_in: 8, C_out: 16, H: 16, W: 16, stride: 2}
+
+vision_attention:
+  problem: kernels/vision_attention/reference.py
+  source: kernelbench/level3/31
+  params: [B, C, H, W, num_heads]
+  presets:
+    small:    {B: 1, C: 32, H: 8, W: 8, num_heads: 4}
+    medium:   {B: 2, C: 64, H: 8, W: 8, num_heads: 4}
+
+# ============================================================
+# FlashInfer — RMSNorm
+# ============================================================
+
+fi_rmsnorm:
+  problem: kernels/fi_rmsnorm/reference.py
+  source: flashinfer/rmsnorm
+  params: [M, K, eps]
+  presets:
+    h128:     {M: 32, K: 128, eps: 1.0e-6}
+    h512:     {M: 32, K: 512, eps: 1.0e-6}
+    h2048:    {M: 16, K: 2048, eps: 1.0e-6}
+    h4096:    {M: 8, K: 4096, eps: 1.0e-5}
+    h7168:    {M: 4, K: 7168, eps: 1.0e-6}
+
+fi_fused_add_rmsnorm:
+  problem: kernels/fi_fused_add_rmsnorm/reference.py
+  source: flashinfer/rmsnorm
+  params: [M, K, eps]
+  presets:
+    h2048:    {M: 16, K: 2048, eps: 1.0e-6}
+    h4096:    {M: 8, K: 4096, eps: 1.0e-5}
+    h7168:    {M: 4, K: 7168, eps: 1.0e-6}
+
+# ============================================================
+# FlashInfer — GEMM
+# ============================================================
+
+fi_gemm:
+  problem: kernels/fi_gemm/reference.py
+  source: flashinfer/gemm
+  params: [M, N, K]
+  presets:
+    n128_k2048:  {M: 32, N: 128, K: 2048}
+    n4096_k4096: {M: 16, N: 4096, K: 4096}
+    n7168_k5120: {M: 8, N: 7168, K: 5120}
+
+# ============================================================
+# FlashInfer — MoE
+# ============================================================
+
+fi_moe_fp8_block_scale:
+  problem: kernels/fi_moe_fp8_block_scale/reference.py
+  source: flashinfer/moe
+  params: [T, H, I, E, n_active, n_group, topk_group, scaling_factor]
+  presets:
+    ds_small:  {T: 8, H: 64, I: 32, E: 8, n_active: 2, n_group: 2, topk_group: 1, scaling_factor: 1.0}
+    ds_medium: {T: 16, H: 128, I: 64, E: 16, n_active: 4, n_group: 4, topk_group: 2, scaling_factor: 1.0}
+
+# ============================================================
+# FlashInfer — GQA Attention
+# ============================================================
+
+fi_gqa_paged_decode:
+  problem: kernels/fi_gqa_paged_decode/reference.py
+  source: flashinfer/gqa_paged
+  params: [B, S, num_q_heads, num_kv_heads, head_dim]
+  presets:
+    h32_kv4:   {B: 4, S: 64, num_q_heads: 32, num_kv_heads: 4, head_dim: 64}
+    h20_kv4:   {B: 4, S: 64, num_q_heads: 20, num_kv_heads: 4, head_dim: 64}
+
+fi_gqa_ragged_prefill:
+  problem: kernels/fi_gqa_ragged_prefill/reference.py
+  source: flashinfer/gqa_ragged
+  params: [B, S, num_q_heads, num_kv_heads, head_dim]
+  presets:
+    h32_kv8:   {B: 2, S: 32, num_q_heads: 32, num_kv_heads: 8, head_dim: 64}
+    h32_kv4:   {B: 2, S: 32, num_q_heads: 32, num_kv_heads: 4, head_dim: 64}
+
+# ============================================================
+# FlashInfer — Gated Delta Net (Linear Attention)
+# ============================================================
+
+fi_gdn_decode:
+  problem: kernels/fi_gdn_decode/reference.py
+  source: flashinfer/gdn
+  params: [B, num_q_heads, num_v_heads, head_dim]
+  presets:
+    qk4_v8:    {B: 4, num_q_heads: 4, num_v_heads: 8, head_dim: 32}
+
+fi_gdn_prefill:
+  problem: kernels/fi_gdn_prefill/reference.py
+  source: flashinfer/gdn
+  params: [B, S, num_q_heads, num_v_heads, head_dim]
+  presets:
+    qk4_v8:    {B: 2, S: 16, num_q_heads: 4, num_v_heads: 8, head_dim: 32}
+
+# ============================================================
+# FlashInfer — Multi-head Latent Attention (MLA)
+# ============================================================
+
+fi_mla_paged_decode:
+  problem: kernels/fi_mla_paged_decode/reference.py
+  source: flashinfer/mla_paged
+  params: [B, S, num_heads, ckv_dim, kpe_dim]
+  presets:
+    h16_small:  {B: 4, S: 32, num_heads: 16, ckv_dim: 64, kpe_dim: 16}
+
+fi_mla_paged_prefill:
+  problem: kernels/fi_mla_paged_prefill/reference.py
+  source: flashinfer/mla_paged
+  params: [B, S, num_heads, ckv_dim, kpe_dim]
+  presets:
+    h16_small:  {B: 2, S: 16, num_heads: 16, ckv_dim: 64, kpe_dim: 16}
+
+# ============================================================
+# FlashInfer — Sampling
+# ============================================================
+
+fi_top_k_sampling:
+  problem: kernels/fi_top_k_sampling/reference.py
+  source: flashinfer/sampling
+  params: [M, V, top_k]
+  presets:
+    small:     {M: 8, V: 256, top_k: 10}
+    medium:    {M: 16, V: 1024, top_k: 50}
+
+# ============================================================
+# FlashInfer — DeepSeek Sparse Attention
+# ============================================================
+
+fi_dsa_sparse_attention:
+  problem: kernels/fi_dsa_sparse_attention/reference.py
+  source: flashinfer/dsa_paged
+  params: [T, S, num_heads, ckv_dim, kpe_dim, topk]
+  presets:
+    small:     {T: 4, S: 64, num_heads: 8, ckv_dim: 64, kpe_dim: 16, topk: 16}

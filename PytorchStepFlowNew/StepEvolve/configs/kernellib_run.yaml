@@ -1,0 +1,17 @@
+num_rounds: 10
+oe_iterations_per_round: 100
+stepdb_path: ../StepDB
+kernellib_path: ../KernelLib
+work_dir: step_evolve_kernellib_output
+
+oe_num_islands: 3
+oe_population_size: 200
+
+llm_model: openai/gpt-oss-120b
+llm_api_base: http://172.17.0.1:31001/v1
+llm_api_key: "None"
+curator_model: openai/gpt-oss-120b
+
+max_curated_examples: 4
+
+kernels: []
