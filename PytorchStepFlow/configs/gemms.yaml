@@ -7,9 +7,9 @@ kernels:
   - name: gemm
     problem: StepBench/problems/gemm.py
     preset: small
-  - name: activation
-    problem: StepBench/problems/activation.py
-    preset: swish_small
+  - name: gemm_batched
+    problem: StepBench/problems/gemm_batched.py
+    preset: small
 
 iterations: 3
 plans_per_kernel: 4

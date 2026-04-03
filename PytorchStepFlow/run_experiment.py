@@ -6,9 +6,28 @@ Usage:
 """
 import argparse
 import asyncio
+import io
 import os
 import sys
 from datetime import datetime
+
+
+class _Tee(io.TextIOBase):
+    """Write to both the original stream and a log file."""
+
+    def __init__(self, original: io.TextIOBase, log_file: io.TextIOBase):
+        self._original = original
+        self._log_file = log_file
+
+    def write(self, data):
+        self._original.write(data)
+        self._log_file.write(data)
+        self._log_file.flush()
+        return len(data)
+
+    def flush(self):
+        self._original.flush()
+        self._log_file.flush()
 
 # ---------- Environment bootstrap ----------
 _CONDA_ENV = "step-perf"
@@ -65,6 +84,13 @@ def main():
         timestamp = datetime.now().strftime("%Y-%m-%d-%H%M%S")
         checkpoint_dir = os.path.join("checkpoints", timestamp)
 
+    # Tee stdout/stderr to a log file in the checkpoint directory
+    os.makedirs(checkpoint_dir, exist_ok=True)
+    log_path = os.path.join(checkpoint_dir, "experiment.log")
+    log_file = open(log_path, "w")
+    sys.stdout = _Tee(sys.stdout, log_file)
+    sys.stderr = _Tee(sys.stderr, log_file)
+
     print(f"Experiment config: {args.config}")
     print(f"LLM: {config.model} @ {config.url}")
     print(f"Kernels: {[k['name'] for k in experiment_cfg['kernels']]}")
@@ -73,6 +99,8 @@ def main():
     print(f"Checkpoint dir: {checkpoint_dir}")
 
     asyncio.run(run_experiment(experiment_cfg, config, checkpoint_dir))
+
+    log_file.close()
 
 
 if __name__ == "__main__":

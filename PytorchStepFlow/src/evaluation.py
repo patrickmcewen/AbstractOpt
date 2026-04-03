@@ -1,10 +1,16 @@
 import json
 import os
+import subprocess
+import sys
 import traceback
 from dataclasses import dataclass, asdict
 
 import torch
 import numpy as np
+
+
+SIM_TIMEOUT_SECONDS = 90
+SIM_LOGGING = True
 
 
 @dataclass
@@ -21,6 +27,7 @@ class EvalResult:
 
 
 IMPORT_SCAFFOLD = """\
+import math
 from math import ceil
 import torch
 import numpy as np
@@ -28,6 +35,7 @@ import numpy as np
 SEED = 42
 
 from graph.graph import MultiDiGraph as Graph
+from rewrite.broadcast import infer_broadcast
 from step_py.datatype import (
     Float32, Float16, Uint32, Uint64, Bool,
     Tile, DynTile, Buffer, MultiHot, Index, Stream,
@@ -51,7 +59,19 @@ from step_py.utility_ops import (
     FilterLastTile, PrinterContext, ConsumerContext,
 )
 from step_py.functions import map_fn, map_accum_fn, accum_fn, init_fn
-from step_py.kernels.linear import Linear, LinearTileConfig
+from step_py.functions.map_fn import (
+    Matmul, DynMatmul, Mul, MulImmediate, IsEqual, Add, AddImmediate,
+    SubImmediate, Div, Silu, RowWiseSum, Exp, Pow2, Rsqrt, MaskRow,
+    SetOffset, RowWiseAppend, CacheWriteAddrGen, SelectToScalar, ToConstInt,
+)
+from step_py.functions.map_accum_fn import (
+    Matmul as MapAccumMatmul, DynMatmul as MapAccumDynMatmul,
+)
+from step_py.functions.accum_fn import (
+    Mul as AccumMul, Add as AccumAdd,
+    RetileRow, RetileCol, SignalReqAllRead,
+)
+from step_py.functions.init_fn import Zero, Empty, DynEmpty
 """
 
 
@@ -66,12 +86,39 @@ HBM_CONFIG = {
 
 SIM_CONFIG = {
     "channel_depth": 2,
-    "functional_sim": False,
+    "functional_sim": True,
     "mock_bf16": False,
 }
 
 RTOL = 1e-3
 ATOL = 1e-3
+
+
+# Subprocess script for running simulation with timeout
+_SIM_RUNNER_SCRIPT = '''\
+import json, sys, os
+os.chdir(sys.argv[1])
+from sim import HBMConfig, SimConfig
+import step_perf
+
+pb_path = sys.argv[2]
+hbm_cfg = json.loads(sys.argv[3])
+sim_cfg = json.loads(sys.argv[4])
+logging = sys.argv[5] == "True" if len(sys.argv) > 5 else False
+
+hbm = HBMConfig(**hbm_cfg)
+sim = SimConfig(**sim_cfg)
+
+ret = step_perf.run_graph(pb_path, logging, hbm, sim, None)
+if len(ret) == 4:
+    _, cycles, dur_ms, dur_s = ret
+elif len(ret) == 2:
+    _, cycles = ret
+    dur_ms, dur_s = 0.0, 0.0
+else:
+    raise RuntimeError(f"Unexpected return: {ret}")
+print(json.dumps({"cycles": cycles, "dur_ms": dur_ms, "dur_s": dur_s}))
+'''
 
 
 def _strip_imports(code: str) -> str:
@@ -134,28 +181,52 @@ def evaluate_kernel(code: str, problem_module, dims: dict, work_dir: str) -> Eva
     # Stage 2: simulate
     orig_dir = os.getcwd()
     try:
-        from sim import simulate, HBMConfig, SimConfig
+        from sim import serialize
         from utils.gold_checking import reconstruct_numpy
 
         graph, output_op = build_graph(dims)
 
-        hbm = HBMConfig(**HBM_CONFIG)
-        sim_cfg = SimConfig(**SIM_CONFIG)
-
+        os.makedirs(work_dir, exist_ok=True)
         os.chdir(work_dir)
-        pb_path = os.path.join(work_dir, "graph.pb")
+        pb_path = os.path.join(os.getcwd(), "graph.pb")
 
-        cycles, duration_ms, duration_s = simulate(
-            graph,
-            logging=False,
-            hbm_config=hbm,
-            sim_config=sim_cfg,
-            protobuf_file=pb_path,
-            db_name=None,
+        # Phase 1: serialize graph to proto (fast, runs in-process)
+        serialize(graph, pb_path, SIM_CONFIG["functional_sim"])
+
+        # Phase 2: run simulation in subprocess with timeout
+        pythonpath_extra = ":".join([
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),  # PytorchStepFlow/
+            *[p for p in sys.path if "step_tl" in p or "sim" in p or "step_py" in p or "proto" in p],
+        ])
+        env = os.environ.copy()
+        env["PYTHONPATH"] = pythonpath_extra + ":" + os.environ.get("PYTHONPATH", "")
+        if SIM_LOGGING:
+            env.setdefault("RUST_LOG", "info")
+
+        proc = subprocess.run(
+            [sys.executable, "-c", _SIM_RUNNER_SCRIPT,
+             os.getcwd(), pb_path,
+             json.dumps(HBM_CONFIG), json.dumps(SIM_CONFIG),
+             str(SIM_LOGGING)],
+            capture_output=True, text=True, timeout=SIM_TIMEOUT_SECONDS,
+            env=env,
         )
+        sim_stderr = proc.stderr
+        assert proc.returncode == 0, f"Simulator failed:\n{sim_stderr[-2000:]}"
+        sim_result = json.loads(proc.stdout.strip().split("\n")[-1])
+        cycles = sim_result["cycles"]
+
         os.chdir(orig_dir)
-    except Exception:
+    except subprocess.TimeoutExpired:
         os.chdir(orig_dir)
+        result = EvalResult(stage="simulate", success=False, code=code,
+                            error_message=f"Simulation timed out after {SIM_TIMEOUT_SECONDS}s")
+        _write_result(result, work_dir)
+        return result
+    except BaseException as exc:
+        os.chdir(orig_dir)
+        if isinstance(exc, (KeyboardInterrupt, SystemExit)):
+            raise
         result = EvalResult(stage="simulate", success=False, code=code,
                             error_message=f"simulate failed: {traceback.format_exc()}")
         _write_result(result, work_dir)
@@ -164,17 +235,31 @@ def evaluate_kernel(code: str, problem_module, dims: dict, work_dir: str) -> Eva
     # Stage 3: correctness
     store_name = output_op.store_file_name
     store_path = os.path.join(work_dir, store_name)
-    assert os.path.exists(f"{store_path}.json") and os.path.exists(f"{store_path}.npy"), (
-        f"Simulation did not produce output files: {store_name}.json / {store_name}.npy"
-    )
+    npy_exists = os.path.exists(f"{store_path}.npy")
+    json_exists = os.path.exists(f"{store_path}.json")
+    if not npy_exists:
+        sim_log = sim_stderr.strip() if sim_stderr else "(no simulator output)"
+        result = EvalResult(stage="simulate", success=False, code=code,
+                            error_message=(
+                                f"Simulation did not produce output file: {store_name}.npy\n"
+                                f"Simulator stderr:\n{sim_log[-3000:]}"
+                            ))
+        _write_result(result, work_dir)
+        return result
 
-    sim_output = reconstruct_numpy(store_path, delete_npy=False)
+    if json_exists:
+        sim_output = reconstruct_numpy(store_path, delete_npy=False)
+    else:
+        sim_output = np.load(f"{store_path}.npy")
     sim_tensor = torch.from_numpy(sim_output).float()
     gold = problem_module.compute_gold(dims).float()
 
-    assert sim_tensor.numel() == gold.numel(), (
-        f"Element count mismatch: sim={sim_tensor.numel()} gold={gold.numel()}"
-    )
+    if sim_tensor.numel() != gold.numel():
+        result = EvalResult(stage="correctness", success=False, code=code,
+                            error_message=f"Element count mismatch: sim={sim_tensor.numel()} gold={gold.numel()}",
+                            cycle_time=float(cycles))
+        _write_result(result, work_dir)
+        return result
     while sim_tensor.ndim < gold.ndim:
         sim_tensor = sim_tensor.unsqueeze(0)
     sim_tensor = sim_tensor.reshape(gold.shape)

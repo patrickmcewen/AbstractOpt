@@ -92,7 +92,10 @@ async def _run_kernel_iteration(
             load_prompt(CURATOR_SYSTEM_PATH),
             curator_user_prompt,
         )
-    ks.curated_experiences = await curate_experiences(config, store, name)
+    ks.curated_experiences, curator_output = await curate_experiences(config, store, name)
+    if curator_output:
+        with open(os.path.join(iter_dir, "curator", "response.txt"), "w") as f:
+            f.write(curator_output)
     print(f"  [{name}] Curated {len(ks.curated_experiences)} cross-kernel experiences")
 
     # Step 2: Generate plans
@@ -150,14 +153,17 @@ async def _run_kernel_iteration(
                         error_curator_system_prompt,
                         build_error_user_prompt(name, code, result.error_message),
                     )
-                    failures_to_diagnose.append((code, result))
+                    failures_to_diagnose.append((work_dir, code, result))
 
     # Step 5: Diagnose ALL errors in parallel
     if failures_to_diagnose:
         diagnoses = await asyncio.gather(*[
             diagnose_error(config, name, code, result.error_message)
-            for code, result in failures_to_diagnose
+            for _, code, result in failures_to_diagnose
         ])
+        for (work_dir, _, _), diagnosis in zip(failures_to_diagnose, diagnoses):
+            with open(os.path.join(work_dir, "error_curator", "diagnosis.txt"), "w") as f:
+                f.write(diagnosis.diagnosis)
         ks.diagnosed_errors.extend(diagnoses)
         print(f"  [{name}] Diagnosed {len(diagnoses)} errors in parallel")
 
@@ -198,7 +204,8 @@ async def run_experiment(
             kernel_spec_path=kc["problem"],
         )
         problem_modules[name] = load_problem_module(kc["problem"])
-        dims_map[name] = resolve_dims(name, kc["preset"])
+        bench_name = os.path.splitext(os.path.basename(kc["problem"]))[0]
+        dims_map[name] = resolve_dims(bench_name, kc["preset"])
 
     iterations = config.iterations
     n_plans = config.plans_per_kernel

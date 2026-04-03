@@ -5,6 +5,7 @@ import asyncio
 
 
 SYSTEM_PROMPT_PATH = "prompts/error_curator/system_prompt.txt"
+OPERATOR_REFERENCE_PATH = "prompts/operator_reference.txt"
 
 
 def build_error_user_prompt(kernel_name: str, code: str, error_message: str) -> str:
@@ -35,6 +36,8 @@ async def diagnose_error(
     error_message: str,
 ) -> BuildError:
     system_prompt = load_prompt(SYSTEM_PROMPT_PATH)
+    operator_ref = load_prompt(OPERATOR_REFERENCE_PATH)
+    system_prompt = f"{system_prompt}\n\n## Operator Reference\n\n{operator_ref}"
     agent = make_agent(config, name="ErrorCurator", system_prompt=system_prompt)
 
     user_prompt = build_error_user_prompt(kernel_name, code, error_message)

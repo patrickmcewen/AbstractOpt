@@ -11,6 +11,7 @@ Your job: write a `build_graph(dims)` function that returns `(graph, output_op)`
 IMPORTANT: All imports are pre-loaded for you. The following are already available in scope — do NOT write any import statements:
 
 ```python
+import math
 from math import ceil
 import torch
 import numpy as np
@@ -18,6 +19,7 @@ import numpy as np
 SEED = 42  # shared with the gold reference — use torch.manual_seed(SEED) before creating tensors
 
 from graph.graph import MultiDiGraph as Graph
+from rewrite.broadcast import infer_broadcast
 from step_py.datatype import (
     Float32, Float16, Uint32, Uint64, Bool,
     Tile, DynTile, Buffer, MultiHot, Index, Stream,
@@ -41,7 +43,74 @@ from step_py.utility_ops import (
     FilterLastTile, PrinterContext, ConsumerContext,
 )
 from step_py.functions import map_fn, map_accum_fn, accum_fn, init_fn
-from step_py.kernels.linear import Linear, LinearTileConfig
 ```
+
+## CRITICAL BUILD RULES — violating any of these causes immediate failure
+
+1. Always initialize `graph = Graph()` unconditionally at the top of `build_graph()`, before any other logic.
+2. `Graph()` takes NO constructor arguments. Do NOT write `Graph(name=...)` or pass any kwargs.
+3. `LinearOffChipLoad` does NOT take `graph` as an argument — it auto-registers. All other operators (Bufferize, Streamify, BinaryMap, UnaryMap, BinaryMapAccum, Accum, OffChipStore, Parallelize, etc.) DO take `graph` as their first positional argument.
+4. `LinearOffChipLoad(underlying=...)` — `underlying` must be an actual `torch.Tensor` (>= 2D), NOT a string name. Create tensors with `torch.manual_seed(SEED); A = torch.randn(M, K)`.
+5. All shape arguments (`out_shape_tiled`, `stride`, `repeat_factor`) MUST be Python tuples, NOT lists.
+6. All tile counts and shape values MUST be concrete Python `int`, NEVER `DynDim`. When computing tile counts, use `int(ceil(N / T))` to ensure the result is a plain int.
+7. `compute_bw` must be a Python `int`, never a float. Example: `compute_bw=64`, not `compute_bw=64.0`.
+8. `OffChipStore` `store_file_name` MUST be `"output"`.
+9. STeP ops do NOT have a `.shape` attribute. To get stream shape, use `op.stream.shape`. For multi-output ops (Broadcast, Parallelize), use `op.streams[i].shape`.
+10. The Graph object has NO tensor registry. Do NOT invent APIs like `graph.tensors`, `graph.tensor_dict`, `graph.add_input`, or `MockStreamOp`.
+11. Always call `graph = infer_broadcast(graph)` as the last step before returning.
+12. `UnaryMap` and `BinaryMap` inputs MUST be Tile-dtype streams (e.g., from `LinearOffChipLoad` or `Streamify`). NEVER pass a Buffer-dtype stream (from `Bufferize`) directly — first `Streamify` it back to Tile, then apply the map.
+13. `Matmul` reduction MUST use `BinaryMapAccum` with `map_accum_fn.Matmul(...)`, NOT `BinaryMap` with `map_fn.Matmul(...)`. `BinaryMap` does element-wise ops; matrix multiply is a reduction.
+14. Do NOT use `MockStreamOp` — it creates placeholder streams with no real data and will crash at simulation. If you need a constant, use `LinearOffChipLoad` with a constant tensor.
+15. `OffChipStore(graph, input, ...)` — `input` must be a plain stream reference (e.g., the op variable). Do NOT pass tuples like `(op, 0)` to OffChipStore unless the input is from a multi-output op (Broadcast/Parallelize).
+16. `Parallelize` `parallelize_rank` MUST equal `len(input_stream_shape)` — the total rank of the input. Compute it from the known tiled shape, do NOT hardcode a guess.
+17. Use `LinearOffChipLoad` (with actual `torch.Tensor`) for all loads — NOT `DynLinearOffChipLoad`. Dims are known at build time. Similarly, use `OffChipStore` — NOT `DynOffChipStore`.
+18. `build_graph` must return `(graph, output_store_op)` where `output_store_op` is the `OffChipStore` node (NOT the last compute op). The evaluation harness reads `output_store_op.store_file_name`.
+19. `Parallelize` and `Broadcast` are MULTI-OUTPUT ops. NEVER pass them directly to downstream ops. Always index as `(op, 0)`, `(op, 1)`, etc. Example: `silu_out = UnaryMap(graph, (parallelize_op, 0), ...)`.
+20. `Streamify` `rank` must be >= 1. `Bufferize` `rank` must be >= 1. If your stream only has 1 non-leading dim, use `rank=1`.
+21. For simple element-wise kernels (activation, etc.), you often don't need Parallelize at all. A simple pattern: `LinearOffChipLoad → UnaryMap → OffChipStore` with `infer_broadcast` is sufficient.
+22. `LinearOffChipLoad` `stride` for a 2D row-major tensor with tiled shape (R_tiles, C_tiles): use `stride=(C_tiles, 1)`. For 3D with shape (A, B, C) tiled as (A_t, B_t, C_t): use `stride=(B_t*C_t, C_t, 1)`. Each stride value = product of all tiled dims to its right.
+23. For GEMM: use `BinaryMapAccum(graph, A_load, B_load, fn=map_accum_fn.Matmul(...), init_fn=init_fn.Zero(shape=(TM,TN), dtype=Float32()), rank=1, ...)`. Both A_load and B_load must have identical `out_shape_tiled` — they get reduced over the last dim. Use `out_shape_tiled=(1, K_tiles)` for both A and B so the K dimension is reduced by `rank=1`.
+24. `BinaryMapAccum` `rank` parameter is the number of trailing dimensions to reduce. For GEMM reducing over K tiles, use `rank=1`. Both inputs must have the SAME shape — use the same `out_shape_tiled` for both loads.
+25. `BinaryMap` inputs must have the SAME stream rank (same number of dimensions). Tile-level broadcasting (e.g., Tile(1,N) * Tile(M,N)) is ok, but the number of *tiled* dimensions must match. If one stream has fewer dims after an `Accum`, you need `RepeatStatic` or `Broadcast` + `Streamify` to restore the missing dims.
+26. `init_fn.Zero(shape=(R,C), dtype=Float32())` — both `shape` and `dtype` are REQUIRED. Do not omit `dtype`.
+27. `Accum(graph, input, output_stream_dtype, fn, init_fn, accum_rank, write_back_mu, compute_bw)` — all 8 args are required. `accum_rank` must be >= 1. `output_stream_dtype` is the tile type of the reduced output (e.g., `Tile(tile_dtype=Float32(), shape=(1, TC))` for row-wise reduction).
+28. SHAPE MATCHING IS CRITICAL: Both inputs to `BinaryMap`/`BinaryMapAccum` must have the SAME number of tiled dimensions (same stream rank). After `Accum` or `BinaryMapAccum` reduces dims, the output has FEWER tiled dims. To combine a reduced stream with an un-reduced stream, use `RepeatStatic` to add back the missing dims, or restructure so both paths have the same shape. Always verify both streams have compatible shapes before passing to a binary op.
+29. ALL computation must be expressed in the STeP IR graph using STeP operators. Do NOT compute results on the host with PyTorch (e.g., `torch.matmul`, `model(x)`) and then just load the answer via `LinearOffChipLoad`. The ONLY things you should use `torch` for are: (a) creating input tensors with `torch.randn`/`torch.zeros`/etc. for `LinearOffChipLoad(underlying=...)`, and (b) `torch.manual_seed(SEED)` for reproducibility. All actual computation (matmul, activation, normalization, etc.) must happen via STeP operators in the graph.
+30. `LinearOffChipLoad` `underlying` must be a 2D tensor. For higher-dimensional inputs, reshape to 2D first: `x_2d = x.reshape(-1, x.shape[-1])`. The evaluation harness reshapes the simulator output back to the gold shape automatically.
+
+## VALID FUNCTIONS — these are exhaustive, no others exist
+
+**Unary `map_fn`:** `Silu()`, `Exp()`, `Pow2()`, `Rsqrt()`, `RowWiseSum()`, `MulImmediate(c)`, `AddImmediate(c)`, `SubImmediate(c)`, `MaskRow(tile)`, `SelectToScalar()`, `ToConstInt(c)`
+**Binary `map_fn`:** `Matmul(weight_transposed=)`, `DynMatmul(weight_transposed=)`, `Add()`, `Mul()`, `Div()`, `IsEqual()`, `RowWiseAppend()`, `SetOffset()`
+**There is NO:** `map_fn.Relu`, `map_fn.ReLU`, `map_fn.Gelu`, `map_fn.GELU`, `map_fn.Sigmoid`, `map_fn.Custom`, `map_fn.Neg`, `map_fn.MaxImmediate`, `map_fn.DivImmediate`, `map_fn.Softmax`, `map_fn.Tanh`, `map_fn.Sqrt`, `map_fn.Sub`
+**There is NO:** `map_accum_fn.Add`, `map_accum_fn.Mul` — only `map_accum_fn.Matmul` and `map_accum_fn.DynMatmul` exist for BinaryMapAccum
+**Functions are namespaced:** Always use `map_fn.Mul()`, `map_fn.Add()`, `accum_fn.Add()` etc. — NEVER bare `Mul`, `Add`, etc.
+
+To implement activation functions, compose from the available primitives:
+- **ReLU / GELU / Sigmoid:** Just use `Silu` — SiLU is the only supported activation and is a close approximation for optimization benchmarking purposes. Do NOT try to compose ReLU/GELU/Sigmoid from primitives — use `Silu` instead.
+
+## SHAPE ANNOTATION REQUIREMENT
+
+You MUST annotate every operator with a comment showing its input and output stream shapes AND tile dtypes. This forces you to verify shape compatibility at every step. Use this format:
+
+```python
+# For loads:
+A_load = LinearOffChipLoad(...)
+# → stream_shape=(1, M_t, N_t, K_t), tile=Tile(Tm, Tk)
+
+# For compute ops:
+result = BinaryMapAccum(graph, A_load, B_load, ..., rank=1, ...)
+# (1, M_t, N_t, K_t) × (1, M_t, N_t, K_t) → (1, M_t, N_t), tile=Tile(Tm, Tn)  [reduced K_t]
+
+# For shape transforms:
+repeated = RepeatStatic(graph, reduced, N_t)
+# (1, M_t) + (N_t,) → (1, M_t, N_t), tile=Tile(Tm, 1)
+
+# For binary ops, VERIFY both inputs match:
+out = BinaryMap(graph, x_stream, scale_stream, map_fn.Div(), ...)
+# x: (1, M_t, N_t), tile=Tile(Tm, Tc) ÷ scale: (1, M_t, N_t), tile=Tile(Tm, 1) → (1, M_t, N_t), tile=Tile(Tm, Tc)
+```
+
+Before every BinaryMap/BinaryMapAccum, write a comment confirming both input stream shapes are identical. If they differ, you MUST fix the mismatch (via RepeatStatic, Bufferize+Streamify, etc.) BEFORE the binary op.
 
 Start your code directly with `def build_graph(dims):`. Respond with only the Python code inside a ```python code block.

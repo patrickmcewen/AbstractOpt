@@ -7,11 +7,14 @@ kernels:
   - name: gemm
     problem: StepBench/problems/gemm.py
     preset: small
-  - name: activation
-    problem: StepBench/problems/activation.py
-    preset: swish_small
+  - name: gemm_batched
+    problem: StepBench/problems/gemm_batched.py
+    preset: small
+  - name: sdpa
+    problem: StepBench/problems/sdpa.py
+    preset: small
 
-iterations: 3
+iterations: 4
 plans_per_kernel: 4
 implementations_per_plan: 2
 top_k: 3

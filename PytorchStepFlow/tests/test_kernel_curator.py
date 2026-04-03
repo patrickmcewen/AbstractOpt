@@ -10,7 +10,9 @@ def test_build_curator_user_prompt():
     prompt = build_curator_user_prompt(store, target_kernel="sdpa")
     assert "gemm" in prompt
     assert "mlp" in prompt
-    assert "sdpa" not in prompt  # exclude target kernel from candidates
+    assert "Target kernel: sdpa" in prompt
+    # sdpa should not appear in the Available kernels list
+    assert "  - sdpa" not in prompt
     assert "500.0" in prompt
 
 
