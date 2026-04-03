@@ -1,0 +1,15 @@
+{
+  "kernel": "bufferize_roundtrip",
+  "preset": "large",
+  "stage": "success",
+  "success": true,
+  "dims": {
+    "M": 128,
+    "K": 128,
+    "tile_m": 32,
+    "tile_k": 32
+  },
+  "error_message": null,
+  "cycle_time": 698.0,
+  "max_diff": 0.0
+}

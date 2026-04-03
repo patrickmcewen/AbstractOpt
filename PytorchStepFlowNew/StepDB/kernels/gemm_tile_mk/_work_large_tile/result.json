@@ -1,0 +1,16 @@
+{
+  "kernel": "gemm_tile_mk",
+  "preset": "large_tile",
+  "stage": "success",
+  "success": true,
+  "dims": {
+    "M": 64,
+    "K": 64,
+    "N": 128,
+    "tile_m": 32,
+    "tile_k": 32
+  },
+  "error_message": null,
+  "cycle_time": 1449.0,
+  "max_diff": 5.364418029785156e-07
+}

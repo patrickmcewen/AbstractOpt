@@ -1,0 +1,16 @@
+{
+  "kernel": "gated_mlp",
+  "preset": "mixtral_8x",
+  "stage": "success",
+  "success": true,
+  "dims": {
+    "B": 8,
+    "D": 512,
+    "F": 1792,
+    "tile_b": 1,
+    "tile_f": 256
+  },
+  "error_message": null,
+  "cycle_time": 519995.0,
+  "max_diff": 1.9744038581848145e-07
+}

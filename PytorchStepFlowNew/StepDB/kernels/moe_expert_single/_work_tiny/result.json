@@ -1,0 +1,16 @@
+{
+  "kernel": "moe_expert_single",
+  "preset": "tiny",
+  "stage": "success",
+  "success": true,
+  "dims": {
+    "B": 4,
+    "D": 32,
+    "F": 48,
+    "tile_m": 4,
+    "tile_f": 48
+  },
+  "error_message": null,
+  "cycle_time": 276.0,
+  "max_diff": 2.9802322387695312e-08
+}

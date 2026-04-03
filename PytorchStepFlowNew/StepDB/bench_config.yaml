@@ -1,0 +1,134 @@
+# StepDB/bench_config.yaml
+# Central configuration for all StepDB kernel pairs.
+# Single source of truth for dimensions and tiling parameters.
+
+gemm_tile_mk:
+  problem: kernels/gemm_tile_mk/reference.py
+  step_impl: kernels/gemm_tile_mk/step_impl.py
+  params: [M, K, N, tile_m, tile_k]
+  presets:
+    small:       {M: 32,   K: 48,   N: 64,   tile_m: 16, tile_k: 16}
+    square:      {M: 64,   K: 64,   N: 64,   tile_m: 16, tile_k: 16}
+    wide:        {M: 32,   K: 128,  N: 256,  tile_m: 16, tile_k: 16}
+    tall:        {M: 128,  K: 48,   N: 64,   tile_m: 16, tile_k: 16}
+    large_tile:  {M: 64,   K: 64,   N: 128,  tile_m: 32, tile_k: 32}
+
+gemm_tile_mn:
+  problem: kernels/gemm_tile_mn/reference.py
+  step_impl: kernels/gemm_tile_mn/step_impl.py
+  params: [M, K, N, tile_m, tile_n]
+  presets:
+    small:       {M: 32,   K: 48,   N: 64,   tile_m: 16, tile_n: 16}
+    square:      {M: 64,   K: 64,   N: 64,   tile_m: 16, tile_n: 16}
+    wide_n:      {M: 32,   K: 48,   N: 128,  tile_m: 16, tile_n: 32}
+    large_tile:  {M: 64,   K: 64,   N: 128,  tile_m: 32, tile_n: 32}
+
+gemm_tile_mnk:
+  problem: kernels/gemm_tile_mnk/reference.py
+  step_impl: kernels/gemm_tile_mnk/step_impl.py
+  params: [M, K, N, tile_m, tile_n, tile_k]
+  presets:
+    small:       {M: 32,   K: 48,   N: 64,   tile_m: 16, tile_n: 16, tile_k: 16}
+    square:      {M: 64,   K: 64,   N: 64,   tile_m: 16, tile_n: 16, tile_k: 16}
+    large_tile:  {M: 64,   K: 64,   N: 128,  tile_m: 32, tile_n: 32, tile_k: 32}
+    fine_tile:   {M: 64,   K: 48,   N: 64,   tile_m: 16, tile_n: 16, tile_k: 16}
+
+matmul_binarymap:
+  problem: kernels/matmul_binarymap/reference.py
+  step_impl: kernels/matmul_binarymap/step_impl.py
+  params: [B, H, tile_m, tile_n]
+  presets:
+    small:       {B: 32,   H: 64,   tile_m: 16, tile_n: 32}
+    square:      {B: 64,   H: 64,   tile_m: 16, tile_n: 16}
+    large:       {B: 128,  H: 128,  tile_m: 32, tile_n: 32}
+    wide_tile:   {B: 64,   H: 128,  tile_m: 16, tile_n: 64}
+
+copy_2d:
+  problem: kernels/copy_2d/reference.py
+  step_impl: kernels/copy_2d/step_impl.py
+  params: [M, K, tile_m, tile_k]
+  presets:
+    small:       {M: 32,   K: 48,   tile_m: 16, tile_k: 16}
+    square:      {M: 64,   K: 64,   tile_m: 16, tile_k: 16}
+    large:       {M: 128,  K: 128,  tile_m: 32, tile_k: 32}
+    fine:        {M: 64,   K: 48,   tile_m: 16, tile_k: 16}
+
+bufferize_roundtrip:
+  problem: kernels/bufferize_roundtrip/reference.py
+  step_impl: kernels/bufferize_roundtrip/step_impl.py
+  params: [M, K, tile_m, tile_k]
+  presets:
+    small:       {M: 32,   K: 48,   tile_m: 16, tile_k: 16}
+    square:      {M: 64,   K: 64,   tile_m: 16, tile_k: 16}
+    large:       {M: 128,  K: 128,  tile_m: 32, tile_k: 32}
+
+rms_norm:
+  problem: kernels/rms_norm/reference.py
+  step_impl: kernels/rms_norm/step_impl.py
+  params: [M, K, tile_m, tile_k, eps]
+  presets:
+    small:       {M: 32,   K: 64,   tile_m: 16, tile_k: 64,  eps: 1.0e-6}
+    head_dim:    {M: 32,   K: 128,  tile_m: 8,  tile_k: 128, eps: 1.0e-6}
+    wide:        {M: 64,   K: 256,  tile_m: 16, tile_k: 256, eps: 1.0e-6}
+    qwen_scale:  {M: 128,  K: 64,   tile_m: 8,  tile_k: 64,  eps: 1.0e-5}
+
+silu_activation:
+  problem: kernels/silu_activation/reference.py
+  step_impl: kernels/silu_activation/step_impl.py
+  params: [M, K, tile_m, tile_k]
+  presets:
+    small:       {M: 32,   K: 48,   tile_m: 16, tile_k: 16}
+    square:      {M: 64,   K: 64,   tile_m: 16, tile_k: 16}
+    moe_scale:   {M: 64,   K: 768,  tile_m: 16, tile_k: 48}
+    large:       {M: 128,  K: 128,  tile_m: 32, tile_k: 32}
+
+element_wise_add:
+  problem: kernels/element_wise_add/reference.py
+  step_impl: kernels/element_wise_add/step_impl.py
+  params: [M, K, tile_m, tile_k]
+  presets:
+    small:       {M: 32,   K: 48,   tile_m: 16, tile_k: 16}
+    square:      {M: 64,   K: 64,   tile_m: 16, tile_k: 16}
+    hidden:      {M: 64,   K: 128,  tile_m: 16, tile_k: 64}
+    large:       {M: 128,  K: 256,  tile_m: 32, tile_k: 32}
+
+gated_mlp:
+  problem: kernels/gated_mlp/reference.py
+  step_impl: kernels/gated_mlp/step_impl.py
+  params: [B, D, F, tile_b, tile_f]
+  presets:
+    tiny:        {B: 4,    D: 32,   F: 48,   tile_b: 1, tile_f: 48}
+    small:       {B: 8,    D: 64,   F: 96,   tile_b: 1, tile_f: 48}
+    qwen_16x:    {B: 16,   D: 128,  F: 48,   tile_b: 1, tile_f: 48}
+    mixtral_8x:  {B: 8,    D: 512,  F: 1792, tile_b: 1, tile_f: 256}
+
+moe_expert_single:
+  problem: kernels/moe_expert_single/reference.py
+  step_impl: kernels/moe_expert_single/step_impl.py
+  params: [B, D, F, tile_m, tile_f]
+  presets:
+    tiny:        {B: 4,    D: 32,   F: 48,   tile_m: 4,  tile_f: 48}
+    small:       {B: 8,    D: 64,   F: 96,   tile_m: 8,  tile_f: 48}
+    qwen_16x:    {B: 16,   D: 128,  F: 48,   tile_m: 16, tile_f: 48}
+    mixtral_8x:  {B: 8,    D: 512,  F: 1792, tile_m: 8,  tile_f: 256}
+
+sdpa_core:
+  problem: kernels/sdpa_core/reference.py
+  step_impl: kernels/sdpa_core/step_impl.py
+  params: [M, N, D, tile_m, tile_n]
+  presets:
+    tiny:        {M: 1,   N: 32,   D: 16,  tile_m: 1,  tile_n: 16}
+    small:       {M: 4,   N: 64,   D: 32,  tile_m: 4,  tile_n: 16}
+    single_head: {M: 8,   N: 128,  D: 64,  tile_m: 8,  tile_n: 32}
+    multi_head:  {M: 16,  N: 256,  D: 64,  tile_m: 16, tile_n: 32}
+    qwen_scale:  {M: 8,   N: 128,  D: 64,  tile_m: 8,  tile_n: 32}
+
+qkv_projection:
+  problem: kernels/qkv_projection/reference.py
+  step_impl: kernels/qkv_projection/step_impl.py
+  params: [B, D, proj_dim, tile_b, tile_proj]
+  presets:
+    small:       {B: 16,  D: 64,   proj_dim: 64,   tile_b: 16, tile_proj: 16}
+    q_proj:      {B: 16,  D: 128,  proj_dim: 128,  tile_b: 16, tile_proj: 16}
+    kv_proj:     {B: 16,  D: 128,  proj_dim: 32,   tile_b: 16, tile_proj: 16}
+    qwen_scale:  {B: 16,  D: 128,  proj_dim: 512,  tile_b: 16, tile_proj: 16}

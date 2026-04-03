@@ -10,3 +10,9 @@
 [submodule "PytorchStepFlow/step_tl"]
 	path = PytorchStepFlow/step_tl
 	url = https://github.com/stanford-ppl/step_tl.git
+[submodule "PytorchStepFlowNew/openevolve"]
+	path = PytorchStepFlowNew/openevolve
+	url = https://github.com/algorithmicsuperintelligence/openevolve.git
+[submodule "PytorchStepFlowNew/step_tl"]
+	path = PytorchStepFlowNew/step_tl
+	url = https://github.com/stanford-ppl/step_tl.git
