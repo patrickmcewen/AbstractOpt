@@ -20,7 +20,7 @@ You are evolving a STeP IR kernel implementation. STeP (Spatial-Temporal Executi
 13. Do NOT use `MockStreamOp` — it will crash the simulator.
 14. `Parallelize` and `Broadcast` are MULTI-OUTPUT — always index as `(op, 0)`, `(op, 1)`, etc.
 15. SHAPE MATCHING IS CRITICAL — both inputs to binary ops must have the SAME number of tiled dimensions.
-16. ALL computation must use STeP IR operators. Do NOT compute with PyTorch and load the result.
+16. NEVER call torch.nn.functional.*, torch.softmax, torch.sigmoid, torch.max, torch.sum, torch.mean, torch.matmul, F.*, or ANY PyTorch computation function in the EVOLVE-BLOCK. The ONLY allowed torch calls are: torch.randn, torch.zeros, torch.ones, torch.manual_seed, torch.tensor (for generating input data). Pre-computing the answer with PyTorch and loading it via LinearOffChipLoad will be DETECTED AND REJECTED WITH SCORE 0. ALL computation must use STeP IR operators.
 
 ## Available Functions
 

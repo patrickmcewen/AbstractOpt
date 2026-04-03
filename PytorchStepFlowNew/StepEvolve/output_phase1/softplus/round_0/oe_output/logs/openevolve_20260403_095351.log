@@ -1,0 +1,1224 @@
+2026-04-03 09:53:51,277 - openevolve.controller - INFO - Logging to output_phase1/softplus/round_0/oe_output/logs/openevolve_20260403_095351.log
+2026-04-03 09:53:51,278 - openevolve.controller - INFO - Set random seed to 42 for reproducibility
+2026-04-03 09:53:51,319 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2026-04-03 09:53:51,320 - openevolve.database - INFO - Initialized program database with 0 programs
+2026-04-03 09:53:51,321 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output_phase1/softplus/round_0/evaluator.py
+2026-04-03 09:53:51,321 - openevolve.evaluator - INFO - Initialized evaluator with output_phase1/softplus/round_0/evaluator.py
+2026-04-03 09:53:51,321 - openevolve.controller - INFO - Initialized OpenEvolve with output_phase1/softplus/round_0/seed.py
+2026-04-03 09:53:51,321 - openevolve.controller - INFO - Adding initial program to database
+2026-04-03 09:53:51,323 - openevolve.evaluator - ERROR - Error in stage 1 evaluation: name 'output_op' is not defined
+2026-04-03 09:53:51,326 - openevolve.evaluator - INFO - Evaluated program 3ce04a09-d133-405d-bad3-8ff00f9392c0 in 0.00s: stage1_passed=0.0000, error=0.0000
+2026-04-03 09:53:51,326 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 50}
+2026-04-03 09:53:51,326 - openevolve.controller - WARNING - ⚠️  No 'combined_score' metric found in evaluation results. Using average of all numeric metrics (0.0000) for evolution guidance. For better evolution results, please modify your evaluator to return a 'combined_score' metric that properly weights different aspects of program performance.
+2026-04-03 09:53:51,326 - openevolve.process_parallel - INFO - Initialized process parallel controller with 1 workers
+2026-04-03 09:53:51,328 - openevolve.process_parallel - INFO - Started process pool with 1 processes
+2026-04-03 09:53:51,328 - openevolve.controller - INFO - Using island-based evolution with 3 islands
+2026-04-03 09:53:51,328 - openevolve.database - INFO - Island Status:
+2026-04-03 09:53:51,329 - openevolve.database - INFO -  * Island 0: 1 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0 (best: 3ce04a09-d133-405d-bad3-8ff00f9392c0)
+2026-04-03 09:53:51,329 - openevolve.database - INFO -    Island 1: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2026-04-03 09:53:51,329 - openevolve.database - INFO -    Island 2: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2026-04-03 09:53:51,329 - openevolve.process_parallel - INFO - Starting process-based evolution from iteration 1 for 100 iterations (total: 101)
+2026-04-03 09:53:51,339 - openevolve.process_parallel - INFO - Early stopping disabled
+2026-04-03 09:53:51,425 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2026-04-03 09:53:51,426 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output_phase1/softplus/round_0/evaluator.py
+2026-04-03 09:53:51,426 - openevolve.evaluator - INFO - Initialized evaluator with output_phase1/softplus/round_0/evaluator.py
+2026-04-03 09:53:51,427 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:53:58,500 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:54:00,330 - openevolve.evaluator - INFO - Evaluated program 1d7fabf7-9320-42b7-99ba-41c7de865a25 in 1.83s: combined_score=0.5000, success=0.0000, cycles=209.0000, max_diff=0.6931
+2026-04-03 09:54:00,331 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:54:00,341 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 99}
+2026-04-03 09:54:00,341 - openevolve.database - INFO - New best program 1d7fabf7-9320-42b7-99ba-41c7de865a25 replaces 3ce04a09-d133-405d-bad3-8ff00f9392c0
+2026-04-03 09:54:00,341 - openevolve.process_parallel - INFO - Iteration 1: Program 1d7fabf7-9320-42b7-99ba-41c7de865a25 (parent: 3ce04a09-d133-405d-bad3-8ff00f9392c0) completed in 8.90s
+2026-04-03 09:54:00,341 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=209.0000, max_diff=0.6931
+2026-04-03 09:54:00,341 - openevolve.process_parallel - INFO - 🌟 New best solution found at iteration 1: 1d7fabf7-9320-42b7-99ba-41c7de865a25
+2026-04-03 09:54:07,213 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:54:09,013 - openevolve.evaluator - INFO - Evaluated program a6690060-5dd9-40c0-abfa-2b753b52a315 in 1.80s: combined_score=0.5000, success=0.0000, cycles=209.0000, max_diff=0.6931
+2026-04-03 09:54:09,015 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:54:09,021 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 99}
+2026-04-03 09:54:09,022 - openevolve.process_parallel - INFO - Iteration 2: Program a6690060-5dd9-40c0-abfa-2b753b52a315 (parent: 3ce04a09-d133-405d-bad3-8ff00f9392c0) completed in 8.68s
+2026-04-03 09:54:09,022 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=209.0000, max_diff=0.6931
+2026-04-03 09:54:15,893 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:54:17,717 - openevolve.evaluator - INFO - Evaluated program f373ca6b-2815-4e79-9b32-9741e4cf3c23 in 1.82s: combined_score=0.5000, success=0.0000, cycles=209.0000, max_diff=0.6931
+2026-04-03 09:54:17,719 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:54:17,721 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 99}
+2026-04-03 09:54:17,721 - openevolve.process_parallel - INFO - Iteration 3: Program f373ca6b-2815-4e79-9b32-9741e4cf3c23 (parent: 3ce04a09-d133-405d-bad3-8ff00f9392c0) completed in 8.70s
+2026-04-03 09:54:17,721 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=209.0000, max_diff=0.6931
+2026-04-03 09:54:24,587 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:54:26,394 - openevolve.evaluator - INFO - Evaluated program ed4d1a3d-2ce8-4c51-ae26-d18a97156b5f in 1.80s: combined_score=0.5000, success=0.0000, cycles=207.0000, max_diff=0.6931
+2026-04-03 09:54:26,395 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:54:26,396 - openevolve.process_parallel - INFO - Iteration 4: Program ed4d1a3d-2ce8-4c51-ae26-d18a97156b5f (parent: 1d7fabf7-9320-42b7-99ba-41c7de865a25) completed in 8.68s
+2026-04-03 09:54:26,397 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=207.0000, max_diff=0.6931
+2026-04-03 09:54:35,398 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:54:37,282 - openevolve.evaluator - INFO - Evaluated program 3bee6e99-9218-4b1c-b36b-80c7de07a519 in 1.88s: combined_score=0.5000, success=0.0000, cycles=251.0000, max_diff=0.3069
+2026-04-03 09:54:37,285 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:54:37,285 - openevolve.process_parallel - INFO - Iteration 5: Program 3bee6e99-9218-4b1c-b36b-80c7de07a519 (parent: a6690060-5dd9-40c0-abfa-2b753b52a315) completed in 10.89s
+2026-04-03 09:54:37,286 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=251.0000, max_diff=0.3069
+2026-04-03 09:54:46,282 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:54:48,130 - openevolve.evaluator - INFO - Evaluated program fb27a51d-5aa6-48a7-9f58-d3b3d5cccf75 in 1.85s: combined_score=0.5000, success=0.0000, cycles=251.0000, max_diff=0.3069
+2026-04-03 09:54:48,132 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:54:48,136 - openevolve.process_parallel - INFO - Iteration 6: Program fb27a51d-5aa6-48a7-9f58-d3b3d5cccf75 (parent: f373ca6b-2815-4e79-9b32-9741e4cf3c23) completed in 10.85s
+2026-04-03 09:54:48,136 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=251.0000, max_diff=0.3069
+2026-04-03 09:54:55,572 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:54:57,380 - openevolve.evaluator - INFO - Evaluated program 184bd8e7-fe15-4144-8491-957ec72d6a9f in 1.81s: combined_score=0.5000, success=0.0000, cycles=207.0000, max_diff=0.6931
+2026-04-03 09:54:57,382 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:54:57,386 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 70}
+2026-04-03 09:54:57,387 - openevolve.process_parallel - INFO - Iteration 7: Program 184bd8e7-fe15-4144-8491-957ec72d6a9f (parent: 1d7fabf7-9320-42b7-99ba-41c7de865a25) completed in 9.25s
+2026-04-03 09:54:57,387 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=207.0000, max_diff=0.6931
+2026-04-03 09:55:06,071 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:55:07,887 - openevolve.evaluator - INFO - Evaluated program d474055f-6836-4bae-a778-21d7c389d7ef in 1.81s: combined_score=0.5000, success=0.0000, cycles=251.0000, max_diff=0.3069
+2026-04-03 09:55:07,889 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:55:07,893 - openevolve.process_parallel - INFO - Iteration 8: Program d474055f-6836-4bae-a778-21d7c389d7ef (parent: a6690060-5dd9-40c0-abfa-2b753b52a315) completed in 10.51s
+2026-04-03 09:55:07,893 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=251.0000, max_diff=0.3069
+2026-04-03 09:55:22,003 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:55:23,812 - openevolve.evaluator - INFO - Evaluated program 5deee602-f012-432d-baa8-47427441cbb8 in 1.80s: combined_score=0.5000, success=0.0000, cycles=231.0000, max_diff=0.3069
+2026-04-03 09:55:23,814 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:55:23,819 - openevolve.process_parallel - INFO - Iteration 9: Program 5deee602-f012-432d-baa8-47427441cbb8 (parent: fb27a51d-5aa6-48a7-9f58-d3b3d5cccf75) completed in 15.92s
+2026-04-03 09:55:23,819 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=231.0000, max_diff=0.3069
+2026-04-03 09:55:31,946 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:55:33,743 - openevolve.evaluator - INFO - Evaluated program e2dd3d92-6334-4bb2-a309-09b88888212c in 1.79s: combined_score=0.5000, success=0.0000, cycles=195.0000, max_diff=0.6931
+2026-04-03 09:55:33,745 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 76}
+2026-04-03 09:55:33,745 - openevolve.process_parallel - INFO - Iteration 10: Program e2dd3d92-6334-4bb2-a309-09b88888212c (parent: 184bd8e7-fe15-4144-8491-957ec72d6a9f) completed in 9.93s
+2026-04-03 09:55:33,745 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:55:33,746 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=195.0000, max_diff=0.6931
+2026-04-03 09:55:39,909 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:55:41,711 - openevolve.evaluator - INFO - Evaluated program 87c1054f-7e30-4cc2-b6dd-2359eccd785e in 1.80s: combined_score=0.5000, success=0.0000, cycles=251.0000, max_diff=0.3069
+2026-04-03 09:55:41,713 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:55:41,718 - openevolve.process_parallel - INFO - Iteration 11: Program 87c1054f-7e30-4cc2-b6dd-2359eccd785e (parent: a6690060-5dd9-40c0-abfa-2b753b52a315) completed in 7.97s
+2026-04-03 09:55:41,719 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=251.0000, max_diff=0.3069
+2026-04-03 09:55:53,268 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:55:55,100 - openevolve.evaluator - INFO - Evaluated program 7f13fa71-9983-45ce-9454-0a215f71d830 in 1.83s: combined_score=0.5000, success=0.0000, cycles=230.0000, max_diff=0.3069
+2026-04-03 09:55:55,102 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:55:55,105 - openevolve.process_parallel - INFO - Iteration 12: Program 7f13fa71-9983-45ce-9454-0a215f71d830 (parent: f373ca6b-2815-4e79-9b32-9741e4cf3c23) completed in 13.39s
+2026-04-03 09:55:55,105 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=230.0000, max_diff=0.3069
+2026-04-03 09:56:01,898 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:56:03,710 - openevolve.evaluator - INFO - Evaluated program 7532eeaf-9892-40f8-992f-e8e29660f550 in 1.81s: combined_score=0.5000, success=0.0000, cycles=195.0000, max_diff=0.6931
+2026-04-03 09:56:03,712 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:56:03,718 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 78}
+2026-04-03 09:56:03,719 - openevolve.process_parallel - INFO - Iteration 13: Program 7532eeaf-9892-40f8-992f-e8e29660f550 (parent: 184bd8e7-fe15-4144-8491-957ec72d6a9f) completed in 8.61s
+2026-04-03 09:56:03,719 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=195.0000, max_diff=0.6931
+2026-04-03 09:56:13,398 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:56:15,207 - openevolve.evaluator - INFO - Evaluated program e3d8a4bc-2286-4c41-988a-2d00266c26ea in 1.81s: combined_score=0.5000, success=0.0000, cycles=246.0000, max_diff=0.3069
+2026-04-03 09:56:15,209 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:56:15,214 - openevolve.process_parallel - INFO - Iteration 14: Program e3d8a4bc-2286-4c41-988a-2d00266c26ea (parent: a6690060-5dd9-40c0-abfa-2b753b52a315) completed in 11.50s
+2026-04-03 09:56:15,214 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=246.0000, max_diff=0.3069
+2026-04-03 09:56:23,330 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:56:25,168 - openevolve.evaluator - INFO - Evaluated program d6f2c194-4431-4522-b40b-37b070d0ca13 in 1.83s: combined_score=0.5000, success=0.0000, cycles=235.0000, max_diff=0.3069
+2026-04-03 09:56:25,170 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:56:25,179 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 97}
+2026-04-03 09:56:25,179 - openevolve.process_parallel - INFO - Iteration 15: Program d6f2c194-4431-4522-b40b-37b070d0ca13 (parent: f373ca6b-2815-4e79-9b32-9741e4cf3c23) completed in 9.96s
+2026-04-03 09:56:25,179 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=235.0000, max_diff=0.3069
+2026-04-03 09:56:35,135 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:56:36,926 - openevolve.evaluator - INFO - Evaluated program 49cd82ae-1f69-401c-8684-56ed549e4806 in 1.79s: combined_score=0.5000, success=0.0000, cycles=195.0000, max_diff=0.6931
+2026-04-03 09:56:36,928 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:56:36,930 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 66}
+2026-04-03 09:56:36,931 - openevolve.process_parallel - INFO - Iteration 16: Program 49cd82ae-1f69-401c-8684-56ed549e4806 (parent: 1d7fabf7-9320-42b7-99ba-41c7de865a25) completed in 11.76s
+2026-04-03 09:56:36,931 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=195.0000, max_diff=0.6931
+2026-04-03 09:56:46,992 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:56:48,864 - openevolve.evaluator - INFO - Evaluated program 8b73d604-0fe9-4063-9b3c-cd7fe94b66e1 in 1.87s: combined_score=0.5000, success=0.0000, cycles=273.0000, max_diff=3.8151
+2026-04-03 09:56:48,867 - openevolve.process_parallel - INFO - Iteration 17: Program 8b73d604-0fe9-4063-9b3c-cd7fe94b66e1 (parent: 3bee6e99-9218-4b1c-b36b-80c7de07a519) completed in 11.94s
+2026-04-03 09:56:48,867 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=273.0000, max_diff=3.8151
+2026-04-03 09:56:48,867 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:56:59,625 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:57:01,449 - openevolve.evaluator - INFO - Evaluated program 26635728-22e6-4876-b82d-a70d5a414833 in 1.82s: combined_score=0.5000, success=0.0000, cycles=263.0000, max_diff=0.3069
+2026-04-03 09:57:01,452 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:57:01,453 - openevolve.process_parallel - INFO - Iteration 18: Program 26635728-22e6-4876-b82d-a70d5a414833 (parent: d6f2c194-4431-4522-b40b-37b070d0ca13) completed in 12.58s
+2026-04-03 09:57:01,453 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=263.0000, max_diff=0.3069
+2026-04-03 09:57:08,690 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:57:10,508 - openevolve.evaluator - INFO - Evaluated program bcc6aa6c-713d-4a5a-b2ff-dbf3e9742254 in 1.81s: combined_score=0.5000, success=0.0000, cycles=194.0000, max_diff=0.6931
+2026-04-03 09:57:10,510 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:57:10,517 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 62}
+2026-04-03 09:57:10,517 - openevolve.process_parallel - INFO - Iteration 19: Program bcc6aa6c-713d-4a5a-b2ff-dbf3e9742254 (parent: 184bd8e7-fe15-4144-8491-957ec72d6a9f) completed in 9.06s
+2026-04-03 09:57:10,517 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=194.0000, max_diff=0.6931
+2026-04-03 09:57:20,841 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:57:22,713 - openevolve.evaluator - INFO - Evaluated program 782a4245-13c8-44c7-80da-933dceaf859b in 1.87s: combined_score=0.5000, success=0.0000, cycles=274.0000, max_diff=0.3069
+2026-04-03 09:57:22,716 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:57:22,719 - openevolve.process_parallel - INFO - Iteration 20: Program 782a4245-13c8-44c7-80da-933dceaf859b (parent: e3d8a4bc-2286-4c41-988a-2d00266c26ea) completed in 12.20s
+2026-04-03 09:57:22,719 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=274.0000, max_diff=0.3069
+2026-04-03 09:57:30,370 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:57:32,195 - openevolve.evaluator - INFO - Evaluated program 3dfaf57f-6553-485a-a8be-6651d5c2f2f5 in 1.82s: combined_score=0.5000, success=0.0000, cycles=230.0000, max_diff=0.3069
+2026-04-03 09:57:32,198 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:57:32,206 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 78}
+2026-04-03 09:57:32,206 - openevolve.process_parallel - INFO - Iteration 21: Program 3dfaf57f-6553-485a-a8be-6651d5c2f2f5 (parent: f373ca6b-2815-4e79-9b32-9741e4cf3c23) completed in 9.48s
+2026-04-03 09:57:32,206 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=230.0000, max_diff=0.3069
+2026-04-03 09:57:38,026 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:57:39,826 - openevolve.evaluator - INFO - Evaluated program 4929c7dc-1206-4d09-a36f-21b777f64f0b in 1.80s: combined_score=0.5000, success=0.0000, cycles=195.0000, max_diff=0.6931
+2026-04-03 09:57:39,828 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:57:39,831 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 72}
+2026-04-03 09:57:39,831 - openevolve.process_parallel - INFO - Iteration 22: Program 4929c7dc-1206-4d09-a36f-21b777f64f0b (parent: 7532eeaf-9892-40f8-992f-e8e29660f550) completed in 7.63s
+2026-04-03 09:57:39,831 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=195.0000, max_diff=0.6931
+2026-04-03 09:57:51,108 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:57:52,928 - openevolve.evaluator - INFO - Evaluated program 4a7ede75-943e-42bb-b823-debd3e18f75a in 1.82s: combined_score=0.5000, success=0.0000, cycles=195.0000, max_diff=0.6931
+2026-04-03 09:57:52,931 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:57:52,931 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 49}
+2026-04-03 09:57:52,931 - openevolve.process_parallel - INFO - Iteration 23: Program 4a7ede75-943e-42bb-b823-debd3e18f75a (parent: e3d8a4bc-2286-4c41-988a-2d00266c26ea) completed in 13.10s
+2026-04-03 09:57:52,931 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=195.0000, max_diff=0.6931
+2026-04-03 09:58:04,323 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:58:06,126 - openevolve.evaluator - INFO - Evaluated program d098d877-4121-4773-84f1-6439c38604c9 in 1.80s: combined_score=0.5000, success=0.0000, cycles=287.0000, max_diff=0.3069
+2026-04-03 09:58:06,129 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:58:06,135 - openevolve.process_parallel - INFO - Iteration 24: Program d098d877-4121-4773-84f1-6439c38604c9 (parent: fb27a51d-5aa6-48a7-9f58-d3b3d5cccf75) completed in 13.20s
+2026-04-03 09:58:06,135 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=287.0000, max_diff=0.3069
+2026-04-03 09:58:19,277 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:58:21,120 - openevolve.evaluator - INFO - Evaluated program ffb201ca-ba38-4532-8806-c13d362e6a06 in 1.84s: combined_score=0.8511, success=1.0000, cycles=175.0000, max_diff=0.0000
+2026-04-03 09:58:21,122 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:58:21,129 - openevolve.database - INFO - Island 0 MAP-Elites cell improved: {'complexity': 62} (fitness: 0.500 -> 0.851)
+2026-04-03 09:58:21,130 - openevolve.database - INFO - New best program ffb201ca-ba38-4532-8806-c13d362e6a06 replaces 1d7fabf7-9320-42b7-99ba-41c7de865a25 (combined_score: 0.5000 → 0.8511, +0.3511)
+2026-04-03 09:58:21,130 - openevolve.process_parallel - INFO - Iteration 25: Program ffb201ca-ba38-4532-8806-c13d362e6a06 (parent: 4929c7dc-1206-4d09-a36f-21b777f64f0b) completed in 14.99s
+2026-04-03 09:58:21,130 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8511, success=1.0000, cycles=175.0000, max_diff=0.0000
+2026-04-03 09:58:21,130 - openevolve.process_parallel - INFO - 🌟 New best solution found at iteration 25: ffb201ca-ba38-4532-8806-c13d362e6a06
+2026-04-03 09:58:30,732 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:58:32,559 - openevolve.evaluator - INFO - Evaluated program 8b6b25ec-3ad0-4d90-81b8-cf4b0aa2d6ca in 1.82s: combined_score=0.5000, success=0.0000, cycles=302.0000, max_diff=0.3069
+2026-04-03 09:58:32,561 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:58:32,566 - openevolve.process_parallel - INFO - Iteration 26: Program 8b6b25ec-3ad0-4d90-81b8-cf4b0aa2d6ca (parent: 782a4245-13c8-44c7-80da-933dceaf859b) completed in 11.44s
+2026-04-03 09:58:32,567 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=302.0000, max_diff=0.3069
+2026-04-03 09:58:40,292 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:58:42,138 - openevolve.evaluator - INFO - Evaluated program 75869551-3e2d-4abd-a270-f6d0acd257fd in 1.84s: combined_score=0.5000, success=0.0000, cycles=287.0000, max_diff=0.3069
+2026-04-03 09:58:42,141 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:58:42,150 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 94}
+2026-04-03 09:58:42,150 - openevolve.process_parallel - INFO - Iteration 27: Program 75869551-3e2d-4abd-a270-f6d0acd257fd (parent: 7f13fa71-9983-45ce-9454-0a215f71d830) completed in 9.58s
+2026-04-03 09:58:42,150 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=287.0000, max_diff=0.3069
+2026-04-03 09:58:54,342 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:58:56,169 - openevolve.evaluator - INFO - Evaluated program 88ba69c3-8c25-448a-9461-d50c67e808f5 in 1.83s: combined_score=0.8511, success=1.0000, cycles=175.0000, max_diff=0.0000
+2026-04-03 09:58:56,172 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:58:56,172 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 51}
+2026-04-03 09:58:56,172 - openevolve.process_parallel - INFO - Iteration 28: Program 88ba69c3-8c25-448a-9461-d50c67e808f5 (parent: e2dd3d92-6334-4bb2-a309-09b88888212c) completed in 14.03s
+2026-04-03 09:58:56,172 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8511, success=1.0000, cycles=175.0000, max_diff=0.0000
+2026-04-03 09:59:04,273 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:59:06,232 - openevolve.evaluator - INFO - Evaluated program 7dd42597-67c9-4628-b365-4a097737f825 in 1.96s: combined_score=0.5000, success=0.0000, cycles=301.0000, max_diff=0.3069
+2026-04-03 09:59:06,235 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:59:06,240 - openevolve.process_parallel - INFO - Iteration 29: Program 7dd42597-67c9-4628-b365-4a097737f825 (parent: 782a4245-13c8-44c7-80da-933dceaf859b) completed in 10.06s
+2026-04-03 09:59:06,240 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=301.0000, max_diff=0.3069
+2026-04-03 09:59:13,633 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:59:15,471 - openevolve.evaluator - INFO - Evaluated program 4041fbab-0c19-4784-a676-acaec6e5b2e6 in 1.83s: combined_score=0.5000, success=0.0000, cycles=258.0000, max_diff=0.3069
+2026-04-03 09:59:15,474 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 80}
+2026-04-03 09:59:15,474 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:59:15,474 - openevolve.process_parallel - INFO - Iteration 30: Program 4041fbab-0c19-4784-a676-acaec6e5b2e6 (parent: 7f13fa71-9983-45ce-9454-0a215f71d830) completed in 9.24s
+2026-04-03 09:59:15,474 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=258.0000, max_diff=0.3069
+2026-04-03 09:59:21,264 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:59:23,074 - openevolve.evaluator - INFO - Evaluated program ba59a528-5b0d-4798-9bb6-8b8529bea8fe in 1.81s: combined_score=0.8511, success=1.0000, cycles=175.0000, max_diff=0.0000
+2026-04-03 09:59:23,077 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:59:23,080 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 40}
+2026-04-03 09:59:23,080 - openevolve.database - INFO - Island 0 MAP-Elites coverage reached 10.0% (10/100 cells)
+2026-04-03 09:59:23,080 - openevolve.process_parallel - INFO - Iteration 31: Program ba59a528-5b0d-4798-9bb6-8b8529bea8fe (parent: 3ce04a09-d133-405d-bad3-8ff00f9392c0) completed in 7.60s
+2026-04-03 09:59:23,080 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8511, success=1.0000, cycles=175.0000, max_diff=0.0000
+2026-04-03 09:59:31,449 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:59:33,269 - openevolve.evaluator - INFO - Evaluated program 47a86450-9439-460f-bf0c-dbebaa52233d in 1.82s: combined_score=0.5000, success=0.0000, cycles=274.0000, max_diff=0.3069
+2026-04-03 09:59:33,272 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 85}
+2026-04-03 09:59:33,272 - openevolve.process_parallel - INFO - Iteration 32: Program 47a86450-9439-460f-bf0c-dbebaa52233d (parent: 7dd42597-67c9-4628-b365-4a097737f825) completed in 10.19s
+2026-04-03 09:59:33,272 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=274.0000, max_diff=0.3069
+2026-04-03 09:59:33,272 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 09:59:49,323 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 09:59:51,119 - openevolve.evaluator - INFO - Evaluated program bf7514e1-fe48-4be2-aeff-0aaf51ea1216 in 1.79s: combined_score=0.5000, success=0.0000, cycles=262.0000, max_diff=0.3069
+2026-04-03 09:59:51,121 - openevolve.process_parallel - INFO - Iteration 33: Program bf7514e1-fe48-4be2-aeff-0aaf51ea1216 (parent: fb27a51d-5aa6-48a7-9f58-d3b3d5cccf75) completed in 17.85s
+2026-04-03 09:59:51,121 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=262.0000, max_diff=0.3069
+2026-04-03 09:59:51,121 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:00:07,949 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:00:09,754 - openevolve.evaluator - INFO - Evaluated program 0f6b61d8-7157-492b-8046-37d22e8e37ff in 1.80s: combined_score=0.8511, success=1.0000, cycles=175.0000, max_diff=0.0000
+2026-04-03 10:00:09,757 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:00:09,757 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 32}
+2026-04-03 10:00:09,757 - openevolve.process_parallel - INFO - Iteration 34: Program 0f6b61d8-7157-492b-8046-37d22e8e37ff (parent: 49cd82ae-1f69-401c-8684-56ed549e4806) completed in 18.63s
+2026-04-03 10:00:09,757 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8511, success=1.0000, cycles=175.0000, max_diff=0.0000
+2026-04-03 10:00:20,287 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:00:22,104 - openevolve.evaluator - INFO - Evaluated program 6fc9b811-829e-479c-be49-df1046530252 in 1.81s: combined_score=0.5000, success=0.0000, cycles=274.0000, max_diff=0.3069
+2026-04-03 10:00:22,107 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:00:22,111 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 84}
+2026-04-03 10:00:22,112 - openevolve.process_parallel - INFO - Iteration 35: Program 6fc9b811-829e-479c-be49-df1046530252 (parent: 7dd42597-67c9-4628-b365-4a097737f825) completed in 12.35s
+2026-04-03 10:00:22,112 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=274.0000, max_diff=0.3069
+2026-04-03 10:00:27,309 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:00:27,313 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:00:27,316 - openevolve.process_parallel - WARNING - Iteration 36 error: No valid diffs found in response
+2026-04-03 10:00:34,623 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:00:36,422 - openevolve.evaluator - INFO - Evaluated program d7954aac-7f61-486f-84a0-39ff7ddb8a79 in 1.80s: combined_score=0.8511, success=1.0000, cycles=175.0000, max_diff=0.0000
+2026-04-03 10:00:36,425 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:00:36,432 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 36}
+2026-04-03 10:00:36,432 - openevolve.process_parallel - INFO - Iteration 37: Program d7954aac-7f61-486f-84a0-39ff7ddb8a79 (parent: ed4d1a3d-2ce8-4c51-ae26-d18a97156b5f) completed in 9.11s
+2026-04-03 10:00:36,432 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8511, success=1.0000, cycles=175.0000, max_diff=0.0000
+2026-04-03 10:00:48,313 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:00:50,133 - openevolve.evaluator - INFO - Evaluated program 73401f66-2c3e-435e-bb2a-4cc22bfbd235 in 1.82s: combined_score=0.5000, success=0.0000, cycles=301.0000, max_diff=0.3069
+2026-04-03 10:00:50,136 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:00:50,142 - openevolve.process_parallel - INFO - Iteration 38: Program 73401f66-2c3e-435e-bb2a-4cc22bfbd235 (parent: 782a4245-13c8-44c7-80da-933dceaf859b) completed in 13.71s
+2026-04-03 10:00:50,142 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=301.0000, max_diff=0.3069
+2026-04-03 10:00:59,059 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:01:00,888 - openevolve.evaluator - INFO - Evaluated program 33b786d2-ae0f-465e-80de-86a9b5ccbe2e in 1.83s: combined_score=0.5000, success=0.0000, cycles=231.0000, max_diff=0.3069
+2026-04-03 10:01:00,890 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:01:00,896 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 64}
+2026-04-03 10:01:00,896 - openevolve.process_parallel - INFO - Iteration 39: Program 33b786d2-ae0f-465e-80de-86a9b5ccbe2e (parent: f373ca6b-2815-4e79-9b32-9741e4cf3c23) completed in 10.75s
+2026-04-03 10:01:00,896 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=231.0000, max_diff=0.3069
+2026-04-03 10:01:05,431 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:01:07,224 - openevolve.evaluator - INFO - Evaluated program 37138529-eb6b-465b-b747-5f5221a25c15 in 1.79s: combined_score=0.8511, success=1.0000, cycles=175.0000, max_diff=0.0000
+2026-04-03 10:01:07,227 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:01:07,229 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 49}
+2026-04-03 10:01:07,230 - openevolve.process_parallel - INFO - Iteration 40: Program 37138529-eb6b-465b-b747-5f5221a25c15 (parent: 88ba69c3-8c25-448a-9461-d50c67e808f5) completed in 6.33s
+2026-04-03 10:01:07,230 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8511, success=1.0000, cycles=175.0000, max_diff=0.0000
+2026-04-03 10:01:13,008 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:01:14,822 - openevolve.evaluator - INFO - Evaluated program 743a3ff7-f0dd-4f6b-9890-8ae74f7bd416 in 1.81s: combined_score=0.5000, success=0.0000, cycles=245.0000, max_diff=0.3069
+2026-04-03 10:01:14,825 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:01:14,833 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 63}
+2026-04-03 10:01:14,833 - openevolve.process_parallel - INFO - Iteration 41: Program 743a3ff7-f0dd-4f6b-9890-8ae74f7bd416 (parent: 4a7ede75-943e-42bb-b823-debd3e18f75a) completed in 7.60s
+2026-04-03 10:01:14,833 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=245.0000, max_diff=0.3069
+2026-04-03 10:01:32,511 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:01:34,328 - openevolve.evaluator - INFO - Evaluated program 47a03749-2025-41bb-b865-be3ac8a170c2 in 1.81s: combined_score=0.5000, success=0.0000, cycles=314.0000, max_diff=0.3069
+2026-04-03 10:01:34,332 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:01:34,340 - openevolve.process_parallel - INFO - Iteration 42: Program 47a03749-2025-41bb-b865-be3ac8a170c2 (parent: d098d877-4121-4773-84f1-6439c38604c9) completed in 19.51s
+2026-04-03 10:01:34,340 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=314.0000, max_diff=0.3069
+2026-04-03 10:01:46,806 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:01:48,689 - openevolve.evaluator - INFO - Evaluated program 16fb4e4e-82de-4069-ab7d-3da8ddce2b17 in 1.88s: combined_score=0.8511, success=1.0000, cycles=175.0000, max_diff=0.0000
+2026-04-03 10:01:48,691 - openevolve.process_parallel - INFO - Iteration 43: Program 16fb4e4e-82de-4069-ab7d-3da8ddce2b17 (parent: 4929c7dc-1206-4d09-a36f-21b777f64f0b) completed in 14.36s
+2026-04-03 10:01:48,692 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8511, success=1.0000, cycles=175.0000, max_diff=0.0000
+2026-04-03 10:01:48,692 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:01:59,461 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:02:01,293 - openevolve.evaluator - INFO - Evaluated program 085f0c4b-cf04-49fb-a75f-793c235b43bb in 1.83s: combined_score=0.5000, success=0.0000, cycles=301.0000, max_diff=0.3069
+2026-04-03 10:02:01,296 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:02:01,305 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 90}
+2026-04-03 10:02:01,305 - openevolve.process_parallel - INFO - Iteration 44: Program 085f0c4b-cf04-49fb-a75f-793c235b43bb (parent: e3d8a4bc-2286-4c41-988a-2d00266c26ea) completed in 12.60s
+2026-04-03 10:02:01,305 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=301.0000, max_diff=0.3069
+2026-04-03 10:02:11,934 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:02:13,784 - openevolve.evaluator - INFO - Evaluated program 7305e1e6-3cc0-4d68-975f-9c2d05c72755 in 1.85s: combined_score=0.5000, success=0.0000, cycles=236.0000, max_diff=0.3069
+2026-04-03 10:02:13,787 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:02:13,789 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 58}
+2026-04-03 10:02:13,789 - openevolve.process_parallel - INFO - Iteration 45: Program 7305e1e6-3cc0-4d68-975f-9c2d05c72755 (parent: f373ca6b-2815-4e79-9b32-9741e4cf3c23) completed in 12.49s
+2026-04-03 10:02:13,789 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=236.0000, max_diff=0.3069
+2026-04-03 10:02:22,054 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:02:23,875 - openevolve.evaluator - INFO - Evaluated program 2b97bead-31dd-4f27-ad63-71832ed517a9 in 1.82s: combined_score=0.5000, success=0.0000, cycles=195.0000, max_diff=0.6931
+2026-04-03 10:02:23,878 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:02:23,884 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 39}
+2026-04-03 10:02:23,884 - openevolve.process_parallel - INFO - Iteration 46: Program 2b97bead-31dd-4f27-ad63-71832ed517a9 (parent: 3ce04a09-d133-405d-bad3-8ff00f9392c0) completed in 10.09s
+2026-04-03 10:02:23,884 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=195.0000, max_diff=0.6931
+2026-04-03 10:02:35,416 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:02:37,268 - openevolve.evaluator - INFO - Evaluated program 3530247e-8cdc-45cb-9053-a9d17fbff2e5 in 1.85s: combined_score=0.5000, success=0.0000, cycles=274.0000, max_diff=0.3069
+2026-04-03 10:02:37,271 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:02:37,274 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 77}
+2026-04-03 10:02:37,274 - openevolve.process_parallel - INFO - Iteration 47: Program 3530247e-8cdc-45cb-9053-a9d17fbff2e5 (parent: 7dd42597-67c9-4628-b365-4a097737f825) completed in 13.39s
+2026-04-03 10:02:37,274 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=274.0000, max_diff=0.3069
+2026-04-03 10:02:47,487 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:02:49,323 - openevolve.evaluator - INFO - Evaluated program 7cb93f80-8ec5-4dfc-9b0f-87a261a3bca0 in 1.83s: combined_score=0.5000, success=0.0000, cycles=286.0000, max_diff=0.3069
+2026-04-03 10:02:49,326 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:02:49,327 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 84}
+2026-04-03 10:02:49,327 - openevolve.process_parallel - INFO - Iteration 48: Program 7cb93f80-8ec5-4dfc-9b0f-87a261a3bca0 (parent: 5deee602-f012-432d-baa8-47427441cbb8) completed in 12.05s
+2026-04-03 10:02:49,327 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=286.0000, max_diff=0.3069
+2026-04-03 10:02:56,942 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:02:58,746 - openevolve.evaluator - INFO - Evaluated program 896356e2-1193-4d78-87a4-54b7657e144e in 1.80s: combined_score=0.8511, success=1.0000, cycles=175.0000, max_diff=0.0000
+2026-04-03 10:02:58,748 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:02:58,755 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 43}
+2026-04-03 10:02:58,755 - openevolve.process_parallel - INFO - Iteration 49: Program 896356e2-1193-4d78-87a4-54b7657e144e (parent: 184bd8e7-fe15-4144-8491-957ec72d6a9f) completed in 9.42s
+2026-04-03 10:02:58,755 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8511, success=1.0000, cycles=175.0000, max_diff=0.0000
+2026-04-03 10:03:08,881 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:03:10,724 - openevolve.evaluator - INFO - Evaluated program 2565321f-53f2-4b60-8ef1-c8c03d509ceb in 1.84s: combined_score=0.5000, success=0.0000, cycles=302.0000, max_diff=0.3069
+2026-04-03 10:03:10,727 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:03:10,727 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 87}
+2026-04-03 10:03:10,727 - openevolve.process_parallel - INFO - Iteration 50: Program 2565321f-53f2-4b60-8ef1-c8c03d509ceb (parent: 87c1054f-7e30-4cc2-b6dd-2359eccd785e) completed in 11.98s
+2026-04-03 10:03:10,727 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=302.0000, max_diff=0.3069
+2026-04-03 10:03:20,843 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:03:22,659 - openevolve.evaluator - INFO - Evaluated program e7c52f05-0cb0-4858-8f6d-a1a178a01371 in 1.81s: combined_score=0.5000, success=0.0000, cycles=259.0000, max_diff=0.3069
+2026-04-03 10:03:22,663 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:03:22,665 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 72}
+2026-04-03 10:03:22,665 - openevolve.process_parallel - INFO - Iteration 51: Program e7c52f05-0cb0-4858-8f6d-a1a178a01371 (parent: 33b786d2-ae0f-465e-80de-86a9b5ccbe2e) completed in 11.93s
+2026-04-03 10:03:22,665 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=259.0000, max_diff=0.3069
+2026-04-03 10:03:27,389 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:03:29,223 - openevolve.evaluator - INFO - Evaluated program eba12b7c-a508-468e-9cff-cc7c75cc730e in 1.83s: combined_score=0.8511, success=1.0000, cycles=175.0000, max_diff=0.0000
+2026-04-03 10:03:29,225 - openevolve.process_parallel - INFO - Iteration 52: Program eba12b7c-a508-468e-9cff-cc7c75cc730e (parent: ba59a528-5b0d-4798-9bb6-8b8529bea8fe) completed in 6.56s
+2026-04-03 10:03:29,225 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8511, success=1.0000, cycles=175.0000, max_diff=0.0000
+2026-04-03 10:03:29,226 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:03:40,712 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:03:42,540 - openevolve.evaluator - INFO - Evaluated program ec85de7b-e019-43b1-bc1b-0a8ce43602d4 in 1.83s: combined_score=0.5000, success=0.0000, cycles=301.0000, max_diff=0.3069
+2026-04-03 10:03:42,543 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:03:42,548 - openevolve.process_parallel - INFO - Iteration 53: Program ec85de7b-e019-43b1-bc1b-0a8ce43602d4 (parent: 3530247e-8cdc-45cb-9053-a9d17fbff2e5) completed in 13.32s
+2026-04-03 10:03:42,548 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=301.0000, max_diff=0.3069
+2026-04-03 10:03:49,020 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:03:50,848 - openevolve.evaluator - INFO - Evaluated program f1d4b2d5-c74a-4bb8-96d0-048b2be6cf30 in 1.83s: combined_score=0.5000, success=0.0000, cycles=265.0000, max_diff=0.3069
+2026-04-03 10:03:50,851 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:03:50,854 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 71}
+2026-04-03 10:03:50,854 - openevolve.database - INFO - Island 2 MAP-Elites coverage reached 10.0% (10/100 cells)
+2026-04-03 10:03:50,854 - openevolve.process_parallel - INFO - Iteration 54: Program f1d4b2d5-c74a-4bb8-96d0-048b2be6cf30 (parent: 7305e1e6-3cc0-4d68-975f-9c2d05c72755) completed in 8.31s
+2026-04-03 10:03:50,854 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=265.0000, max_diff=0.3069
+2026-04-03 10:03:56,891 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:03:58,694 - openevolve.evaluator - INFO - Evaluated program 3990cfa3-ae36-4e26-ba27-5a1fe6784049 in 1.80s: combined_score=0.8511, success=1.0000, cycles=175.0000, max_diff=0.0000
+2026-04-03 10:03:58,696 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:03:58,703 - openevolve.process_parallel - INFO - Iteration 55: Program 3990cfa3-ae36-4e26-ba27-5a1fe6784049 (parent: 49cd82ae-1f69-401c-8684-56ed549e4806) completed in 7.84s
+2026-04-03 10:03:58,703 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8511, success=1.0000, cycles=175.0000, max_diff=0.0000
+2026-04-03 10:04:10,665 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:04:12,480 - openevolve.evaluator - INFO - Evaluated program 02afd36a-471c-4fb4-ae24-9db777bcef79 in 1.81s: combined_score=0.5000, success=0.0000, cycles=274.0000, max_diff=0.3069
+2026-04-03 10:04:12,483 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:04:12,483 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 75}
+2026-04-03 10:04:12,484 - openevolve.process_parallel - INFO - Iteration 56: Program 02afd36a-471c-4fb4-ae24-9db777bcef79 (parent: 6fc9b811-829e-479c-be49-df1046530252) completed in 13.78s
+2026-04-03 10:04:12,484 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=274.0000, max_diff=0.3069
+2026-04-03 10:04:20,541 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:04:22,378 - openevolve.evaluator - INFO - Evaluated program 78285424-a7da-44b7-88cb-364b5f6c60b9 in 1.83s: combined_score=0.5000, success=0.0000, cycles=258.0000, max_diff=0.3069
+2026-04-03 10:04:22,381 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:04:22,389 - openevolve.process_parallel - INFO - Iteration 57: Program 78285424-a7da-44b7-88cb-364b5f6c60b9 (parent: 3dfaf57f-6553-485a-a8be-6651d5c2f2f5) completed in 9.90s
+2026-04-03 10:04:22,389 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=258.0000, max_diff=0.3069
+2026-04-03 10:04:31,518 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:04:33,287 - openevolve.evaluator - INFO - Evaluated program 9e966aa5-5ebb-4565-b771-a5c900d50b5a in 1.77s: combined_score=0.9346, success=1.0000, cycles=70.0000, max_diff=0.0000
+2026-04-03 10:04:33,290 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:04:33,293 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 35}
+2026-04-03 10:04:33,293 - openevolve.database - INFO - New best program 9e966aa5-5ebb-4565-b771-a5c900d50b5a replaces ffb201ca-ba38-4532-8806-c13d362e6a06 (combined_score: 0.8511 → 0.9346, +0.0835)
+2026-04-03 10:04:33,293 - openevolve.process_parallel - INFO - Iteration 58: Program 9e966aa5-5ebb-4565-b771-a5c900d50b5a (parent: 0f6b61d8-7157-492b-8046-37d22e8e37ff) completed in 10.91s
+2026-04-03 10:04:33,294 - openevolve.process_parallel - INFO - Metrics: combined_score=0.9346, success=1.0000, cycles=70.0000, max_diff=0.0000
+2026-04-03 10:04:33,294 - openevolve.process_parallel - INFO - 🌟 New best solution found at iteration 58: 9e966aa5-5ebb-4565-b771-a5c900d50b5a
+2026-04-03 10:04:46,668 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:04:48,477 - openevolve.evaluator - INFO - Evaluated program dbe63971-eb18-480c-8c3c-c44a0a922cc4 in 1.81s: combined_score=0.5000, success=0.0000, cycles=301.0000, max_diff=0.3069
+2026-04-03 10:04:48,480 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:04:48,488 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 83}
+2026-04-03 10:04:48,489 - openevolve.database - INFO - Island 1 MAP-Elites coverage reached 10.0% (10/100 cells)
+2026-04-03 10:04:48,489 - openevolve.process_parallel - INFO - Iteration 59: Program dbe63971-eb18-480c-8c3c-c44a0a922cc4 (parent: 743a3ff7-f0dd-4f6b-9890-8ae74f7bd416) completed in 15.19s
+2026-04-03 10:04:48,489 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=301.0000, max_diff=0.3069
+2026-04-03 10:04:55,513 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:04:57,314 - openevolve.evaluator - INFO - Evaluated program c27788d7-d618-4376-b86a-29c98163c49a in 1.80s: combined_score=0.5000, success=0.0000, cycles=262.0000, max_diff=0.3069
+2026-04-03 10:04:57,317 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 73}
+2026-04-03 10:04:57,317 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:04:57,317 - openevolve.process_parallel - INFO - Iteration 60: Program c27788d7-d618-4376-b86a-29c98163c49a (parent: 7305e1e6-3cc0-4d68-975f-9c2d05c72755) completed in 8.84s
+2026-04-03 10:04:57,317 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=262.0000, max_diff=0.3069
+2026-04-03 10:05:09,490 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:05:11,271 - openevolve.evaluator - INFO - Evaluated program 7c29b765-fba6-44bd-bce3-86c5de89613b in 1.78s: combined_score=0.9355, success=1.0000, cycles=69.0000, max_diff=0.0000
+2026-04-03 10:05:11,274 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:05:11,280 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 42}
+2026-04-03 10:05:11,280 - openevolve.database - INFO - New best program 7c29b765-fba6-44bd-bce3-86c5de89613b replaces 9e966aa5-5ebb-4565-b771-a5c900d50b5a (combined_score: 0.9346 → 0.9355, +0.0009)
+2026-04-03 10:05:11,280 - openevolve.process_parallel - INFO - Iteration 61: Program 7c29b765-fba6-44bd-bce3-86c5de89613b (parent: 49cd82ae-1f69-401c-8684-56ed549e4806) completed in 13.95s
+2026-04-03 10:05:11,280 - openevolve.process_parallel - INFO - Metrics: combined_score=0.9355, success=1.0000, cycles=69.0000, max_diff=0.0000
+2026-04-03 10:05:11,280 - openevolve.process_parallel - INFO - 🌟 New best solution found at iteration 61: 7c29b765-fba6-44bd-bce3-86c5de89613b
+2026-04-03 10:05:19,675 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:05:21,470 - openevolve.evaluator - INFO - Evaluated program 31e22c61-4aad-4bbd-b89f-86f1ea4b8f25 in 1.79s: combined_score=0.5000, success=0.0000, cycles=301.0000, max_diff=0.3069
+2026-04-03 10:05:21,473 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:05:21,477 - openevolve.process_parallel - INFO - Iteration 62: Program 31e22c61-4aad-4bbd-b89f-86f1ea4b8f25 (parent: 6fc9b811-829e-479c-be49-df1046530252) completed in 10.20s
+2026-04-03 10:05:21,478 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=301.0000, max_diff=0.3069
+2026-04-03 10:05:33,060 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:05:34,865 - openevolve.evaluator - INFO - Evaluated program 92d4b606-1463-4073-8ec1-9255d9a2f3eb in 1.80s: combined_score=0.5000, success=0.0000, cycles=302.0000, max_diff=0.3069
+2026-04-03 10:05:34,869 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:05:34,875 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 89}
+2026-04-03 10:05:34,875 - openevolve.process_parallel - INFO - Iteration 63: Program 92d4b606-1463-4073-8ec1-9255d9a2f3eb (parent: 47a03749-2025-41bb-b865-be3ac8a170c2) completed in 13.39s
+2026-04-03 10:05:34,875 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=302.0000, max_diff=0.3069
+2026-04-03 10:05:41,226 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:05:43,002 - openevolve.evaluator - INFO - Evaluated program e0e3c8ea-e9c4-4b3b-a1d0-d8780310a728 in 1.77s: combined_score=0.9346, success=1.0000, cycles=70.0000, max_diff=0.0000
+2026-04-03 10:05:43,004 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 41}
+2026-04-03 10:05:43,004 - openevolve.process_parallel - INFO - Iteration 64: Program e0e3c8ea-e9c4-4b3b-a1d0-d8780310a728 (parent: eba12b7c-a508-468e-9cff-cc7c75cc730e) completed in 8.13s
+2026-04-03 10:05:43,004 - openevolve.process_parallel - INFO - Metrics: combined_score=0.9346, success=1.0000, cycles=70.0000, max_diff=0.0000
+2026-04-03 10:05:43,005 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:05:51,270 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:05:53,060 - openevolve.evaluator - INFO - Evaluated program f8d04d27-7cbb-4476-8c1f-f9ad9ff072d1 in 1.79s: combined_score=0.5000, success=0.0000, cycles=280.0000, max_diff=0.3069
+2026-04-03 10:05:53,064 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:05:53,071 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 72}
+2026-04-03 10:05:53,071 - openevolve.process_parallel - INFO - Iteration 65: Program f8d04d27-7cbb-4476-8c1f-f9ad9ff072d1 (parent: 3bee6e99-9218-4b1c-b36b-80c7de07a519) completed in 10.06s
+2026-04-03 10:05:53,071 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=280.0000, max_diff=0.3069
+2026-04-03 10:06:04,255 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:06:06,054 - openevolve.evaluator - INFO - Evaluated program 766a6941-df8c-4ff0-aee4-d33649e998a2 in 1.80s: combined_score=0.5000, success=0.0000, cycles=258.0000, max_diff=0.3069
+2026-04-03 10:06:06,057 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:06:06,063 - openevolve.process_parallel - INFO - Iteration 66: Program 766a6941-df8c-4ff0-aee4-d33649e998a2 (parent: 33b786d2-ae0f-465e-80de-86a9b5ccbe2e) completed in 12.99s
+2026-04-03 10:06:06,063 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=258.0000, max_diff=0.3069
+2026-04-03 10:06:11,759 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:06:13,553 - openevolve.evaluator - INFO - Evaluated program 074a88a7-4a2c-4a73-9af4-39b7255a9ec5 in 1.79s: combined_score=0.9355, success=1.0000, cycles=69.0000, max_diff=0.0000
+2026-04-03 10:06:13,556 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:06:13,561 - openevolve.database - INFO - Island 0 MAP-Elites cell improved: {'complexity': 41} (fitness: 0.935 -> 0.935)
+2026-04-03 10:06:13,562 - openevolve.process_parallel - INFO - Iteration 67: Program 074a88a7-4a2c-4a73-9af4-39b7255a9ec5 (parent: eba12b7c-a508-468e-9cff-cc7c75cc730e) completed in 7.50s
+2026-04-03 10:06:13,562 - openevolve.process_parallel - INFO - Metrics: combined_score=0.9355, success=1.0000, cycles=69.0000, max_diff=0.0000
+2026-04-03 10:06:25,915 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:06:27,712 - openevolve.evaluator - INFO - Evaluated program 07da125c-6f50-4379-94f7-213cc337dd93 in 1.79s: combined_score=0.5000, success=0.0000, cycles=301.0000, max_diff=0.3069
+2026-04-03 10:06:27,716 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:06:27,719 - openevolve.process_parallel - INFO - Iteration 68: Program 07da125c-6f50-4379-94f7-213cc337dd93 (parent: dbe63971-eb18-480c-8c3c-c44a0a922cc4) completed in 14.16s
+2026-04-03 10:06:27,719 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=301.0000, max_diff=0.3069
+2026-04-03 10:06:37,783 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:06:39,594 - openevolve.evaluator - INFO - Evaluated program ce027a0d-0d0d-42af-bbdb-c7016e35b6b6 in 1.81s: combined_score=0.5000, success=0.0000, cycles=287.0000, max_diff=0.3069
+2026-04-03 10:06:39,597 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:06:39,602 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 85}
+2026-04-03 10:06:39,603 - openevolve.process_parallel - INFO - Iteration 69: Program ce027a0d-0d0d-42af-bbdb-c7016e35b6b6 (parent: f1d4b2d5-c74a-4bb8-96d0-048b2be6cf30) completed in 11.88s
+2026-04-03 10:06:39,603 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=287.0000, max_diff=0.3069
+2026-04-03 10:06:47,999 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:06:49,787 - openevolve.evaluator - INFO - Evaluated program d169bac2-6355-4b56-bd79-d13266be21a1 in 1.78s: combined_score=0.9346, success=1.0000, cycles=70.0000, max_diff=0.0000
+2026-04-03 10:06:49,790 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:06:49,791 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 38}
+2026-04-03 10:06:49,791 - openevolve.process_parallel - INFO - Iteration 70: Program d169bac2-6355-4b56-bd79-d13266be21a1 (parent: 16fb4e4e-82de-4069-ab7d-3da8ddce2b17) completed in 10.19s
+2026-04-03 10:06:49,791 - openevolve.process_parallel - INFO - Metrics: combined_score=0.9346, success=1.0000, cycles=70.0000, max_diff=0.0000
+2026-04-03 10:07:04,166 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:07:05,971 - openevolve.evaluator - INFO - Evaluated program 8a7846c8-41a2-4bd7-aa8a-069c7d410a23 in 1.80s: combined_score=0.5000, success=0.0000, cycles=301.0000, max_diff=0.3069
+2026-04-03 10:07:05,974 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:07:05,978 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 86}
+2026-04-03 10:07:05,978 - openevolve.process_parallel - INFO - Iteration 71: Program 8a7846c8-41a2-4bd7-aa8a-069c7d410a23 (parent: 87c1054f-7e30-4cc2-b6dd-2359eccd785e) completed in 16.18s
+2026-04-03 10:07:05,978 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=301.0000, max_diff=0.3069
+2026-04-03 10:07:12,954 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:07:14,766 - openevolve.evaluator - INFO - Evaluated program 2a9c967e-0022-4212-9c29-a4cbde9d111f in 1.81s: combined_score=0.5000, success=0.0000, cycles=286.0000, max_diff=0.3069
+2026-04-03 10:07:14,770 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:07:14,777 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 90}
+2026-04-03 10:07:14,777 - openevolve.process_parallel - INFO - Iteration 72: Program 2a9c967e-0022-4212-9c29-a4cbde9d111f (parent: e7c52f05-0cb0-4858-8f6d-a1a178a01371) completed in 8.79s
+2026-04-03 10:07:14,778 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=286.0000, max_diff=0.3069
+2026-04-03 10:07:21,890 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:07:23,695 - openevolve.evaluator - INFO - Evaluated program 0af7dddc-42f7-480a-a7b8-024740cfb914 in 1.80s: combined_score=0.9346, success=1.0000, cycles=70.0000, max_diff=0.0000
+2026-04-03 10:07:23,698 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:07:23,706 - openevolve.process_parallel - INFO - Iteration 73: Program 0af7dddc-42f7-480a-a7b8-024740cfb914 (parent: ba59a528-5b0d-4798-9bb6-8b8529bea8fe) completed in 8.93s
+2026-04-03 10:07:23,707 - openevolve.process_parallel - INFO - Metrics: combined_score=0.9346, success=1.0000, cycles=70.0000, max_diff=0.0000
+2026-04-03 10:07:34,460 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:07:36,299 - openevolve.evaluator - INFO - Evaluated program de3e19b3-b4ad-4848-a17a-9a37afba731c in 1.84s: combined_score=0.5000, success=0.0000, cycles=301.0000, max_diff=0.3069
+2026-04-03 10:07:36,301 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 89}
+2026-04-03 10:07:36,302 - openevolve.process_parallel - INFO - Iteration 74: Program de3e19b3-b4ad-4848-a17a-9a37afba731c (parent: 6fc9b811-829e-479c-be49-df1046530252) completed in 12.60s
+2026-04-03 10:07:36,302 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=301.0000, max_diff=0.3069
+2026-04-03 10:07:36,302 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:07:47,128 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:07:49,011 - openevolve.evaluator - INFO - Evaluated program 9d4b17a6-6bd5-434e-bc11-fca996f9cf9d in 1.88s: combined_score=0.5000, success=0.0000, cycles=314.0000, max_diff=0.3069
+2026-04-03 10:07:49,015 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:07:49,023 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 98}
+2026-04-03 10:07:49,023 - openevolve.process_parallel - INFO - Iteration 75: Program 9d4b17a6-6bd5-434e-bc11-fca996f9cf9d (parent: 75869551-3e2d-4abd-a270-f6d0acd257fd) completed in 12.71s
+2026-04-03 10:07:49,023 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=314.0000, max_diff=0.3069
+2026-04-03 10:07:55,879 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:07:57,706 - openevolve.evaluator - INFO - Evaluated program 01b999ad-324e-4e3c-b19d-0dc22d5579fa in 1.82s: combined_score=0.9346, success=1.0000, cycles=70.0000, max_diff=0.0000
+2026-04-03 10:07:57,710 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:07:57,715 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 47}
+2026-04-03 10:07:57,716 - openevolve.process_parallel - INFO - Iteration 76: Program 01b999ad-324e-4e3c-b19d-0dc22d5579fa (parent: 88ba69c3-8c25-448a-9461-d50c67e808f5) completed in 8.69s
+2026-04-03 10:07:57,716 - openevolve.process_parallel - INFO - Metrics: combined_score=0.9346, success=1.0000, cycles=70.0000, max_diff=0.0000
+2026-04-03 10:08:05,011 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:08:06,883 - openevolve.evaluator - INFO - Evaluated program d11f8833-9b94-4faa-afbf-7fb079456076 in 1.87s: combined_score=0.5000, success=0.0000, cycles=302.0000, max_diff=0.3069
+2026-04-03 10:08:06,886 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:08:06,892 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 92}
+2026-04-03 10:08:06,892 - openevolve.process_parallel - INFO - Iteration 77: Program d11f8833-9b94-4faa-afbf-7fb079456076 (parent: 782a4245-13c8-44c7-80da-933dceaf859b) completed in 9.17s
+2026-04-03 10:08:06,892 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=302.0000, max_diff=0.3069
+2026-04-03 10:08:16,326 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:08:18,158 - openevolve.evaluator - INFO - Evaluated program 1e47e4f8-f243-4e39-a64c-facdcf19019e in 1.83s: combined_score=0.5000, success=0.0000, cycles=314.0000, max_diff=0.3069
+2026-04-03 10:08:18,161 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:08:18,161 - openevolve.process_parallel - INFO - Iteration 78: Program 1e47e4f8-f243-4e39-a64c-facdcf19019e (parent: 2a9c967e-0022-4212-9c29-a4cbde9d111f) completed in 11.27s
+2026-04-03 10:08:18,162 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=314.0000, max_diff=0.3069
+2026-04-03 10:08:24,090 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:08:25,915 - openevolve.evaluator - INFO - Evaluated program bee54c52-2e98-4cd1-8202-aa2b6c44d6a3 in 1.82s: combined_score=0.9346, success=1.0000, cycles=70.0000, max_diff=0.0000
+2026-04-03 10:08:25,919 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:08:25,924 - openevolve.database - INFO - Island 0 MAP-Elites cell improved: {'complexity': 39} (fitness: 0.500 -> 0.935)
+2026-04-03 10:08:25,925 - openevolve.process_parallel - INFO - Iteration 79: Program bee54c52-2e98-4cd1-8202-aa2b6c44d6a3 (parent: ba59a528-5b0d-4798-9bb6-8b8529bea8fe) completed in 7.76s
+2026-04-03 10:08:25,925 - openevolve.process_parallel - INFO - Metrics: combined_score=0.9346, success=1.0000, cycles=70.0000, max_diff=0.0000
+2026-04-03 10:08:40,795 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:08:42,629 - openevolve.evaluator - INFO - Evaluated program 84352e1f-edcb-42e8-8cec-ebffcc1643ea in 1.83s: combined_score=0.5000, success=0.0000, cycles=274.0000, max_diff=0.3069
+2026-04-03 10:08:42,632 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:08:42,632 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 68}
+2026-04-03 10:08:42,632 - openevolve.process_parallel - INFO - Iteration 80: Program 84352e1f-edcb-42e8-8cec-ebffcc1643ea (parent: 07da125c-6f50-4379-94f7-213cc337dd93) completed in 16.71s
+2026-04-03 10:08:42,632 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=274.0000, max_diff=0.3069
+2026-04-03 10:08:49,956 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:08:51,833 - openevolve.evaluator - INFO - Evaluated program 785657a2-bf32-4a57-b228-23d36e1ac100 in 1.87s: combined_score=0.5000, success=0.0000, cycles=287.0000, max_diff=0.3069
+2026-04-03 10:08:51,836 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:08:51,842 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 83}
+2026-04-03 10:08:51,842 - openevolve.process_parallel - INFO - Iteration 81: Program 785657a2-bf32-4a57-b228-23d36e1ac100 (parent: 766a6941-df8c-4ff0-aee4-d33649e998a2) completed in 9.20s
+2026-04-03 10:08:51,842 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=287.0000, max_diff=0.3069
+2026-04-03 10:08:58,927 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:09:00,739 - openevolve.evaluator - INFO - Evaluated program 2fdc53fe-48fc-4911-b5d3-980a42c67ab3 in 1.81s: combined_score=0.8511, success=1.0000, cycles=175.0000, max_diff=0.0000
+2026-04-03 10:09:00,743 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:09:00,749 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 31}
+2026-04-03 10:09:00,750 - openevolve.process_parallel - INFO - Iteration 82: Program 2fdc53fe-48fc-4911-b5d3-980a42c67ab3 (parent: 7c29b765-fba6-44bd-bce3-86c5de89613b) completed in 8.90s
+2026-04-03 10:09:00,750 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8511, success=1.0000, cycles=175.0000, max_diff=0.0000
+2026-04-03 10:09:07,661 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:09:09,490 - openevolve.evaluator - INFO - Evaluated program 9e8f77c9-79bc-41ff-98bd-41290a367f90 in 1.83s: combined_score=0.5000, success=0.0000, cycles=301.0000, max_diff=0.3069
+2026-04-03 10:09:09,494 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:09:09,500 - openevolve.process_parallel - INFO - Iteration 83: Program 9e8f77c9-79bc-41ff-98bd-41290a367f90 (parent: 47a86450-9439-460f-bf0c-dbebaa52233d) completed in 8.75s
+2026-04-03 10:09:09,500 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=301.0000, max_diff=0.3069
+2026-04-03 10:09:25,622 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:09:27,450 - openevolve.evaluator - INFO - Evaluated program 7e3d9b61-28ca-49e4-adff-1e91b72585f7 in 1.83s: combined_score=0.5000, success=0.0000, cycles=301.0000, max_diff=0.3069
+2026-04-03 10:09:27,453 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:09:27,454 - openevolve.process_parallel - INFO - Iteration 84: Program 7e3d9b61-28ca-49e4-adff-1e91b72585f7 (parent: c27788d7-d618-4376-b86a-29c98163c49a) completed in 17.96s
+2026-04-03 10:09:27,454 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=301.0000, max_diff=0.3069
+2026-04-03 10:09:31,413 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:09:33,210 - openevolve.evaluator - INFO - Evaluated program b0f118cd-1795-4e7f-834c-9be450d1634e in 1.79s: combined_score=0.9346, success=1.0000, cycles=70.0000, max_diff=0.0000
+2026-04-03 10:09:33,214 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:09:33,220 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 37}
+2026-04-03 10:09:33,220 - openevolve.process_parallel - INFO - Iteration 85: Program b0f118cd-1795-4e7f-834c-9be450d1634e (parent: eba12b7c-a508-468e-9cff-cc7c75cc730e) completed in 5.76s
+2026-04-03 10:09:33,220 - openevolve.process_parallel - INFO - Metrics: combined_score=0.9346, success=1.0000, cycles=70.0000, max_diff=0.0000
+2026-04-03 10:09:42,590 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:09:44,419 - openevolve.evaluator - INFO - Evaluated program fff5494a-c847-40a0-ab19-8a81e83a240a in 1.83s: combined_score=0.5000, success=0.0000, cycles=273.0000, max_diff=0.3069
+2026-04-03 10:09:44,423 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:09:44,430 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 67}
+2026-04-03 10:09:44,431 - openevolve.process_parallel - INFO - Iteration 86: Program fff5494a-c847-40a0-ab19-8a81e83a240a (parent: 07da125c-6f50-4379-94f7-213cc337dd93) completed in 11.21s
+2026-04-03 10:09:44,431 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=273.0000, max_diff=0.3069
+2026-04-03 10:09:55,129 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:09:56,952 - openevolve.evaluator - INFO - Evaluated program 895d39c2-6764-4eae-86cd-cb58bd48537b in 1.82s: combined_score=0.5000, success=0.0000, cycles=258.0000, max_diff=0.3069
+2026-04-03 10:09:56,956 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:09:56,961 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 70}
+2026-04-03 10:09:56,962 - openevolve.process_parallel - INFO - Iteration 87: Program 895d39c2-6764-4eae-86cd-cb58bd48537b (parent: 47a03749-2025-41bb-b865-be3ac8a170c2) completed in 12.53s
+2026-04-03 10:09:56,962 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=258.0000, max_diff=0.3069
+2026-04-03 10:10:03,958 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:10:05,765 - openevolve.evaluator - INFO - Evaluated program 8706afd6-b4d8-4394-a0a4-e5744bb84e0a in 1.80s: combined_score=0.9346, success=1.0000, cycles=70.0000, max_diff=0.0000
+2026-04-03 10:10:05,768 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:10:05,770 - openevolve.process_parallel - INFO - Iteration 88: Program 8706afd6-b4d8-4394-a0a4-e5744bb84e0a (parent: ba59a528-5b0d-4798-9bb6-8b8529bea8fe) completed in 8.81s
+2026-04-03 10:10:05,770 - openevolve.process_parallel - INFO - Metrics: combined_score=0.9346, success=1.0000, cycles=70.0000, max_diff=0.0000
+2026-04-03 10:10:13,909 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:10:15,736 - openevolve.evaluator - INFO - Evaluated program cd01067b-1432-414e-bf47-bab355f1fc32 in 1.82s: combined_score=0.5000, success=0.0000, cycles=330.0000, max_diff=0.3069
+2026-04-03 10:10:15,739 - openevolve.process_parallel - INFO - Iteration 89: Program cd01067b-1432-414e-bf47-bab355f1fc32 (parent: dbe63971-eb18-480c-8c3c-c44a0a922cc4) completed in 9.97s
+2026-04-03 10:10:15,739 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:10:15,739 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=330.0000, max_diff=0.3069
+2026-04-03 10:10:24,091 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:10:25,925 - openevolve.evaluator - INFO - Evaluated program bc9b763f-019c-4526-9330-f5f8ec05920c in 1.83s: combined_score=0.5000, success=0.0000, cycles=330.0000, max_diff=0.3069
+2026-04-03 10:10:25,928 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:10:25,928 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 92}
+2026-04-03 10:10:25,929 - openevolve.process_parallel - INFO - Iteration 90: Program bc9b763f-019c-4526-9330-f5f8ec05920c (parent: 7cb93f80-8ec5-4dfc-9b0f-87a261a3bca0) completed in 10.19s
+2026-04-03 10:10:25,929 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=330.0000, max_diff=0.3069
+2026-04-03 10:10:32,651 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:10:34,443 - openevolve.evaluator - INFO - Evaluated program 0a80c121-4b85-4720-b763-093cc48ceed6 in 1.79s: combined_score=0.9346, success=1.0000, cycles=70.0000, max_diff=0.0000
+2026-04-03 10:10:34,446 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:10:34,450 - openevolve.process_parallel - INFO - Iteration 91: Program 0a80c121-4b85-4720-b763-093cc48ceed6 (parent: eba12b7c-a508-468e-9cff-cc7c75cc730e) completed in 8.52s
+2026-04-03 10:10:34,450 - openevolve.process_parallel - INFO - Metrics: combined_score=0.9346, success=1.0000, cycles=70.0000, max_diff=0.0000
+2026-04-03 10:10:41,174 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:10:42,984 - openevolve.evaluator - INFO - Evaluated program fec2fb09-86a2-4dac-b4d1-a99bcd85840e in 1.81s: combined_score=0.5000, success=0.0000, cycles=274.0000, max_diff=0.3069
+2026-04-03 10:10:42,986 - openevolve.process_parallel - INFO - Iteration 92: Program fec2fb09-86a2-4dac-b4d1-a99bcd85840e (parent: 8b6b25ec-3ad0-4d90-81b8-cf4b0aa2d6ca) completed in 8.54s
+2026-04-03 10:10:42,987 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=274.0000, max_diff=0.3069
+2026-04-03 10:10:42,987 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:10:52,401 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:10:54,199 - openevolve.evaluator - INFO - Evaluated program 60558ee3-c567-4eb6-a0ea-781d20578a1d in 1.80s: combined_score=0.5000, success=0.0000, cycles=287.0000, max_diff=0.3069
+2026-04-03 10:10:54,203 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:10:54,206 - openevolve.process_parallel - INFO - Iteration 93: Program 60558ee3-c567-4eb6-a0ea-781d20578a1d (parent: 5deee602-f012-432d-baa8-47427441cbb8) completed in 11.21s
+2026-04-03 10:10:54,207 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=287.0000, max_diff=0.3069
+2026-04-03 10:11:05,090 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:11:06,864 - openevolve.evaluator - INFO - Evaluated program fe1bc0f0-84cc-4af0-97c8-b82b08025b17 in 1.77s: combined_score=0.9346, success=1.0000, cycles=70.0000, max_diff=0.0000
+2026-04-03 10:11:06,868 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:11:06,874 - openevolve.process_parallel - INFO - Iteration 94: Program fe1bc0f0-84cc-4af0-97c8-b82b08025b17 (parent: 7532eeaf-9892-40f8-992f-e8e29660f550) completed in 12.66s
+2026-04-03 10:11:06,874 - openevolve.process_parallel - INFO - Metrics: combined_score=0.9346, success=1.0000, cycles=70.0000, max_diff=0.0000
+2026-04-03 10:11:15,320 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:11:17,129 - openevolve.evaluator - INFO - Evaluated program ae9d72c5-ca36-4cce-aa5d-c85bd007aca9 in 1.81s: combined_score=0.5000, success=0.0000, cycles=274.0000, max_diff=0.3069
+2026-04-03 10:11:17,132 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:11:17,137 - openevolve.process_parallel - INFO - Iteration 95: Program ae9d72c5-ca36-4cce-aa5d-c85bd007aca9 (parent: 743a3ff7-f0dd-4f6b-9890-8ae74f7bd416) completed in 10.26s
+2026-04-03 10:11:17,138 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=274.0000, max_diff=0.3069
+2026-04-03 10:11:29,687 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:11:31,516 - openevolve.evaluator - INFO - Evaluated program 9a7fb159-14bf-48cb-905e-53b15d20b392 in 1.83s: combined_score=0.5000, success=0.0000, cycles=273.0000, max_diff=0.3069
+2026-04-03 10:11:31,521 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:11:31,528 - openevolve.process_parallel - INFO - Iteration 96: Program 9a7fb159-14bf-48cb-905e-53b15d20b392 (parent: 2a9c967e-0022-4212-9c29-a4cbde9d111f) completed in 14.39s
+2026-04-03 10:11:31,528 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=273.0000, max_diff=0.3069
+2026-04-03 10:11:40,395 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:11:42,206 - openevolve.evaluator - INFO - Evaluated program 5df682fa-48ea-465c-9092-ecae1fabce57 in 1.81s: combined_score=0.8511, success=1.0000, cycles=175.0000, max_diff=0.0000
+2026-04-03 10:11:42,209 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:11:42,214 - openevolve.process_parallel - INFO - Iteration 97: Program 5df682fa-48ea-465c-9092-ecae1fabce57 (parent: e2dd3d92-6334-4bb2-a309-09b88888212c) completed in 10.69s
+2026-04-03 10:11:42,214 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8511, success=1.0000, cycles=175.0000, max_diff=0.0000
+2026-04-03 10:11:48,770 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:11:50,583 - openevolve.evaluator - INFO - Evaluated program 15a0e37c-af1c-4561-b55e-ac32ee629baf in 1.81s: combined_score=0.5000, success=0.0000, cycles=330.0000, max_diff=0.3069
+2026-04-03 10:11:50,587 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:11:50,592 - openevolve.process_parallel - INFO - Iteration 98: Program 15a0e37c-af1c-4561-b55e-ac32ee629baf (parent: 085f0c4b-cf04-49fb-a75f-793c235b43bb) completed in 8.37s
+2026-04-03 10:11:50,592 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=330.0000, max_diff=0.3069
+2026-04-03 10:12:00,128 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:12:01,962 - openevolve.evaluator - INFO - Evaluated program 7b7cbdc8-b6ba-402c-a279-765ca1d85d15 in 1.83s: combined_score=0.5000, success=0.0000, cycles=330.0000, max_diff=0.3069
+2026-04-03 10:12:01,966 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:12:01,971 - openevolve.process_parallel - INFO - Iteration 99: Program 7b7cbdc8-b6ba-402c-a279-765ca1d85d15 (parent: ce027a0d-0d0d-42af-bbdb-c7016e35b6b6) completed in 11.38s
+2026-04-03 10:12:01,972 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=330.0000, max_diff=0.3069
+2026-04-03 10:12:09,000 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:12:10,796 - openevolve.evaluator - INFO - Evaluated program f2ebe462-53b0-4eb0-a547-00009746aa84 in 1.79s: combined_score=0.9355, success=1.0000, cycles=69.0000, max_diff=0.0000
+2026-04-03 10:12:10,800 - openevolve.database - INFO - Island 0 MAP-Elites cell improved: {'complexity': 36} (fitness: 0.851 -> 0.935)
+2026-04-03 10:12:10,801 - openevolve.process_parallel - INFO - Iteration 100: Program f2ebe462-53b0-4eb0-a547-00009746aa84 (parent: ba59a528-5b0d-4798-9bb6-8b8529bea8fe) completed in 8.83s
+2026-04-03 10:12:10,801 - openevolve.process_parallel - INFO - Metrics: combined_score=0.9355, success=1.0000, cycles=69.0000, max_diff=0.0000
+2026-04-03 10:12:10,801 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 100
+2026-04-03 10:12:10,803 - openevolve.database - INFO - Island Status:
+2026-04-03 10:12:10,803 - openevolve.database - INFO -  * Island 0: 31 programs, best=0.9355, avg=0.7768, diversity=81.88, gen=34 (best: 7c29b765-fba6-44bd-bce3-86c5de89613b)
+2026-04-03 10:12:10,803 - openevolve.database - INFO -    Island 1: 33 programs, best=0.5000, avg=0.5000, diversity=353.58, gen=33 (best: a6690060-5dd9-40c0-abfa-2b753b52a315)
+2026-04-03 10:12:10,803 - openevolve.database - INFO -    Island 2: 32 programs, best=0.5000, avg=0.5000, diversity=610.80, gen=32 (best: f373ca6b-2815-4e79-9b32-9741e4cf3c23)
+2026-04-03 10:12:10,858 - openevolve.database - INFO - Saved database with 100 programs to output_phase1/softplus/round_0/oe_output/checkpoints/checkpoint_100
+2026-04-03 10:12:10,858 - openevolve.controller - INFO - Saved best program at checkpoint 100 with metrics: combined_score=0.9355, success=1.0000, cycles=69.0000, max_diff=0.0000
+2026-04-03 10:12:10,858 - openevolve.controller - INFO - Saved checkpoint at iteration 100 to output_phase1/softplus/round_0/oe_output/checkpoints/checkpoint_100
+2026-04-03 10:12:10,858 - openevolve.process_parallel - INFO - ✅ Evolution completed - Maximum iterations reached
+2026-04-03 10:12:11,035 - openevolve.database - INFO - Saved database with 100 programs to output_phase1/softplus/round_0/oe_output/checkpoints/checkpoint_100
+2026-04-03 10:12:11,035 - openevolve.controller - INFO - Saved best program at checkpoint 100 with metrics: combined_score=0.9355, success=1.0000, cycles=69.0000, max_diff=0.0000
+2026-04-03 10:12:11,035 - openevolve.controller - INFO - Saved checkpoint at iteration 100 to output_phase1/softplus/round_0/oe_output/checkpoints/checkpoint_100
+2026-04-03 10:12:11,052 - openevolve.process_parallel - INFO - Stopped process pool
+2026-04-03 10:12:11,052 - openevolve.controller - INFO - Using tracked best program: 7c29b765-fba6-44bd-bce3-86c5de89613b
+2026-04-03 10:12:11,052 - openevolve.controller - INFO - Evolution complete. Best program has metrics: combined_score=0.9355, success=1.0000, cycles=69.0000, max_diff=0.0000
+2026-04-03 10:12:11,052 - openevolve.controller - INFO - Saved best program to output_phase1/softplus/round_0/oe_output/best/best_program.py with program info to output_phase1/softplus/round_0/oe_output/best/best_program_info.json
+2026-04-03 10:12:11,100 - src.orchestrator - INFO -   Graduated softplus/small to StepDB
+2026-04-03 10:12:11,100 - src.orchestrator - INFO -   SUCCESS: softplus cycles=69.0
+2026-04-03 10:12:11,100 - src.orchestrator - INFO - Round 0: evolving elu / small
+2026-04-03 10:12:12,516 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:12:12,517 - src.orchestrator - INFO -   Curated 4 cross-kernel examples
+2026-04-03 10:12:12,518 - src.orchestrator - INFO -   Running OpenEvolve for 100 iterations
+2026-04-03 10:12:12,518 - openevolve.controller - INFO - Logging to output_phase1/elu/round_0/oe_output/logs/openevolve_20260403_101212.log
+2026-04-03 10:12:12,519 - openevolve.controller - INFO - Set random seed to 42 for reproducibility
+2026-04-03 10:12:12,561 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2026-04-03 10:12:12,561 - openevolve.database - INFO - Initialized program database with 0 programs
+2026-04-03 10:12:12,562 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output_phase1/elu/round_0/evaluator.py
+2026-04-03 10:12:12,563 - openevolve.evaluator - INFO - Initialized evaluator with output_phase1/elu/round_0/evaluator.py
+2026-04-03 10:12:12,563 - openevolve.controller - INFO - Initialized OpenEvolve with output_phase1/elu/round_0/seed.py
+2026-04-03 10:12:12,563 - openevolve.controller - INFO - Adding initial program to database
+2026-04-03 10:12:12,564 - openevolve.evaluator - ERROR - Error in stage 1 evaluation: name 'output_op' is not defined
+2026-04-03 10:12:12,567 - openevolve.evaluator - INFO - Evaluated program d9d7015d-df73-4089-8e05-5d7d8a41996a in 0.00s: stage1_passed=0.0000, error=0.0000
+2026-04-03 10:12:12,567 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 50}
+2026-04-03 10:12:12,567 - openevolve.controller - WARNING - ⚠️  No 'combined_score' metric found in evaluation results. Using average of all numeric metrics (0.0000) for evolution guidance. For better evolution results, please modify your evaluator to return a 'combined_score' metric that properly weights different aspects of program performance.
+2026-04-03 10:12:12,567 - openevolve.process_parallel - INFO - Initialized process parallel controller with 1 workers
+2026-04-03 10:12:12,570 - openevolve.process_parallel - INFO - Started process pool with 1 processes
+2026-04-03 10:12:12,570 - openevolve.controller - INFO - Using island-based evolution with 3 islands
+2026-04-03 10:12:12,570 - openevolve.database - INFO - Island Status:
+2026-04-03 10:12:12,570 - openevolve.database - INFO -  * Island 0: 1 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0 (best: d9d7015d-df73-4089-8e05-5d7d8a41996a)
+2026-04-03 10:12:12,570 - openevolve.database - INFO -    Island 1: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2026-04-03 10:12:12,570 - openevolve.database - INFO -    Island 2: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2026-04-03 10:12:12,570 - openevolve.process_parallel - INFO - Starting process-based evolution from iteration 1 for 100 iterations (total: 101)
+2026-04-03 10:12:12,581 - openevolve.process_parallel - INFO - Early stopping disabled
+2026-04-03 10:12:12,667 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2026-04-03 10:12:12,667 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output_phase1/elu/round_0/evaluator.py
+2026-04-03 10:12:12,667 - openevolve.evaluator - INFO - Initialized evaluator with output_phase1/elu/round_0/evaluator.py
+2026-04-03 10:12:12,668 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:12:33,210 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:12:35,043 - openevolve.evaluator - INFO - Evaluated program 65c6776f-ab70-422a-a37b-8cc791fe290a in 1.83s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:12:35,045 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:12:35,051 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 99}
+2026-04-03 10:12:35,051 - openevolve.database - INFO - New best program 65c6776f-ab70-422a-a37b-8cc791fe290a replaces d9d7015d-df73-4089-8e05-5d7d8a41996a
+2026-04-03 10:12:35,052 - openevolve.process_parallel - INFO - Iteration 1: Program 65c6776f-ab70-422a-a37b-8cc791fe290a (parent: d9d7015d-df73-4089-8e05-5d7d8a41996a) completed in 22.38s
+2026-04-03 10:12:35,052 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:12:35,052 - openevolve.process_parallel - INFO - 🌟 New best solution found at iteration 1: 65c6776f-ab70-422a-a37b-8cc791fe290a
+2026-04-03 10:12:55,381 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:12:57,204 - openevolve.evaluator - INFO - Evaluated program 2962c6b0-aa97-4f1e-a408-280f8e3cd65a in 1.82s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:12:57,205 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:12:57,209 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 99}
+2026-04-03 10:12:57,209 - openevolve.process_parallel - INFO - Iteration 2: Program 2962c6b0-aa97-4f1e-a408-280f8e3cd65a (parent: d9d7015d-df73-4089-8e05-5d7d8a41996a) completed in 22.16s
+2026-04-03 10:12:57,209 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:13:17,554 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:13:19,373 - openevolve.evaluator - INFO - Evaluated program 55e1efb6-5b50-40dd-ba3f-ac4be0a8947c in 1.82s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:13:19,374 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:13:19,379 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 99}
+2026-04-03 10:13:19,380 - openevolve.database - INFO - New best program 55e1efb6-5b50-40dd-ba3f-ac4be0a8947c replaces 65c6776f-ab70-422a-a37b-8cc791fe290a (combined_score: 0.8039 → 0.8045, +0.0006)
+2026-04-03 10:13:19,380 - openevolve.process_parallel - INFO - Iteration 3: Program 55e1efb6-5b50-40dd-ba3f-ac4be0a8947c (parent: d9d7015d-df73-4089-8e05-5d7d8a41996a) completed in 22.17s
+2026-04-03 10:13:19,380 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:13:19,380 - openevolve.process_parallel - INFO - 🌟 New best solution found at iteration 3: 55e1efb6-5b50-40dd-ba3f-ac4be0a8947c
+2026-04-03 10:13:25,926 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:13:27,744 - openevolve.evaluator - INFO - Evaluated program 049d3330-f32a-445f-a38e-4cca73ad1dba in 1.82s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:13:27,745 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:13:27,752 - openevolve.process_parallel - INFO - Iteration 4: Program 049d3330-f32a-445f-a38e-4cca73ad1dba (parent: 65c6776f-ab70-422a-a37b-8cc791fe290a) completed in 8.37s
+2026-04-03 10:13:27,752 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:13:41,246 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:13:43,053 - openevolve.evaluator - INFO - Evaluated program cde83e0f-0502-49f8-b33a-7e4fd4ea31e1 in 1.81s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:13:43,055 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:13:43,058 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 96}
+2026-04-03 10:13:43,059 - openevolve.process_parallel - INFO - Iteration 5: Program cde83e0f-0502-49f8-b33a-7e4fd4ea31e1 (parent: 2962c6b0-aa97-4f1e-a408-280f8e3cd65a) completed in 15.31s
+2026-04-03 10:13:43,059 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:13:58,708 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:14:00,546 - openevolve.evaluator - INFO - Evaluated program c101a9b0-a65d-4b24-8129-ac542fd7ae92 in 1.83s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:14:00,548 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:14:00,551 - openevolve.process_parallel - INFO - Iteration 6: Program c101a9b0-a65d-4b24-8129-ac542fd7ae92 (parent: 55e1efb6-5b50-40dd-ba3f-ac4be0a8947c) completed in 17.49s
+2026-04-03 10:14:00,551 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:14:11,600 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:14:13,421 - openevolve.evaluator - INFO - Evaluated program 18b770b2-8904-40cf-9ede-56d3e71da25c in 1.82s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:14:13,423 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:14:13,433 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 89}
+2026-04-03 10:14:13,433 - openevolve.process_parallel - INFO - Iteration 7: Program 18b770b2-8904-40cf-9ede-56d3e71da25c (parent: 049d3330-f32a-445f-a38e-4cca73ad1dba) completed in 12.87s
+2026-04-03 10:14:13,434 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:14:20,649 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:14:22,481 - openevolve.evaluator - INFO - Evaluated program eea4e9b3-9cb2-4426-be10-fb79573ecd6b in 1.83s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:14:22,483 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:14:22,487 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 94}
+2026-04-03 10:14:22,487 - openevolve.process_parallel - INFO - Iteration 8: Program eea4e9b3-9cb2-4426-be10-fb79573ecd6b (parent: 2962c6b0-aa97-4f1e-a408-280f8e3cd65a) completed in 9.06s
+2026-04-03 10:14:22,487 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:14:39,923 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:14:41,817 - openevolve.evaluator - INFO - Evaluated program 06d83bbc-d97a-413f-bd49-28f1a5e68359 in 1.89s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:14:41,819 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:14:41,821 - openevolve.process_parallel - INFO - Iteration 9: Program 06d83bbc-d97a-413f-bd49-28f1a5e68359 (parent: 55e1efb6-5b50-40dd-ba3f-ac4be0a8947c) completed in 19.34s
+2026-04-03 10:14:41,821 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:14:47,786 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:14:49,585 - openevolve.evaluator - INFO - Evaluated program 99f2951d-97b0-4063-830a-1c84b65011ce in 1.80s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:14:49,587 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:14:49,587 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 64}
+2026-04-03 10:14:49,588 - openevolve.process_parallel - INFO - Iteration 10: Program 99f2951d-97b0-4063-830a-1c84b65011ce (parent: 18b770b2-8904-40cf-9ede-56d3e71da25c) completed in 7.77s
+2026-04-03 10:14:49,588 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:14:59,154 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:15:00,961 - openevolve.evaluator - INFO - Evaluated program bfb3c84f-bbf0-4bbb-bc92-d28dc772dc7c in 1.80s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:15:00,963 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:15:00,968 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 70}
+2026-04-03 10:15:00,968 - openevolve.process_parallel - INFO - Iteration 11: Program bfb3c84f-bbf0-4bbb-bc92-d28dc772dc7c (parent: eea4e9b3-9cb2-4426-be10-fb79573ecd6b) completed in 11.37s
+2026-04-03 10:15:00,968 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:15:15,365 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:15:17,176 - openevolve.evaluator - INFO - Evaluated program 05bc7940-fb81-4661-a63d-b40bb75ee4a7 in 1.81s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:15:17,179 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:15:17,185 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 74}
+2026-04-03 10:15:17,185 - openevolve.process_parallel - INFO - Iteration 12: Program 05bc7940-fb81-4661-a63d-b40bb75ee4a7 (parent: c101a9b0-a65d-4b24-8129-ac542fd7ae92) completed in 16.21s
+2026-04-03 10:15:17,185 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:15:23,028 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:15:24,820 - openevolve.evaluator - INFO - Evaluated program a5617100-0044-4ec3-befd-8ac35c3f6792 in 1.79s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:15:24,822 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:15:24,826 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 63}
+2026-04-03 10:15:24,826 - openevolve.process_parallel - INFO - Iteration 13: Program a5617100-0044-4ec3-befd-8ac35c3f6792 (parent: 99f2951d-97b0-4063-830a-1c84b65011ce) completed in 7.64s
+2026-04-03 10:15:24,826 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:15:36,053 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:15:37,848 - openevolve.evaluator - INFO - Evaluated program ec1dadcc-2356-4fc1-805c-a1c1fa8589dd in 1.79s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:15:37,850 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 75}
+2026-04-03 10:15:37,850 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:15:37,850 - openevolve.process_parallel - INFO - Iteration 14: Program ec1dadcc-2356-4fc1-805c-a1c1fa8589dd (parent: eea4e9b3-9cb2-4426-be10-fb79573ecd6b) completed in 13.03s
+2026-04-03 10:15:37,851 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:15:49,368 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:15:51,228 - openevolve.evaluator - INFO - Evaluated program c61957bd-d1c2-4174-9076-f404c85ccbf4 in 1.86s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:15:51,231 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:15:51,235 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 84}
+2026-04-03 10:15:51,236 - openevolve.process_parallel - INFO - Iteration 15: Program c61957bd-d1c2-4174-9076-f404c85ccbf4 (parent: 05bc7940-fb81-4661-a63d-b40bb75ee4a7) completed in 13.38s
+2026-04-03 10:15:51,236 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:15:57,512 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:15:59,304 - openevolve.evaluator - INFO - Evaluated program c9163069-59e7-4864-934d-1e394e65e91c in 1.79s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:15:59,307 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:15:59,313 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 73}
+2026-04-03 10:15:59,314 - openevolve.process_parallel - INFO - Iteration 16: Program c9163069-59e7-4864-934d-1e394e65e91c (parent: 049d3330-f32a-445f-a38e-4cca73ad1dba) completed in 8.07s
+2026-04-03 10:15:59,314 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:16:06,386 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:16:08,196 - openevolve.evaluator - INFO - Evaluated program b0fe3b19-e291-438c-ac7d-d9420cc06253 in 1.81s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:16:08,199 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:16:08,203 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 76}
+2026-04-03 10:16:08,203 - openevolve.process_parallel - INFO - Iteration 17: Program b0fe3b19-e291-438c-ac7d-d9420cc06253 (parent: 2962c6b0-aa97-4f1e-a408-280f8e3cd65a) completed in 8.89s
+2026-04-03 10:16:08,203 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:16:16,432 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:16:18,205 - openevolve.evaluator - INFO - Evaluated program beaf14d1-74df-4ef3-b43d-536080b11089 in 1.77s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:16:18,207 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:16:18,215 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 83}
+2026-04-03 10:16:18,216 - openevolve.process_parallel - INFO - Iteration 18: Program beaf14d1-74df-4ef3-b43d-536080b11089 (parent: c61957bd-d1c2-4174-9076-f404c85ccbf4) completed in 10.01s
+2026-04-03 10:16:18,216 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:16:25,646 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:16:27,439 - openevolve.evaluator - INFO - Evaluated program 8beb50ff-274f-426b-b11b-d97fd28426d2 in 1.79s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:16:27,442 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:16:27,450 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 78}
+2026-04-03 10:16:27,451 - openevolve.process_parallel - INFO - Iteration 19: Program 8beb50ff-274f-426b-b11b-d97fd28426d2 (parent: c9163069-59e7-4864-934d-1e394e65e91c) completed in 9.23s
+2026-04-03 10:16:27,451 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:16:34,974 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:16:36,778 - openevolve.evaluator - INFO - Evaluated program 506bc4b1-f629-465c-b3fa-5e74e3dd29a1 in 1.80s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:16:36,781 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:16:36,790 - openevolve.process_parallel - INFO - Iteration 20: Program 506bc4b1-f629-465c-b3fa-5e74e3dd29a1 (parent: eea4e9b3-9cb2-4426-be10-fb79573ecd6b) completed in 9.34s
+2026-04-03 10:16:36,791 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:16:43,748 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:16:45,538 - openevolve.evaluator - INFO - Evaluated program a7766130-4251-4c01-9e75-522303c41d20 in 1.79s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:16:45,541 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:16:45,548 - openevolve.process_parallel - INFO - Iteration 21: Program a7766130-4251-4c01-9e75-522303c41d20 (parent: c61957bd-d1c2-4174-9076-f404c85ccbf4) completed in 8.76s
+2026-04-03 10:16:45,548 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:16:50,390 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:16:52,192 - openevolve.evaluator - INFO - Evaluated program 07fee6f1-5eec-4626-b3db-6e515a1b2d1b in 1.80s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:16:52,195 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:16:52,196 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 70}
+2026-04-03 10:16:52,196 - openevolve.process_parallel - INFO - Iteration 22: Program 07fee6f1-5eec-4626-b3db-6e515a1b2d1b (parent: 65c6776f-ab70-422a-a37b-8cc791fe290a) completed in 6.65s
+2026-04-03 10:16:52,197 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:17:01,654 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:17:03,451 - openevolve.evaluator - INFO - Evaluated program 6796968f-8416-453b-b68c-5e9fa1e55b65 in 1.79s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:17:03,454 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:17:03,456 - openevolve.process_parallel - INFO - Iteration 23: Program 6796968f-8416-453b-b68c-5e9fa1e55b65 (parent: ec1dadcc-2356-4fc1-805c-a1c1fa8589dd) completed in 11.26s
+2026-04-03 10:17:03,457 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:17:14,106 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:17:15,911 - openevolve.evaluator - INFO - Evaluated program 57d92e12-52b2-4eec-88be-4e0024176709 in 1.80s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:17:15,914 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:17:15,915 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 82}
+2026-04-03 10:17:15,915 - openevolve.process_parallel - INFO - Iteration 24: Program 57d92e12-52b2-4eec-88be-4e0024176709 (parent: beaf14d1-74df-4ef3-b43d-536080b11089) completed in 12.46s
+2026-04-03 10:17:15,915 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:17:30,082 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:17:31,866 - openevolve.evaluator - INFO - Evaluated program 6101a1ec-17ea-4e9a-a6e3-3cea134d9b81 in 1.78s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:17:31,869 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:17:31,877 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 71}
+2026-04-03 10:17:31,878 - openevolve.process_parallel - INFO - Iteration 25: Program 6101a1ec-17ea-4e9a-a6e3-3cea134d9b81 (parent: d9d7015d-df73-4089-8e05-5d7d8a41996a) completed in 15.95s
+2026-04-03 10:17:31,878 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:17:40,221 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:17:42,016 - openevolve.evaluator - INFO - Evaluated program a30228bd-22bd-436d-ae67-88d00459f586 in 1.79s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:17:42,018 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:17:42,025 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 90}
+2026-04-03 10:17:42,025 - openevolve.process_parallel - INFO - Iteration 26: Program a30228bd-22bd-436d-ae67-88d00459f586 (parent: b0fe3b19-e291-438c-ac7d-d9420cc06253) completed in 10.15s
+2026-04-03 10:17:42,025 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:17:57,648 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:17:59,439 - openevolve.evaluator - INFO - Evaluated program 38eda111-34c8-47de-948b-5a4ce89d030d in 1.79s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:17:59,442 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:17:59,443 - openevolve.process_parallel - INFO - Iteration 27: Program 38eda111-34c8-47de-948b-5a4ce89d030d (parent: c101a9b0-a65d-4b24-8129-ac542fd7ae92) completed in 17.42s
+2026-04-03 10:17:59,443 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:18:09,907 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:18:11,732 - openevolve.evaluator - INFO - Evaluated program 35f4c258-4d42-4ea5-adb6-9a61de4e5e33 in 1.82s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:18:11,734 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 98}
+2026-04-03 10:18:11,735 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:18:11,735 - openevolve.database - INFO - Island 0 MAP-Elites coverage reached 10.0% (10/100 cells)
+2026-04-03 10:18:11,735 - openevolve.process_parallel - INFO - Iteration 28: Program 35f4c258-4d42-4ea5-adb6-9a61de4e5e33 (parent: d9d7015d-df73-4089-8e05-5d7d8a41996a) completed in 12.29s
+2026-04-03 10:18:11,735 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:18:22,022 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:18:23,827 - openevolve.evaluator - INFO - Evaluated program e661c27c-8a9a-4c91-bae2-4b2246f7382e in 1.80s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:18:23,830 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:18:23,835 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 82}
+2026-04-03 10:18:23,835 - openevolve.process_parallel - INFO - Iteration 29: Program e661c27c-8a9a-4c91-bae2-4b2246f7382e (parent: b0fe3b19-e291-438c-ac7d-d9420cc06253) completed in 12.09s
+2026-04-03 10:18:23,835 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:18:34,954 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:18:36,751 - openevolve.evaluator - INFO - Evaluated program e79d41f3-4161-4465-a806-5bf70ec2a15b in 1.79s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:18:36,754 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:18:36,762 - openevolve.process_parallel - INFO - Iteration 30: Program e79d41f3-4161-4465-a806-5bf70ec2a15b (parent: c101a9b0-a65d-4b24-8129-ac542fd7ae92) completed in 12.92s
+2026-04-03 10:18:36,763 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:18:44,145 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:18:45,946 - openevolve.evaluator - INFO - Evaluated program b6820268-e4b4-4f12-8dca-08edc64f8c6f in 1.80s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:18:45,949 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:18:45,956 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 66}
+2026-04-03 10:18:45,956 - openevolve.process_parallel - INFO - Iteration 31: Program b6820268-e4b4-4f12-8dca-08edc64f8c6f (parent: 18b770b2-8904-40cf-9ede-56d3e71da25c) completed in 9.19s
+2026-04-03 10:18:45,956 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:19:02,310 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:19:04,099 - openevolve.evaluator - INFO - Evaluated program dd05d3d9-ae93-4f34-81c7-4a105c14d586 in 1.79s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:19:04,102 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:19:04,107 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 65}
+2026-04-03 10:19:04,108 - openevolve.process_parallel - INFO - Iteration 32: Program dd05d3d9-ae93-4f34-81c7-4a105c14d586 (parent: 506bc4b1-f629-465c-b3fa-5e74e3dd29a1) completed in 18.15s
+2026-04-03 10:19:04,108 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:19:10,108 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:19:11,970 - openevolve.evaluator - INFO - Evaluated program 486d40f8-0017-4d5b-ab3e-627b62fac80a in 1.86s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:19:11,973 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:19:11,980 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 73}
+2026-04-03 10:19:11,980 - openevolve.process_parallel - INFO - Iteration 33: Program 486d40f8-0017-4d5b-ab3e-627b62fac80a (parent: c101a9b0-a65d-4b24-8129-ac542fd7ae92) completed in 7.87s
+2026-04-03 10:19:11,980 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:19:18,384 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:19:20,208 - openevolve.evaluator - INFO - Evaluated program 59b751a6-3b67-4c45-ae9e-9b556b0aa145 in 1.82s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:19:20,211 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:19:20,218 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 67}
+2026-04-03 10:19:20,219 - openevolve.process_parallel - INFO - Iteration 34: Program 59b751a6-3b67-4c45-ae9e-9b556b0aa145 (parent: 99f2951d-97b0-4063-830a-1c84b65011ce) completed in 8.24s
+2026-04-03 10:19:20,219 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:19:30,381 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:19:32,265 - openevolve.evaluator - INFO - Evaluated program 8fb896d9-10dc-454b-a7a5-1184e0050f9c in 1.88s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:19:32,268 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:19:32,275 - openevolve.database - INFO - Island 1 MAP-Elites cell improved: {'complexity': 76} (fitness: 0.804 -> 0.805)
+2026-04-03 10:19:32,275 - openevolve.process_parallel - INFO - Iteration 35: Program 8fb896d9-10dc-454b-a7a5-1184e0050f9c (parent: bfb3c84f-bbf0-4bbb-bc92-d28dc772dc7c) completed in 12.06s
+2026-04-03 10:19:32,275 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:19:41,991 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:19:43,850 - openevolve.evaluator - INFO - Evaluated program 75e0fef2-b33e-4212-8c12-d8b8ec6be6ff in 1.86s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:19:43,853 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:19:43,859 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 76}
+2026-04-03 10:19:43,859 - openevolve.process_parallel - INFO - Iteration 36: Program 75e0fef2-b33e-4212-8c12-d8b8ec6be6ff (parent: beaf14d1-74df-4ef3-b43d-536080b11089) completed in 11.58s
+2026-04-03 10:19:43,859 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:19:49,037 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:19:50,878 - openevolve.evaluator - INFO - Evaluated program 16cbe0dc-788b-4721-9eff-8dbf027ad4f5 in 1.84s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:19:50,880 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:19:50,887 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 79}
+2026-04-03 10:19:50,887 - openevolve.process_parallel - INFO - Iteration 37: Program 16cbe0dc-788b-4721-9eff-8dbf027ad4f5 (parent: 8beb50ff-274f-426b-b11b-d97fd28426d2) completed in 7.03s
+2026-04-03 10:19:50,887 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:20:01,576 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:20:03,384 - openevolve.evaluator - INFO - Evaluated program 4ef39413-3029-433e-814c-c4f42ca85f1b in 1.80s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:20:03,387 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:20:03,394 - openevolve.process_parallel - INFO - Iteration 38: Program 4ef39413-3029-433e-814c-c4f42ca85f1b (parent: e661c27c-8a9a-4c91-bae2-4b2246f7382e) completed in 12.50s
+2026-04-03 10:20:03,394 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:20:17,024 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:20:18,843 - openevolve.evaluator - INFO - Evaluated program 37c21c11-bc8e-4e0c-87aa-2339db5a7a89 in 1.82s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:20:18,846 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:20:18,853 - openevolve.database - INFO - Island 2 MAP-Elites cell improved: {'complexity': 76} (fitness: 0.804 -> 0.805)
+2026-04-03 10:20:18,853 - openevolve.process_parallel - INFO - Iteration 39: Program 37c21c11-bc8e-4e0c-87aa-2339db5a7a89 (parent: a7766130-4251-4c01-9e75-522303c41d20) completed in 15.46s
+2026-04-03 10:20:18,853 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:20:27,815 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:20:29,652 - openevolve.evaluator - INFO - Evaluated program a00ff352-141f-4412-aad9-0d03d2584681 in 1.83s: combined_score=0.8013, success=1.0000, cycles=248.0000, max_diff=0.0000
+2026-04-03 10:20:29,655 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:20:29,661 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 65}
+2026-04-03 10:20:29,661 - openevolve.process_parallel - INFO - Iteration 40: Program a00ff352-141f-4412-aad9-0d03d2584681 (parent: a5617100-0044-4ec3-befd-8ac35c3f6792) completed in 10.81s
+2026-04-03 10:20:29,661 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8013, success=1.0000, cycles=248.0000, max_diff=0.0000
+2026-04-03 10:20:38,810 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:20:40,596 - openevolve.evaluator - INFO - Evaluated program 4c025bb1-5fb5-42d9-90db-4c38abff7aa6 in 1.78s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:20:40,599 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:20:40,607 - openevolve.process_parallel - INFO - Iteration 41: Program 4c025bb1-5fb5-42d9-90db-4c38abff7aa6 (parent: 506bc4b1-f629-465c-b3fa-5e74e3dd29a1) completed in 10.94s
+2026-04-03 10:20:40,608 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:20:50,344 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:20:52,186 - openevolve.evaluator - INFO - Evaluated program 281cc22b-8ac2-4f69-b37c-d87211aa9e21 in 1.84s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:20:52,190 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:20:52,194 - openevolve.process_parallel - INFO - Iteration 42: Program 281cc22b-8ac2-4f69-b37c-d87211aa9e21 (parent: 38eda111-34c8-47de-948b-5a4ce89d030d) completed in 11.59s
+2026-04-03 10:20:52,194 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:20:58,817 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:21:00,634 - openevolve.evaluator - INFO - Evaluated program dd320302-5078-4e54-92d5-f5ae6af3d83d in 1.81s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:21:00,637 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:21:00,640 - openevolve.database - INFO - Island 0 MAP-Elites cell improved: {'complexity': 70} (fitness: 0.804 -> 0.805)
+2026-04-03 10:21:00,640 - openevolve.process_parallel - INFO - Iteration 43: Program dd320302-5078-4e54-92d5-f5ae6af3d83d (parent: 65c6776f-ab70-422a-a37b-8cc791fe290a) completed in 8.45s
+2026-04-03 10:21:00,640 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:21:09,933 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:21:11,752 - openevolve.evaluator - INFO - Evaluated program 5f1d9c72-77bc-4084-af1c-b290468cac36 in 1.82s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:21:11,754 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 77}
+2026-04-03 10:21:11,755 - openevolve.database - INFO - Island 1 MAP-Elites coverage reached 10.0% (10/100 cells)
+2026-04-03 10:21:11,755 - openevolve.process_parallel - INFO - Iteration 44: Program 5f1d9c72-77bc-4084-af1c-b290468cac36 (parent: 6796968f-8416-453b-b68c-5e9fa1e55b65) completed in 11.12s
+2026-04-03 10:21:11,755 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:21:11,755 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:21:32,309 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:21:32,315 - openevolve.evaluator - ERROR - Error in stage 1 evaluation: name 'masked_neg' is not defined
+2026-04-03 10:21:32,318 - openevolve.evaluator - INFO - Evaluated program 195d4460-0eba-4dbc-9ec0-702b803910e7 in 0.01s: stage1_passed=0.0000, error=0.0000
+2026-04-03 10:21:32,320 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 75}
+2026-04-03 10:21:32,321 - openevolve.process_parallel - INFO - Iteration 45: Program 195d4460-0eba-4dbc-9ec0-702b803910e7 (parent: 05bc7940-fb81-4661-a63d-b40bb75ee4a7) completed in 20.56s
+2026-04-03 10:21:32,321 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:21:32,321 - openevolve.process_parallel - INFO - Metrics: stage1_passed=0.0000, error=0.0000
+2026-04-03 10:21:32,321 - openevolve.process_parallel - WARNING - ⚠️  No 'combined_score' metric found in evaluation results. Using average of all numeric metrics (0.0000) for evolution guidance. For better evolution results, please modify your evaluator to return a 'combined_score' metric that properly weights different aspects of program performance.
+2026-04-03 10:21:43,065 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:21:44,881 - openevolve.evaluator - INFO - Evaluated program 2c299cf9-f675-4439-8bc7-711b4ad3fddf in 1.81s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:21:44,884 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:21:44,886 - openevolve.database - INFO - Island 0 MAP-Elites cell improved: {'complexity': 65} (fitness: 0.801 -> 0.805)
+2026-04-03 10:21:44,886 - openevolve.process_parallel - INFO - Iteration 46: Program 2c299cf9-f675-4439-8bc7-711b4ad3fddf (parent: 59b751a6-3b67-4c45-ae9e-9b556b0aa145) completed in 12.56s
+2026-04-03 10:21:44,886 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:22:03,112 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:22:04,926 - openevolve.evaluator - INFO - Evaluated program df98f3d1-05f0-4f9e-a91e-1281dc75d006 in 1.81s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:22:04,930 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:22:04,932 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 45}
+2026-04-03 10:22:04,932 - openevolve.process_parallel - INFO - Iteration 47: Program df98f3d1-05f0-4f9e-a91e-1281dc75d006 (parent: 8fb896d9-10dc-454b-a7a5-1184e0050f9c) completed in 20.04s
+2026-04-03 10:22:04,932 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:22:11,399 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:22:13,214 - openevolve.evaluator - INFO - Evaluated program ccf05496-dc4b-4118-b904-4fefaca8f0be in 1.81s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:22:13,217 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:22:13,224 - openevolve.process_parallel - INFO - Iteration 48: Program ccf05496-dc4b-4118-b904-4fefaca8f0be (parent: c61957bd-d1c2-4174-9076-f404c85ccbf4) completed in 8.28s
+2026-04-03 10:22:13,224 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:22:21,282 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:22:23,105 - openevolve.evaluator - INFO - Evaluated program a1385a94-5c3c-4d00-8ebb-8cf6a7d2a0f0 in 1.82s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:22:23,108 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:22:23,113 - openevolve.database - INFO - Island 0 MAP-Elites cell improved: {'complexity': 78} (fitness: 0.804 -> 0.805)
+2026-04-03 10:22:23,113 - openevolve.process_parallel - INFO - Iteration 49: Program a1385a94-5c3c-4d00-8ebb-8cf6a7d2a0f0 (parent: 16cbe0dc-788b-4721-9eff-8dbf027ad4f5) completed in 9.89s
+2026-04-03 10:22:23,114 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:22:34,548 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:22:36,368 - openevolve.evaluator - INFO - Evaluated program a68daf33-cc89-4f9c-bb58-f534c91782a8 in 1.82s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:22:36,371 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:22:36,371 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 83}
+2026-04-03 10:22:36,372 - openevolve.process_parallel - INFO - Iteration 50: Program a68daf33-cc89-4f9c-bb58-f534c91782a8 (parent: 5f1d9c72-77bc-4084-af1c-b290468cac36) completed in 13.26s
+2026-04-03 10:22:36,372 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:22:45,533 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:22:47,383 - openevolve.evaluator - INFO - Evaluated program d4e4f3ce-cb85-40ce-a521-2b183e28302f in 1.85s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:22:47,387 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:22:47,393 - openevolve.process_parallel - INFO - Iteration 51: Program d4e4f3ce-cb85-40ce-a521-2b183e28302f (parent: a7766130-4251-4c01-9e75-522303c41d20) completed in 11.01s
+2026-04-03 10:22:47,394 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:22:55,217 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:22:57,022 - openevolve.evaluator - INFO - Evaluated program 0e7f596f-16ff-4e68-829c-96bbcc3c1de2 in 1.80s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:22:57,025 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:22:57,033 - openevolve.process_parallel - INFO - Iteration 52: Program 0e7f596f-16ff-4e68-829c-96bbcc3c1de2 (parent: 2c299cf9-f675-4439-8bc7-711b4ad3fddf) completed in 9.64s
+2026-04-03 10:22:57,033 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:23:11,010 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:23:12,817 - openevolve.evaluator - INFO - Evaluated program 5ddb0f80-2077-46ea-b928-d22f8303a83d in 1.80s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:23:12,820 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:23:12,826 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 81}
+2026-04-03 10:23:12,826 - openevolve.process_parallel - INFO - Iteration 53: Program 5ddb0f80-2077-46ea-b928-d22f8303a83d (parent: 2962c6b0-aa97-4f1e-a408-280f8e3cd65a) completed in 15.79s
+2026-04-03 10:23:12,827 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:23:23,475 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:23:25,300 - openevolve.evaluator - INFO - Evaluated program 6d8f90c9-43ee-4263-9e7f-06fd732b6305 in 1.82s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:23:25,303 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:23:25,308 - openevolve.process_parallel - INFO - Iteration 54: Program 6d8f90c9-43ee-4263-9e7f-06fd732b6305 (parent: 486d40f8-0017-4d5b-ab3e-627b62fac80a) completed in 12.48s
+2026-04-03 10:23:25,308 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:23:30,542 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:23:32,405 - openevolve.evaluator - INFO - Evaluated program 44381056-6bbc-4b88-8b35-f98ffaec9afa in 1.86s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:23:32,408 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:23:32,413 - openevolve.process_parallel - INFO - Iteration 55: Program 44381056-6bbc-4b88-8b35-f98ffaec9afa (parent: 65c6776f-ab70-422a-a37b-8cc791fe290a) completed in 7.10s
+2026-04-03 10:23:32,413 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:23:40,827 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:23:40,831 - openevolve.evaluator - ERROR - Error in stage 1 evaluation: invalid syntax (<string>, line 80)
+2026-04-03 10:23:40,832 - openevolve.evaluator - INFO - Evaluated program 6480d04d-dd27-4865-8de5-c82faf14b12d in 0.00s: stage1_passed=0.0000, error=0.0000
+2026-04-03 10:23:40,834 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:23:40,841 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 98}
+2026-04-03 10:23:40,842 - openevolve.process_parallel - INFO - Iteration 56: Program 6480d04d-dd27-4865-8de5-c82faf14b12d (parent: cde83e0f-0502-49f8-b33a-7e4fd4ea31e1) completed in 8.42s
+2026-04-03 10:23:40,842 - openevolve.process_parallel - INFO - Metrics: stage1_passed=0.0000, error=0.0000
+2026-04-03 10:23:46,498 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:23:48,294 - openevolve.evaluator - INFO - Evaluated program 79704aed-ad35-4821-a88a-e4a9346ee8b9 in 1.79s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:23:48,297 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:23:48,304 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 85}
+2026-04-03 10:23:48,305 - openevolve.process_parallel - INFO - Iteration 57: Program 79704aed-ad35-4821-a88a-e4a9346ee8b9 (parent: ccf05496-dc4b-4118-b904-4fefaca8f0be) completed in 7.46s
+2026-04-03 10:23:48,305 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:24:03,477 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:24:05,293 - openevolve.evaluator - INFO - Evaluated program 094dda14-52ad-4f30-a989-cf10e8e1532c in 1.81s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:24:05,295 - openevolve.database - INFO - Island 0 MAP-Elites cell improved: {'complexity': 66} (fitness: 0.804 -> 0.805)
+2026-04-03 10:24:05,296 - openevolve.process_parallel - INFO - Iteration 58: Program 094dda14-52ad-4f30-a989-cf10e8e1532c (parent: 18b770b2-8904-40cf-9ede-56d3e71da25c) completed in 17.00s
+2026-04-03 10:24:05,296 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:24:05,296 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:24:20,138 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:24:21,951 - openevolve.evaluator - INFO - Evaluated program 71e8a78a-a1e3-42df-8bfd-65e01056567c in 1.81s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:24:21,954 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:24:21,956 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 72}
+2026-04-03 10:24:21,957 - openevolve.process_parallel - INFO - Iteration 59: Program 71e8a78a-a1e3-42df-8bfd-65e01056567c (parent: dd05d3d9-ae93-4f34-81c7-4a105c14d586) completed in 16.66s
+2026-04-03 10:24:21,957 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:24:27,601 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:24:29,387 - openevolve.evaluator - INFO - Evaluated program 2507cf92-e8ca-4d34-a937-15fc859c73bd in 1.78s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:24:29,389 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 67}
+2026-04-03 10:24:29,390 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:24:29,390 - openevolve.database - INFO - Island 2 MAP-Elites coverage reached 10.0% (10/100 cells)
+2026-04-03 10:24:29,390 - openevolve.process_parallel - INFO - Iteration 60: Program 2507cf92-e8ca-4d34-a937-15fc859c73bd (parent: 05bc7940-fb81-4661-a63d-b40bb75ee4a7) completed in 7.43s
+2026-04-03 10:24:29,390 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:24:44,991 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:24:46,806 - openevolve.evaluator - INFO - Evaluated program d382f169-90be-4e28-a3aa-8ac653470076 in 1.81s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:24:46,809 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:24:46,809 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 74}
+2026-04-03 10:24:46,809 - openevolve.process_parallel - INFO - Iteration 61: Program d382f169-90be-4e28-a3aa-8ac653470076 (parent: c9163069-59e7-4864-934d-1e394e65e91c) completed in 17.42s
+2026-04-03 10:24:46,809 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:24:59,061 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:25:00,858 - openevolve.evaluator - INFO - Evaluated program 4e2331f0-86fa-47b7-aac9-30897b0f4955 in 1.79s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:25:00,861 - openevolve.process_parallel - INFO - Iteration 62: Program 4e2331f0-86fa-47b7-aac9-30897b0f4955 (parent: 4ef39413-3029-433e-814c-c4f42ca85f1b) completed in 14.05s
+2026-04-03 10:25:00,861 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:25:00,862 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:25:05,589 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:25:07,424 - openevolve.evaluator - INFO - Evaluated program b4b2db95-38c0-4d50-bf96-a9c27e3b302e in 1.83s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:25:07,427 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:25:07,428 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 77}
+2026-04-03 10:25:07,429 - openevolve.process_parallel - INFO - Iteration 63: Program b4b2db95-38c0-4d50-bf96-a9c27e3b302e (parent: 37c21c11-bc8e-4e0c-87aa-2339db5a7a89) completed in 6.56s
+2026-04-03 10:25:07,429 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:25:14,392 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:25:16,197 - openevolve.evaluator - INFO - Evaluated program 32187d8d-b182-4295-94d4-26aad6f280ff in 1.80s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:25:16,200 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:25:16,204 - openevolve.process_parallel - INFO - Iteration 64: Program 32187d8d-b182-4295-94d4-26aad6f280ff (parent: c9163069-59e7-4864-934d-1e394e65e91c) completed in 8.77s
+2026-04-03 10:25:16,204 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:25:25,056 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:25:26,857 - openevolve.evaluator - INFO - Evaluated program 08536c7e-eaa6-4113-b4f5-8d39d9691cb0 in 1.80s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:25:26,860 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:25:26,861 - openevolve.process_parallel - INFO - Iteration 65: Program 08536c7e-eaa6-4113-b4f5-8d39d9691cb0 (parent: cde83e0f-0502-49f8-b33a-7e4fd4ea31e1) completed in 10.66s
+2026-04-03 10:25:26,861 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:25:35,468 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:25:35,472 - openevolve.evaluator - ERROR - Error in stage 1 evaluation: invalid syntax (<string>, line 110)
+2026-04-03 10:25:35,473 - openevolve.evaluator - INFO - Evaluated program 43bf2ff4-7136-43f1-9a0b-31ca8fb3e446 in 0.00s: stage1_passed=0.0000, error=0.0000
+2026-04-03 10:25:35,475 - openevolve.process_parallel - INFO - Iteration 66: Program 43bf2ff4-7136-43f1-9a0b-31ca8fb3e446 (parent: 6d8f90c9-43ee-4263-9e7f-06fd732b6305) completed in 8.61s
+2026-04-03 10:25:35,475 - openevolve.process_parallel - INFO - Metrics: stage1_passed=0.0000, error=0.0000
+2026-04-03 10:25:35,476 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:25:53,145 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:25:54,938 - openevolve.evaluator - INFO - Evaluated program 16119435-f95c-46e9-be47-1f6458a046f9 in 1.79s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:25:54,942 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:25:54,945 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 76}
+2026-04-03 10:25:54,946 - openevolve.process_parallel - INFO - Iteration 67: Program 16119435-f95c-46e9-be47-1f6458a046f9 (parent: d382f169-90be-4e28-a3aa-8ac653470076) completed in 19.46s
+2026-04-03 10:25:54,946 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:26:07,198 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:26:09,035 - openevolve.evaluator - INFO - Evaluated program 42c8499f-5d9b-4466-b89e-e3ecf3b50c48 in 1.83s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:26:09,038 - openevolve.process_parallel - INFO - Iteration 68: Program 42c8499f-5d9b-4466-b89e-e3ecf3b50c48 (parent: 2962c6b0-aa97-4f1e-a408-280f8e3cd65a) completed in 14.09s
+2026-04-03 10:26:09,038 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:26:09,039 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:26:18,078 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:26:19,894 - openevolve.evaluator - INFO - Evaluated program 4ba7a277-7c80-4d6a-8de1-105253ab16d3 in 1.81s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:26:19,897 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:26:19,906 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 78}
+2026-04-03 10:26:19,906 - openevolve.process_parallel - INFO - Iteration 69: Program 4ba7a277-7c80-4d6a-8de1-105253ab16d3 (parent: 2507cf92-e8ca-4d34-a937-15fc859c73bd) completed in 10.86s
+2026-04-03 10:26:19,906 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:26:32,646 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:26:34,477 - openevolve.evaluator - INFO - Evaluated program 24d304e6-91d8-410d-9bf9-8c063546789f in 1.83s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:26:34,481 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:26:34,483 - openevolve.process_parallel - INFO - Iteration 70: Program 24d304e6-91d8-410d-9bf9-8c063546789f (parent: 094dda14-52ad-4f30-a989-cf10e8e1532c) completed in 14.58s
+2026-04-03 10:26:34,484 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:26:42,498 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:26:44,322 - openevolve.evaluator - INFO - Evaluated program 0d4e203a-4c8a-4f51-8e4e-0a9d079152fe in 1.82s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:26:44,326 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:26:44,330 - openevolve.process_parallel - INFO - Iteration 71: Program 0d4e203a-4c8a-4f51-8e4e-0a9d079152fe (parent: 8fb896d9-10dc-454b-a7a5-1184e0050f9c) completed in 9.84s
+2026-04-03 10:26:44,330 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:26:50,661 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:26:52,479 - openevolve.evaluator - INFO - Evaluated program 3e697955-62b8-48a2-9c06-da281ff85fb1 in 1.82s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:26:52,483 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:26:52,486 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 80}
+2026-04-03 10:26:52,486 - openevolve.process_parallel - INFO - Iteration 72: Program 3e697955-62b8-48a2-9c06-da281ff85fb1 (parent: 195d4460-0eba-4dbc-9ec0-702b803910e7) completed in 8.15s
+2026-04-03 10:26:52,486 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:27:00,283 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:27:02,098 - openevolve.evaluator - INFO - Evaluated program 280fbdfc-b3e5-4343-a653-7f99849a8581 in 1.81s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:27:02,102 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:27:02,109 - openevolve.process_parallel - INFO - Iteration 73: Program 280fbdfc-b3e5-4343-a653-7f99849a8581 (parent: 59b751a6-3b67-4c45-ae9e-9b556b0aa145) completed in 9.62s
+2026-04-03 10:27:02,109 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:27:20,042 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:27:21,840 - openevolve.evaluator - INFO - Evaluated program d4786d51-24a6-4aa6-b441-a75a16690b29 in 1.79s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:27:21,842 - openevolve.process_parallel - INFO - Iteration 74: Program d4786d51-24a6-4aa6-b441-a75a16690b29 (parent: 6796968f-8416-453b-b68c-5e9fa1e55b65) completed in 19.74s
+2026-04-03 10:27:21,842 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:27:21,843 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:27:31,034 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:27:32,848 - openevolve.evaluator - INFO - Evaluated program e790ae39-b57b-452b-9a18-a1d078a70031 in 1.81s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:27:32,852 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:27:32,854 - openevolve.process_parallel - INFO - Iteration 75: Program e790ae39-b57b-452b-9a18-a1d078a70031 (parent: b4b2db95-38c0-4d50-bf96-a9c27e3b302e) completed in 11.01s
+2026-04-03 10:27:32,854 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:27:39,874 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:27:41,699 - openevolve.evaluator - INFO - Evaluated program f64d89d9-de8b-4f2d-b5e3-6e92d810453d in 1.82s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:27:41,703 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:27:41,706 - openevolve.process_parallel - INFO - Iteration 76: Program f64d89d9-de8b-4f2d-b5e3-6e92d810453d (parent: dd320302-5078-4e54-92d5-f5ae6af3d83d) completed in 8.85s
+2026-04-03 10:27:41,706 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:27:49,798 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:27:51,638 - openevolve.evaluator - INFO - Evaluated program e9e6af48-727e-4a34-b270-f50216e70d3e in 1.84s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:27:51,642 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:27:51,642 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 51}
+2026-04-03 10:27:51,643 - openevolve.process_parallel - INFO - Iteration 77: Program e9e6af48-727e-4a34-b270-f50216e70d3e (parent: df98f3d1-05f0-4f9e-a91e-1281dc75d006) completed in 9.94s
+2026-04-03 10:27:51,643 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:27:56,964 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:27:58,760 - openevolve.evaluator - INFO - Evaluated program f86c59ee-2eb5-4271-b8f6-d25aa31cb72d in 1.79s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:27:58,764 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:27:58,764 - openevolve.process_parallel - INFO - Iteration 78: Program f86c59ee-2eb5-4271-b8f6-d25aa31cb72d (parent: 38eda111-34c8-47de-948b-5a4ce89d030d) completed in 7.12s
+2026-04-03 10:27:58,764 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:28:13,722 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:28:15,526 - openevolve.evaluator - INFO - Evaluated program 603ff8c6-3e4f-4caf-bdbf-2c06bd45f251 in 1.80s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:28:15,528 - openevolve.process_parallel - INFO - Iteration 79: Program 603ff8c6-3e4f-4caf-bdbf-2c06bd45f251 (parent: 094dda14-52ad-4f30-a989-cf10e8e1532c) completed in 16.76s
+2026-04-03 10:28:15,529 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:28:15,529 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:28:29,678 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:28:31,501 - openevolve.evaluator - INFO - Evaluated program e9be0397-7fdf-4996-bb67-f4cc44cc87d7 in 1.82s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:28:31,504 - openevolve.process_parallel - INFO - Iteration 80: Program e9be0397-7fdf-4996-bb67-f4cc44cc87d7 (parent: 506bc4b1-f629-465c-b3fa-5e74e3dd29a1) completed in 15.97s
+2026-04-03 10:28:31,504 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:28:31,505 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:28:36,657 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:28:38,553 - openevolve.evaluator - INFO - Evaluated program bb6ee4da-cc8f-44cd-a327-375b209ac0d8 in 1.89s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:28:38,557 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:28:38,564 - openevolve.process_parallel - INFO - Iteration 81: Program bb6ee4da-cc8f-44cd-a327-375b209ac0d8 (parent: beaf14d1-74df-4ef3-b43d-536080b11089) completed in 7.05s
+2026-04-03 10:28:38,565 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:28:42,497 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:28:44,338 - openevolve.evaluator - INFO - Evaluated program d9128b4e-f15d-4874-9fc8-173c8dfb7f2e in 1.84s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:28:44,341 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:28:44,345 - openevolve.process_parallel - INFO - Iteration 82: Program d9128b4e-f15d-4874-9fc8-173c8dfb7f2e (parent: 049d3330-f32a-445f-a38e-4cca73ad1dba) completed in 5.78s
+2026-04-03 10:28:44,346 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:28:56,510 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:28:58,321 - openevolve.evaluator - INFO - Evaluated program e1891ae3-a4bd-4019-8cf1-365ad079dad1 in 1.81s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:28:58,325 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:28:58,325 - openevolve.process_parallel - INFO - Iteration 83: Program e1891ae3-a4bd-4019-8cf1-365ad079dad1 (parent: 4c025bb1-5fb5-42d9-90db-4c38abff7aa6) completed in 13.98s
+2026-04-03 10:28:58,325 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:29:04,367 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:29:06,172 - openevolve.evaluator - INFO - Evaluated program 3e60c06b-5259-40e9-9aea-35a13addd35d in 1.80s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:29:06,175 - openevolve.process_parallel - INFO - Iteration 84: Program 3e60c06b-5259-40e9-9aea-35a13addd35d (parent: f86c59ee-2eb5-4271-b8f6-d25aa31cb72d) completed in 7.85s
+2026-04-03 10:29:06,176 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:29:06,176 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:29:14,560 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:29:16,379 - openevolve.evaluator - INFO - Evaluated program 8b4939bf-df94-4cc9-aef1-94b87f1e48aa in 1.82s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:29:16,383 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:29:16,389 - openevolve.process_parallel - INFO - Iteration 85: Program 8b4939bf-df94-4cc9-aef1-94b87f1e48aa (parent: 59b751a6-3b67-4c45-ae9e-9b556b0aa145) completed in 10.20s
+2026-04-03 10:29:16,389 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:29:24,614 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:29:26,419 - openevolve.evaluator - INFO - Evaluated program 2d00863a-7e66-484e-accd-3dd64f41cd55 in 1.80s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:29:26,423 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:29:26,426 - openevolve.process_parallel - INFO - Iteration 86: Program 2d00863a-7e66-484e-accd-3dd64f41cd55 (parent: 506bc4b1-f629-465c-b3fa-5e74e3dd29a1) completed in 10.04s
+2026-04-03 10:29:26,426 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:29:31,759 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:29:33,556 - openevolve.evaluator - INFO - Evaluated program 77341926-7863-4c46-a912-c4ce4a20673d in 1.79s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:29:33,558 - openevolve.process_parallel - INFO - Iteration 87: Program 77341926-7863-4c46-a912-c4ce4a20673d (parent: 38eda111-34c8-47de-948b-5a4ce89d030d) completed in 7.13s
+2026-04-03 10:29:33,559 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:29:33,559 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:29:40,556 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:29:42,346 - openevolve.evaluator - INFO - Evaluated program 5ef489ff-df55-4add-b1bf-6042ed51f100 in 1.79s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:29:42,349 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:29:42,357 - openevolve.process_parallel - INFO - Iteration 88: Program 5ef489ff-df55-4add-b1bf-6042ed51f100 (parent: d9128b4e-f15d-4874-9fc8-173c8dfb7f2e) completed in 8.79s
+2026-04-03 10:29:42,358 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:29:56,368 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:29:58,199 - openevolve.evaluator - INFO - Evaluated program 60936b54-53cf-49c8-99be-bfab10d72b6f in 1.83s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:29:58,202 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:29:58,205 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 86}
+2026-04-03 10:29:58,206 - openevolve.process_parallel - INFO - Iteration 89: Program 60936b54-53cf-49c8-99be-bfab10d72b6f (parent: bfb3c84f-bbf0-4bbb-bc92-d28dc772dc7c) completed in 15.85s
+2026-04-03 10:29:58,206 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:30:06,265 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:30:08,081 - openevolve.evaluator - INFO - Evaluated program ea14ffe8-7b38-4acb-a33d-51b0aad78ccd in 1.81s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:30:08,084 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:30:08,090 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 81}
+2026-04-03 10:30:08,090 - openevolve.process_parallel - INFO - Iteration 90: Program ea14ffe8-7b38-4acb-a33d-51b0aad78ccd (parent: e79d41f3-4161-4465-a806-5bf70ec2a15b) completed in 9.88s
+2026-04-03 10:30:08,090 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:30:15,094 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:30:16,910 - openevolve.evaluator - INFO - Evaluated program 37f2d62b-bfe1-4843-a728-7374e9e83d6c in 1.81s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:30:16,914 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:30:16,920 - openevolve.process_parallel - INFO - Iteration 91: Program 37f2d62b-bfe1-4843-a728-7374e9e83d6c (parent: 16cbe0dc-788b-4721-9eff-8dbf027ad4f5) completed in 8.83s
+2026-04-03 10:30:16,920 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:30:25,041 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:30:26,853 - openevolve.evaluator - INFO - Evaluated program 1f8d271a-c0e9-4dfa-b12b-d2540a45b404 in 1.81s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:30:26,856 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:30:26,863 - openevolve.process_parallel - INFO - Iteration 92: Program 1f8d271a-c0e9-4dfa-b12b-d2540a45b404 (parent: bfb3c84f-bbf0-4bbb-bc92-d28dc772dc7c) completed in 9.94s
+2026-04-03 10:30:26,863 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:30:35,905 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:30:37,780 - openevolve.evaluator - INFO - Evaluated program a69b7370-884b-4149-87c2-8b43aacdb8c8 in 1.87s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:30:37,783 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:30:37,788 - openevolve.process_parallel - INFO - Iteration 93: Program a69b7370-884b-4149-87c2-8b43aacdb8c8 (parent: 55e1efb6-5b50-40dd-ba3f-ac4be0a8947c) completed in 10.92s
+2026-04-03 10:30:37,788 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:30:44,199 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:30:46,112 - openevolve.evaluator - INFO - Evaluated program 6bb5a181-792a-42b4-87f7-244bf4e234ee in 1.91s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:30:46,116 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:30:46,124 - openevolve.process_parallel - INFO - Iteration 94: Program 6bb5a181-792a-42b4-87f7-244bf4e234ee (parent: 049d3330-f32a-445f-a38e-4cca73ad1dba) completed in 8.33s
+2026-04-03 10:30:46,124 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:31:03,486 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:31:05,304 - openevolve.evaluator - INFO - Evaluated program b2a0536f-1301-42b6-8167-afae4b961b6b in 1.81s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:31:05,306 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 89}
+2026-04-03 10:31:05,307 - openevolve.process_parallel - INFO - Iteration 95: Program b2a0536f-1301-42b6-8167-afae4b961b6b (parent: 6796968f-8416-453b-b68c-5e9fa1e55b65) completed in 19.19s
+2026-04-03 10:31:05,307 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:31:05,308 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:31:14,106 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:31:15,932 - openevolve.evaluator - INFO - Evaluated program d63fab12-ee8d-4007-a5f2-9ea6612b0e1a in 1.82s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:31:15,936 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:31:15,938 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 87}
+2026-04-03 10:31:15,939 - openevolve.process_parallel - INFO - Iteration 96: Program d63fab12-ee8d-4007-a5f2-9ea6612b0e1a (parent: beaf14d1-74df-4ef3-b43d-536080b11089) completed in 10.63s
+2026-04-03 10:31:15,939 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:31:19,540 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:31:21,408 - openevolve.evaluator - INFO - Evaluated program e74eceb3-6cfe-49df-8564-3a63c9e1c2bb in 1.86s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:31:21,410 - openevolve.process_parallel - INFO - Iteration 97: Program e74eceb3-6cfe-49df-8564-3a63c9e1c2bb (parent: 603ff8c6-3e4f-4caf-bdbf-2c06bd45f251) completed in 5.47s
+2026-04-03 10:31:21,411 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:31:21,411 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:31:30,389 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:31:32,212 - openevolve.evaluator - INFO - Evaluated program 19350f0c-e658-4e0b-a874-d95aff455d48 in 1.82s: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:31:32,215 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:31:32,217 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 48}
+2026-04-03 10:31:32,217 - openevolve.process_parallel - INFO - Iteration 98: Program 19350f0c-e658-4e0b-a874-d95aff455d48 (parent: df98f3d1-05f0-4f9e-a91e-1281dc75d006) completed in 10.80s
+2026-04-03 10:31:32,218 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:31:39,038 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:31:40,852 - openevolve.evaluator - INFO - Evaluated program 3219b946-4eab-4d5c-9877-2c146702be32 in 1.81s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:31:40,856 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 10:31:40,858 - openevolve.process_parallel - INFO - Iteration 99: Program 3219b946-4eab-4d5c-9877-2c146702be32 (parent: 3e60c06b-5259-40e9-9aea-35a13addd35d) completed in 8.64s
+2026-04-03 10:31:40,858 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:31:45,560 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 10:31:47,386 - openevolve.evaluator - INFO - Evaluated program b7db062e-215d-4f68-a296-e678fafff704 in 1.82s: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:31:47,390 - openevolve.process_parallel - INFO - Iteration 100: Program b7db062e-215d-4f68-a296-e678fafff704 (parent: 5ef489ff-df55-4add-b1bf-6042ed51f100) completed in 6.53s
+2026-04-03 10:31:47,390 - openevolve.process_parallel - INFO - Metrics: combined_score=0.8039, success=1.0000, cycles=244.0000, max_diff=0.0000
+2026-04-03 10:31:47,391 - openevolve.process_parallel - INFO - Checkpoint interval reached at iteration 100
+2026-04-03 10:31:47,392 - openevolve.database - INFO - Island Status:
+2026-04-03 10:31:47,393 - openevolve.database - INFO -  * Island 0: 31 programs, best=0.8045, avg=0.7782, diversity=45.48, gen=34 (best: 18b770b2-8904-40cf-9ede-56d3e71da25c)
+2026-04-03 10:31:47,393 - openevolve.database - INFO -    Island 1: 32 programs, best=0.8045, avg=0.7789, diversity=426.73, gen=33 (best: cde83e0f-0502-49f8-b33a-7e4fd4ea31e1)
+2026-04-03 10:31:47,393 - openevolve.database - INFO -    Island 2: 32 programs, best=0.8045, avg=0.7538, diversity=140.57, gen=33 (best: 55e1efb6-5b50-40dd-ba3f-ac4be0a8947c)
+2026-04-03 10:31:47,452 - openevolve.database - INFO - Saved database with 101 programs to output_phase1/elu/round_0/oe_output/checkpoints/checkpoint_100
+2026-04-03 10:31:47,452 - openevolve.controller - INFO - Saved best program at checkpoint 100 with metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:31:47,452 - openevolve.controller - INFO - Saved checkpoint at iteration 100 to output_phase1/elu/round_0/oe_output/checkpoints/checkpoint_100
+2026-04-03 10:31:47,453 - openevolve.process_parallel - INFO - ✅ Evolution completed - Maximum iterations reached
+2026-04-03 10:31:47,510 - openevolve.database - INFO - Saved database with 101 programs to output_phase1/elu/round_0/oe_output/checkpoints/checkpoint_100
+2026-04-03 10:31:47,511 - openevolve.controller - INFO - Saved best program at checkpoint 100 with metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:31:47,511 - openevolve.controller - INFO - Saved checkpoint at iteration 100 to output_phase1/elu/round_0/oe_output/checkpoints/checkpoint_100
+2026-04-03 10:31:47,524 - openevolve.process_parallel - INFO - Stopped process pool
+2026-04-03 10:31:47,524 - openevolve.controller - INFO - Using tracked best program: 55e1efb6-5b50-40dd-ba3f-ac4be0a8947c
+2026-04-03 10:31:47,524 - openevolve.controller - INFO - Evolution complete. Best program has metrics: combined_score=0.8045, success=1.0000, cycles=243.0000, max_diff=0.0000
+2026-04-03 10:31:47,524 - openevolve.controller - INFO - Saved best program to output_phase1/elu/round_0/oe_output/best/best_program.py with program info to output_phase1/elu/round_0/oe_output/best/best_program_info.json
+2026-04-03 10:31:47,573 - src.orchestrator - INFO -   Graduated elu/small to StepDB
+2026-04-03 10:31:47,573 - src.orchestrator - INFO -   SUCCESS: elu cycles=243.0
+2026-04-03 10:31:47,575 - src.orchestrator - INFO - Store saved: 22 kernels (5 solved, 0 remaining)
+2026-04-03 10:31:47,575 - src.orchestrator - INFO - All kernels solved! Terminating early.

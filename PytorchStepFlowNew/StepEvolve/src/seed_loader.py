@@ -29,10 +29,16 @@ def extract_op_tags(code: str) -> list[str]:
 def seed_from_stepdb(store: ExperienceStore, stepdb_path: str) -> None:
     """Load all StepDB kernels with evaluation results into the store."""
     stepdb = Path(stepdb_path)
-    kernels_dir = stepdb / "kernels"
-    assert kernels_dir.is_dir(), f"kernels dir not found: {kernels_dir}"
 
-    for kernel_dir in sorted(kernels_dir.iterdir()):
+    # Scan all kernel directories: seed_kernels/ and solved_kernels/
+    kernel_dirs = []
+    for subdir_name in ("seed_kernels", "solved_kernels"):
+        subdir = stepdb / subdir_name
+        if subdir.is_dir():
+            kernel_dirs.extend(sorted(subdir.iterdir()))
+    assert kernel_dirs, f"No kernel directories found in {stepdb}"
+
+    for kernel_dir in kernel_dirs:
         if not kernel_dir.is_dir() or kernel_dir.name.startswith("_"):
             continue
 

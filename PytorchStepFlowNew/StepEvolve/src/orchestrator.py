@@ -107,7 +107,7 @@ def graduate_to_stepdb(
     Appends entry to StepDB/bench_config.yaml.
     """
     stepdb = Path(se_config.stepdb_path).resolve()
-    kernel_dir = stepdb / "kernels" / kernel.name
+    kernel_dir = stepdb / "solved_kernels" / kernel.name
     kernel_dir.mkdir(parents=True, exist_ok=True)
 
     # Copy reference
@@ -127,8 +127,9 @@ def graduate_to_stepdb(
 
     if kernel.name not in config:
         config[kernel.name] = {
-            "problem": f"kernels/{kernel.name}/reference.py",
-            "step_impl": f"kernels/{kernel.name}/step_impl.py",
+            "problem": f"solved_kernels/{kernel.name}/reference.py",
+            "step_impl": f"solved_kernels/{kernel.name}/step_impl.py",
+            "origin": "evolved",
             "params": list(kernel.dims.keys()),
             "presets": {kernel.preset: dict(kernel.dims)},
         }

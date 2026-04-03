@@ -1,0 +1,821 @@
+2026-04-03 17:20:29,395 - openevolve.controller - INFO - Logging to output_phase5/matmul_add_activations/round_0/oe_output/logs/openevolve_20260403_172029.log
+2026-04-03 17:20:29,395 - openevolve.controller - INFO - Set random seed to 42 for reproducibility
+2026-04-03 17:20:29,437 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2026-04-03 17:20:29,438 - openevolve.database - INFO - Initialized program database with 0 programs
+2026-04-03 17:20:29,439 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output_phase5/matmul_add_activations/round_0/evaluator.py
+2026-04-03 17:20:29,439 - openevolve.evaluator - INFO - Initialized evaluator with output_phase5/matmul_add_activations/round_0/evaluator.py
+2026-04-03 17:20:29,439 - openevolve.controller - INFO - Initialized OpenEvolve with output_phase5/matmul_add_activations/round_0/seed.py
+2026-04-03 17:20:29,440 - openevolve.controller - INFO - Adding initial program to database
+2026-04-03 17:20:29,441 - openevolve.evaluator - ERROR - Error in stage 1 evaluation: name 'output_op' is not defined
+2026-04-03 17:20:29,444 - openevolve.evaluator - INFO - Evaluated program d81189a6-61a5-4a07-8852-fa9a9d69b118 in 0.00s: stage1_passed=0.0000, error=0.0000
+2026-04-03 17:20:29,444 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 50}
+2026-04-03 17:20:29,444 - openevolve.controller - WARNING - ⚠️  No 'combined_score' metric found in evaluation results. Using average of all numeric metrics (0.0000) for evolution guidance. For better evolution results, please modify your evaluator to return a 'combined_score' metric that properly weights different aspects of program performance.
+2026-04-03 17:20:29,444 - openevolve.process_parallel - INFO - Initialized process parallel controller with 1 workers
+2026-04-03 17:20:29,447 - openevolve.process_parallel - INFO - Started process pool with 1 processes
+2026-04-03 17:20:29,447 - openevolve.controller - INFO - Using island-based evolution with 3 islands
+2026-04-03 17:20:29,447 - openevolve.database - INFO - Island Status:
+2026-04-03 17:20:29,447 - openevolve.database - INFO -  * Island 0: 1 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0 (best: d81189a6-61a5-4a07-8852-fa9a9d69b118)
+2026-04-03 17:20:29,447 - openevolve.database - INFO -    Island 1: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2026-04-03 17:20:29,447 - openevolve.database - INFO -    Island 2: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2026-04-03 17:20:29,447 - openevolve.process_parallel - INFO - Starting process-based evolution from iteration 1 for 100 iterations (total: 101)
+2026-04-03 17:20:29,458 - openevolve.process_parallel - INFO - Early stopping disabled
+2026-04-03 17:20:29,544 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2026-04-03 17:20:29,545 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output_phase5/matmul_add_activations/round_0/evaluator.py
+2026-04-03 17:20:29,545 - openevolve.evaluator - INFO - Initialized evaluator with output_phase5/matmul_add_activations/round_0/evaluator.py
+2026-04-03 17:20:29,546 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:20:51,321 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:20:51,326 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:20:51,333 - openevolve.process_parallel - WARNING - Iteration 1 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:21:12,865 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:21:12,869 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:21:12,869 - openevolve.process_parallel - WARNING - Iteration 2 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:21:34,423 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:21:34,426 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:21:34,429 - openevolve.process_parallel - WARNING - Iteration 3 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:21:55,966 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:21:55,969 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:21:55,970 - openevolve.process_parallel - WARNING - Iteration 4 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:22:17,507 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:22:17,509 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:22:17,510 - openevolve.process_parallel - WARNING - Iteration 5 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:22:39,052 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:22:39,055 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:22:39,057 - openevolve.process_parallel - WARNING - Iteration 6 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:23:00,594 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:23:00,597 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:23:00,603 - openevolve.process_parallel - WARNING - Iteration 7 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:23:22,134 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:23:22,137 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:23:22,147 - openevolve.process_parallel - WARNING - Iteration 8 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:23:43,673 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:23:43,676 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:23:43,681 - openevolve.process_parallel - WARNING - Iteration 9 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:24:05,216 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:24:05,219 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:24:05,225 - openevolve.process_parallel - WARNING - Iteration 10 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:24:26,754 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:24:26,757 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:24:26,757 - openevolve.process_parallel - WARNING - Iteration 11 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:24:48,295 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:24:48,298 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:24:48,299 - openevolve.process_parallel - WARNING - Iteration 12 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:25:09,833 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:25:09,836 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:25:09,843 - openevolve.process_parallel - WARNING - Iteration 13 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:25:31,368 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:25:31,371 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:25:31,376 - openevolve.process_parallel - WARNING - Iteration 14 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:25:52,904 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:25:52,907 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:25:52,913 - openevolve.process_parallel - WARNING - Iteration 15 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:26:14,448 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:26:14,451 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:26:14,461 - openevolve.process_parallel - WARNING - Iteration 16 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:26:35,989 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:26:35,992 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:26:36,002 - openevolve.process_parallel - WARNING - Iteration 17 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:26:57,528 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:26:57,531 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:26:57,532 - openevolve.process_parallel - WARNING - Iteration 18 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:27:19,064 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:27:19,067 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:27:19,076 - openevolve.process_parallel - WARNING - Iteration 19 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:27:40,602 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:27:40,605 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:27:40,613 - openevolve.process_parallel - WARNING - Iteration 20 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:28:02,144 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:28:02,147 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:28:02,152 - openevolve.process_parallel - WARNING - Iteration 21 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:28:23,686 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:28:23,689 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:28:23,698 - openevolve.process_parallel - WARNING - Iteration 22 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:28:45,227 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:28:45,230 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:28:45,234 - openevolve.process_parallel - WARNING - Iteration 23 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:29:06,762 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:29:06,766 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:29:06,767 - openevolve.process_parallel - WARNING - Iteration 24 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:29:28,304 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:29:28,307 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:29:28,313 - openevolve.process_parallel - WARNING - Iteration 25 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:29:49,841 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:29:49,844 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:29:49,845 - openevolve.process_parallel - WARNING - Iteration 26 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:30:11,378 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:30:11,381 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:30:11,386 - openevolve.process_parallel - WARNING - Iteration 27 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:30:32,916 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:30:32,919 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:30:32,921 - openevolve.process_parallel - WARNING - Iteration 28 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:30:54,454 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:30:54,457 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:30:54,464 - openevolve.process_parallel - WARNING - Iteration 29 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:31:15,987 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:31:15,990 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:31:15,991 - openevolve.process_parallel - WARNING - Iteration 30 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:31:37,527 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:31:37,530 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:31:37,531 - openevolve.process_parallel - WARNING - Iteration 31 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:31:59,066 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:31:59,069 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:31:59,072 - openevolve.process_parallel - WARNING - Iteration 32 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:32:20,608 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:32:20,610 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:32:20,613 - openevolve.process_parallel - WARNING - Iteration 33 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:32:42,142 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:32:42,145 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:32:42,145 - openevolve.process_parallel - WARNING - Iteration 34 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:33:03,671 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:33:03,674 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:33:03,681 - openevolve.process_parallel - WARNING - Iteration 35 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:33:25,205 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:33:25,208 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:33:25,217 - openevolve.process_parallel - WARNING - Iteration 36 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:33:46,742 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:33:46,746 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:33:46,746 - openevolve.process_parallel - WARNING - Iteration 37 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:34:08,269 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:34:08,272 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:34:08,277 - openevolve.process_parallel - WARNING - Iteration 38 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:34:29,811 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:34:29,814 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:34:29,819 - openevolve.process_parallel - WARNING - Iteration 39 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:34:51,354 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:34:51,357 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:34:51,359 - openevolve.process_parallel - WARNING - Iteration 40 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:35:12,895 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:35:12,898 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:35:12,899 - openevolve.process_parallel - WARNING - Iteration 41 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:35:34,431 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:35:34,434 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:35:34,435 - openevolve.process_parallel - WARNING - Iteration 42 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:35:55,963 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:35:55,966 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:35:55,973 - openevolve.process_parallel - WARNING - Iteration 43 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:36:17,495 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:36:17,498 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:36:17,504 - openevolve.process_parallel - WARNING - Iteration 44 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:36:39,035 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:36:39,038 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:36:39,048 - openevolve.process_parallel - WARNING - Iteration 45 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:37:00,576 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:37:00,579 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:37:00,585 - openevolve.process_parallel - WARNING - Iteration 46 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:37:22,115 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:37:22,118 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:37:22,119 - openevolve.process_parallel - WARNING - Iteration 47 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:37:43,653 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:37:43,656 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:37:43,666 - openevolve.process_parallel - WARNING - Iteration 48 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:38:05,197 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:38:05,200 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:38:05,209 - openevolve.process_parallel - WARNING - Iteration 49 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:38:26,739 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:38:26,742 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:38:26,745 - openevolve.process_parallel - WARNING - Iteration 50 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:38:48,273 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:38:48,276 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:38:48,286 - openevolve.process_parallel - WARNING - Iteration 51 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:39:09,813 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:39:09,816 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:39:09,822 - openevolve.process_parallel - WARNING - Iteration 52 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:39:31,352 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:39:31,355 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:39:31,363 - openevolve.process_parallel - WARNING - Iteration 53 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:39:52,885 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:39:52,888 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:39:52,889 - openevolve.process_parallel - WARNING - Iteration 54 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:40:14,419 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:40:14,422 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:40:14,428 - openevolve.process_parallel - WARNING - Iteration 55 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:40:35,948 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:40:35,951 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:40:35,956 - openevolve.process_parallel - WARNING - Iteration 56 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:40:57,480 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:40:57,483 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:40:57,493 - openevolve.process_parallel - WARNING - Iteration 57 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:41:19,015 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:41:19,018 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:41:19,027 - openevolve.process_parallel - WARNING - Iteration 58 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:41:40,557 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:41:40,560 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:41:40,563 - openevolve.process_parallel - WARNING - Iteration 59 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:42:02,101 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:42:02,104 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:42:02,106 - openevolve.process_parallel - WARNING - Iteration 60 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:42:23,642 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:42:23,644 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:42:23,650 - openevolve.process_parallel - WARNING - Iteration 61 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:42:45,182 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:42:45,185 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:42:45,193 - openevolve.process_parallel - WARNING - Iteration 62 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:43:06,719 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:43:06,722 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:43:06,728 - openevolve.process_parallel - WARNING - Iteration 63 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:43:28,263 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:43:28,266 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:43:28,267 - openevolve.process_parallel - WARNING - Iteration 64 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:43:49,797 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:43:49,800 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:43:49,800 - openevolve.process_parallel - WARNING - Iteration 65 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:44:11,329 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:44:11,332 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:44:11,337 - openevolve.process_parallel - WARNING - Iteration 66 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:44:32,865 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:44:32,868 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:44:32,868 - openevolve.process_parallel - WARNING - Iteration 67 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:44:54,405 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:44:54,408 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:44:54,410 - openevolve.process_parallel - WARNING - Iteration 68 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:45:15,945 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:45:15,948 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:45:15,954 - openevolve.process_parallel - WARNING - Iteration 69 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:45:37,486 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:45:37,489 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:45:37,498 - openevolve.process_parallel - WARNING - Iteration 70 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:45:59,027 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:45:59,030 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:45:59,038 - openevolve.process_parallel - WARNING - Iteration 71 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:46:20,559 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:46:20,562 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:46:20,564 - openevolve.process_parallel - WARNING - Iteration 72 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:46:42,097 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:46:42,100 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:46:42,107 - openevolve.process_parallel - WARNING - Iteration 73 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:47:03,638 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:47:03,641 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:47:03,647 - openevolve.process_parallel - WARNING - Iteration 74 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:47:25,166 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:47:25,169 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:47:25,179 - openevolve.process_parallel - WARNING - Iteration 75 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:47:46,708 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:47:46,711 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:47:46,713 - openevolve.process_parallel - WARNING - Iteration 76 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:48:08,249 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:48:08,252 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:48:08,253 - openevolve.process_parallel - WARNING - Iteration 77 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:48:29,782 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:48:29,785 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:48:29,791 - openevolve.process_parallel - WARNING - Iteration 78 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:48:51,320 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:48:51,323 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:48:51,329 - openevolve.process_parallel - WARNING - Iteration 79 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:49:12,862 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:49:12,865 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:49:12,866 - openevolve.process_parallel - WARNING - Iteration 80 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:49:34,403 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:49:34,406 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:49:34,414 - openevolve.process_parallel - WARNING - Iteration 81 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:49:55,937 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:49:55,940 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:49:55,941 - openevolve.process_parallel - WARNING - Iteration 82 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:50:17,485 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:50:17,488 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:50:17,495 - openevolve.process_parallel - WARNING - Iteration 83 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:50:39,022 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:50:39,025 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:50:39,029 - openevolve.process_parallel - WARNING - Iteration 84 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:51:00,558 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:51:00,561 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:51:00,571 - openevolve.process_parallel - WARNING - Iteration 85 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:51:22,097 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:51:22,100 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:51:22,101 - openevolve.process_parallel - WARNING - Iteration 86 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:51:43,635 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:51:43,638 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:51:43,644 - openevolve.process_parallel - WARNING - Iteration 87 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:52:05,166 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:52:05,169 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:52:05,169 - openevolve.process_parallel - WARNING - Iteration 88 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:52:26,703 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:52:26,706 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:52:26,711 - openevolve.process_parallel - WARNING - Iteration 89 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:52:48,244 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:52:48,247 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:52:48,253 - openevolve.process_parallel - WARNING - Iteration 90 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:53:09,772 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:53:09,775 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:53:09,777 - openevolve.process_parallel - WARNING - Iteration 91 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:53:31,310 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:53:31,312 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:53:31,319 - openevolve.process_parallel - WARNING - Iteration 92 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:53:52,851 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:53:52,854 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:53:52,863 - openevolve.process_parallel - WARNING - Iteration 93 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:54:14,391 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:54:14,394 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:54:14,395 - openevolve.process_parallel - WARNING - Iteration 94 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:54:35,932 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:54:35,935 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:54:35,941 - openevolve.process_parallel - WARNING - Iteration 95 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:54:57,467 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:54:57,470 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:54:57,479 - openevolve.process_parallel - WARNING - Iteration 96 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:55:19,005 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:55:19,008 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:55:19,010 - openevolve.process_parallel - WARNING - Iteration 97 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:55:40,544 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:55:40,548 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:55:40,555 - openevolve.process_parallel - WARNING - Iteration 98 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:56:02,078 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:56:02,081 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:56:02,084 - openevolve.process_parallel - WARNING - Iteration 99 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:56:23,618 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:56:23,628 - openevolve.process_parallel - WARNING - Iteration 100 error: Generated code exceeds maximum length (8143 > 8000)
+2026-04-03 17:56:23,628 - openevolve.process_parallel - INFO - ✅ Evolution completed - Maximum iterations reached
+2026-04-03 17:56:23,629 - openevolve.database - INFO - Saved database with 1 programs to output_phase5/matmul_add_activations/round_0/oe_output/checkpoints/checkpoint_100
+2026-04-03 17:56:23,629 - openevolve.controller - INFO - Saved best program at checkpoint 100 with metrics: stage1_passed=0.0000, error=0.0000
+2026-04-03 17:56:23,629 - openevolve.controller - INFO - Saved checkpoint at iteration 100 to output_phase5/matmul_add_activations/round_0/oe_output/checkpoints/checkpoint_100
+2026-04-03 17:56:23,642 - openevolve.process_parallel - INFO - Stopped process pool
+2026-04-03 17:56:23,643 - openevolve.controller - INFO - Using tracked best program: d81189a6-61a5-4a07-8852-fa9a9d69b118
+2026-04-03 17:56:23,643 - openevolve.controller - INFO - Evolution complete. Best program has metrics: stage1_passed=0.0000, error=0.0000
+2026-04-03 17:56:23,643 - openevolve.controller - INFO - Saved best program to output_phase5/matmul_add_activations/round_0/oe_output/best/best_program.py with program info to output_phase5/matmul_add_activations/round_0/oe_output/best/best_program_info.json
+2026-04-03 17:56:23,643 - src.orchestrator - INFO -   No correct implementation found (best_score=0.0000)
+2026-04-03 17:56:23,643 - src.orchestrator - INFO - Round 0: evolving matmul_sum_max_pool / small
+2026-04-03 17:56:25,978 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:56:25,980 - src.orchestrator - INFO -   Curated 4 cross-kernel examples
+2026-04-03 17:56:25,980 - src.orchestrator - INFO -   Running OpenEvolve for 100 iterations
+2026-04-03 17:56:25,981 - openevolve.controller - INFO - Logging to output_phase5/matmul_sum_max_pool/round_0/oe_output/logs/openevolve_20260403_175625.log
+2026-04-03 17:56:25,981 - openevolve.controller - INFO - Set random seed to 42 for reproducibility
+2026-04-03 17:56:26,024 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2026-04-03 17:56:26,024 - openevolve.database - INFO - Initialized program database with 0 programs
+2026-04-03 17:56:26,026 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output_phase5/matmul_sum_max_pool/round_0/evaluator.py
+2026-04-03 17:56:26,026 - openevolve.evaluator - INFO - Initialized evaluator with output_phase5/matmul_sum_max_pool/round_0/evaluator.py
+2026-04-03 17:56:26,026 - openevolve.controller - INFO - Initialized OpenEvolve with output_phase5/matmul_sum_max_pool/round_0/seed.py
+2026-04-03 17:56:26,026 - openevolve.controller - INFO - Adding initial program to database
+2026-04-03 17:56:26,028 - openevolve.evaluator - ERROR - Error in stage 1 evaluation: name 'output_op' is not defined
+2026-04-03 17:56:26,031 - openevolve.evaluator - INFO - Evaluated program 814523f8-3b02-4de0-9c10-96a606c6dbb2 in 0.00s: stage1_passed=0.0000, error=0.0000
+2026-04-03 17:56:26,031 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 50}
+2026-04-03 17:56:26,031 - openevolve.controller - WARNING - ⚠️  No 'combined_score' metric found in evaluation results. Using average of all numeric metrics (0.0000) for evolution guidance. For better evolution results, please modify your evaluator to return a 'combined_score' metric that properly weights different aspects of program performance.
+2026-04-03 17:56:26,031 - openevolve.process_parallel - INFO - Initialized process parallel controller with 1 workers
+2026-04-03 17:56:26,033 - openevolve.process_parallel - INFO - Started process pool with 1 processes
+2026-04-03 17:56:26,033 - openevolve.controller - INFO - Using island-based evolution with 3 islands
+2026-04-03 17:56:26,033 - openevolve.database - INFO - Island Status:
+2026-04-03 17:56:26,033 - openevolve.database - INFO -  * Island 0: 1 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0 (best: 814523f8-3b02-4de0-9c10-96a606c6dbb2)
+2026-04-03 17:56:26,033 - openevolve.database - INFO -    Island 1: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2026-04-03 17:56:26,033 - openevolve.database - INFO -    Island 2: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2026-04-03 17:56:26,033 - openevolve.process_parallel - INFO - Starting process-based evolution from iteration 1 for 100 iterations (total: 101)
+2026-04-03 17:56:26,044 - openevolve.process_parallel - INFO - Early stopping disabled
+2026-04-03 17:56:26,131 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2026-04-03 17:56:26,131 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output_phase5/matmul_sum_max_pool/round_0/evaluator.py
+2026-04-03 17:56:26,131 - openevolve.evaluator - INFO - Initialized evaluator with output_phase5/matmul_sum_max_pool/round_0/evaluator.py
+2026-04-03 17:56:26,132 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:56:38,614 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:56:40,351 - openevolve.evaluator - INFO - Evaluated program e015d6bf-8902-4482-bc46-92166fcc1b63 in 1.73s: combined_score=0.2000, success=0.0000
+2026-04-03 17:56:40,353 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:56:40,354 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 99}
+2026-04-03 17:56:40,355 - openevolve.database - INFO - New best program e015d6bf-8902-4482-bc46-92166fcc1b63 replaces 814523f8-3b02-4de0-9c10-96a606c6dbb2
+2026-04-03 17:56:40,355 - openevolve.process_parallel - INFO - Iteration 1: Program e015d6bf-8902-4482-bc46-92166fcc1b63 (parent: 814523f8-3b02-4de0-9c10-96a606c6dbb2) completed in 14.22s
+2026-04-03 17:56:40,355 - openevolve.process_parallel - INFO - Metrics: combined_score=0.2000, success=0.0000
+2026-04-03 17:56:40,355 - openevolve.process_parallel - INFO - 🌟 New best solution found at iteration 1: e015d6bf-8902-4482-bc46-92166fcc1b63
+2026-04-03 17:56:52,739 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:56:54,457 - openevolve.evaluator - INFO - Evaluated program 4f44ec9f-ffa9-47f5-9a15-54e8e3108c9f in 1.72s: combined_score=0.2000, success=0.0000
+2026-04-03 17:56:54,459 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:56:54,460 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 99}
+2026-04-03 17:56:54,460 - openevolve.process_parallel - INFO - Iteration 2: Program 4f44ec9f-ffa9-47f5-9a15-54e8e3108c9f (parent: 814523f8-3b02-4de0-9c10-96a606c6dbb2) completed in 14.11s
+2026-04-03 17:56:54,460 - openevolve.process_parallel - INFO - Metrics: combined_score=0.2000, success=0.0000
+2026-04-03 17:57:06,842 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:57:08,558 - openevolve.evaluator - INFO - Evaluated program 61add2d2-36d6-490e-9931-ab39fd87bf88 in 1.71s: combined_score=0.2000, success=0.0000
+2026-04-03 17:57:08,559 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:57:08,565 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 99}
+2026-04-03 17:57:08,565 - openevolve.process_parallel - INFO - Iteration 3: Program 61add2d2-36d6-490e-9931-ab39fd87bf88 (parent: 814523f8-3b02-4de0-9c10-96a606c6dbb2) completed in 14.10s
+2026-04-03 17:57:08,565 - openevolve.process_parallel - INFO - Metrics: combined_score=0.2000, success=0.0000
+2026-04-03 17:57:19,242 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:57:20,960 - openevolve.evaluator - INFO - Evaluated program 62518ad5-6e03-4305-98ae-f9d065a23f65 in 1.72s: combined_score=0.2000, success=0.0000
+2026-04-03 17:57:20,962 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:57:20,964 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 97}
+2026-04-03 17:57:20,965 - openevolve.process_parallel - INFO - Iteration 4: Program 62518ad5-6e03-4305-98ae-f9d065a23f65 (parent: 814523f8-3b02-4de0-9c10-96a606c6dbb2) completed in 12.40s
+2026-04-03 17:57:20,965 - openevolve.process_parallel - INFO - Metrics: combined_score=0.2000, success=0.0000
+2026-04-03 17:57:36,214 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:57:38,108 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 32 into shape (32,64)
+2026-04-03 17:57:38,108 - openevolve.evaluator - INFO - Evaluated program 0802e93a-ef83-4281-a977-e74be7359691 in 1.89s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 17:57:38,110 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:57:38,113 - openevolve.database - INFO - Island 1 MAP-Elites cell improved: {'complexity': 99} (fitness: 0.200 -> 0.300)
+2026-04-03 17:57:38,113 - openevolve.database - INFO - New best program 0802e93a-ef83-4281-a977-e74be7359691 replaces e015d6bf-8902-4482-bc46-92166fcc1b63 (combined_score: 0.2000 → 0.3000, +0.1000)
+2026-04-03 17:57:38,114 - openevolve.process_parallel - INFO - Iteration 5: Program 0802e93a-ef83-4281-a977-e74be7359691 (parent: 4f44ec9f-ffa9-47f5-9a15-54e8e3108c9f) completed in 17.15s
+2026-04-03 17:57:38,114 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 17:57:38,114 - openevolve.process_parallel - INFO - 🌟 New best solution found at iteration 5: 0802e93a-ef83-4281-a977-e74be7359691
+2026-04-03 17:57:53,364 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:57:55,224 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 32 into shape (32,64)
+2026-04-03 17:57:55,224 - openevolve.evaluator - INFO - Evaluated program 1c1a17dd-33f9-41a2-80a3-0eb83206e309 in 1.86s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 17:57:55,226 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:57:55,231 - openevolve.database - INFO - Island 2 MAP-Elites cell improved: {'complexity': 99} (fitness: 0.200 -> 0.300)
+2026-04-03 17:57:55,232 - openevolve.process_parallel - INFO - Iteration 6: Program 1c1a17dd-33f9-41a2-80a3-0eb83206e309 (parent: 61add2d2-36d6-490e-9931-ab39fd87bf88) completed in 17.12s
+2026-04-03 17:57:55,232 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 17:58:07,319 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:58:09,212 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: Element count mismatch: sim=128 gold=1
+2026-04-03 17:58:09,213 - openevolve.evaluator - INFO - Evaluated program 523d8762-d72e-49e1-8aac-084ed31021de in 1.89s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 17:58:09,215 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:58:09,219 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 75}
+2026-04-03 17:58:09,219 - openevolve.process_parallel - INFO - Iteration 7: Program 523d8762-d72e-49e1-8aac-084ed31021de (parent: 62518ad5-6e03-4305-98ae-f9d065a23f65) completed in 13.99s
+2026-04-03 17:58:09,219 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 17:58:20,264 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:58:21,989 - openevolve.evaluator - INFO - Evaluated program 1bbfba1c-37fd-4721-ae3b-ba3937a88094 in 1.72s: combined_score=0.2000, success=0.0000
+2026-04-03 17:58:21,991 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:58:21,996 - openevolve.process_parallel - INFO - Iteration 8: Program 1bbfba1c-37fd-4721-ae3b-ba3937a88094 (parent: 0802e93a-ef83-4281-a977-e74be7359691) completed in 12.77s
+2026-04-03 17:58:21,997 - openevolve.process_parallel - INFO - Metrics: combined_score=0.2000, success=0.0000
+2026-04-03 17:58:33,030 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:58:34,750 - openevolve.evaluator - INFO - Evaluated program 9e14418f-8e5e-4258-a2cd-00270ebb25d9 in 1.72s: combined_score=0.2000, success=0.0000
+2026-04-03 17:58:34,752 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:58:34,760 - openevolve.process_parallel - INFO - Iteration 9: Program 9e14418f-8e5e-4258-a2cd-00270ebb25d9 (parent: 1c1a17dd-33f9-41a2-80a3-0eb83206e309) completed in 12.76s
+2026-04-03 17:58:34,761 - openevolve.process_parallel - INFO - Metrics: combined_score=0.2000, success=0.0000
+2026-04-03 17:58:40,847 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:58:42,560 - openevolve.evaluator - INFO - Evaluated program 3a6ae08f-de90-402f-b1d4-ed0919034118 in 1.71s: combined_score=0.2000, success=0.0000
+2026-04-03 17:58:42,562 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:58:42,570 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 91}
+2026-04-03 17:58:42,571 - openevolve.process_parallel - INFO - Iteration 10: Program 3a6ae08f-de90-402f-b1d4-ed0919034118 (parent: 523d8762-d72e-49e1-8aac-084ed31021de) completed in 7.81s
+2026-04-03 17:58:42,571 - openevolve.process_parallel - INFO - Metrics: combined_score=0.2000, success=0.0000
+2026-04-03 17:58:50,632 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:58:52,408 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,4)
+2026-04-03 17:58:52,409 - openevolve.evaluator - INFO - Evaluated program 3d21080c-2de9-4960-8136-f33f6afd3767 in 1.77s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 17:58:52,410 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:58:52,418 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 87}
+2026-04-03 17:58:52,419 - openevolve.process_parallel - INFO - Iteration 11: Program 3d21080c-2de9-4960-8136-f33f6afd3767 (parent: 1bbfba1c-37fd-4721-ae3b-ba3937a88094) completed in 9.85s
+2026-04-03 17:58:52,419 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 17:59:00,472 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:59:02,249 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,4)
+2026-04-03 17:59:02,250 - openevolve.evaluator - INFO - Evaluated program 7a27eb75-e9d6-41c2-801c-ec072f300893 in 1.77s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 17:59:02,251 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:59:02,259 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 87}
+2026-04-03 17:59:02,259 - openevolve.process_parallel - INFO - Iteration 12: Program 7a27eb75-e9d6-41c2-801c-ec072f300893 (parent: 9e14418f-8e5e-4258-a2cd-00270ebb25d9) completed in 9.84s
+2026-04-03 17:59:02,259 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 17:59:12,678 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:59:14,454 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,4)
+2026-04-03 17:59:14,454 - openevolve.evaluator - INFO - Evaluated program afb808ac-d3b9-4010-a4a9-6cf0a661709d in 1.77s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 17:59:14,457 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:59:14,460 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 59}
+2026-04-03 17:59:14,461 - openevolve.process_parallel - INFO - Iteration 13: Program afb808ac-d3b9-4010-a4a9-6cf0a661709d (parent: 62518ad5-6e03-4305-98ae-f9d065a23f65) completed in 12.20s
+2026-04-03 17:59:14,461 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 17:59:30,160 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:59:31,926 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,4)
+2026-04-03 17:59:31,926 - openevolve.evaluator - INFO - Evaluated program 03e62ff5-9274-4296-8d5d-434498a883e3 in 1.76s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 17:59:31,928 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:59:31,928 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 72}
+2026-04-03 17:59:31,928 - openevolve.process_parallel - INFO - Iteration 14: Program 03e62ff5-9274-4296-8d5d-434498a883e3 (parent: 3d21080c-2de9-4960-8136-f33f6afd3767) completed in 17.47s
+2026-04-03 17:59:31,928 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 17:59:40,046 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:59:41,874 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,4)
+2026-04-03 17:59:41,874 - openevolve.evaluator - INFO - Evaluated program c04852d1-5d93-4e5d-bf18-02d9b9e6b89f in 1.83s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 17:59:41,877 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:59:41,884 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 67}
+2026-04-03 17:59:41,885 - openevolve.process_parallel - INFO - Iteration 15: Program c04852d1-5d93-4e5d-bf18-02d9b9e6b89f (parent: 9e14418f-8e5e-4258-a2cd-00270ebb25d9) completed in 9.95s
+2026-04-03 17:59:41,885 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 17:59:55,980 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 17:59:57,841 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: Element count mismatch: sim=2048 gold=1
+2026-04-03 17:59:57,841 - openevolve.evaluator - INFO - Evaluated program c28b9247-cc93-431e-8f7c-ae368884d304 in 1.86s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 17:59:57,843 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 17:59:57,850 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 77}
+2026-04-03 17:59:57,851 - openevolve.process_parallel - INFO - Iteration 16: Program c28b9247-cc93-431e-8f7c-ae368884d304 (parent: afb808ac-d3b9-4010-a4a9-6cf0a661709d) completed in 15.97s
+2026-04-03 17:59:57,851 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:00:09,242 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:00:11,043 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:00:11,043 - openevolve.evaluator - INFO - Evaluated program ad282775-4278-4ded-81bc-f9e18749ea90 in 1.80s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:00:11,046 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:00:11,050 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 59}
+2026-04-03 18:00:11,050 - openevolve.process_parallel - INFO - Iteration 17: Program ad282775-4278-4ded-81bc-f9e18749ea90 (parent: 0802e93a-ef83-4281-a977-e74be7359691) completed in 13.20s
+2026-04-03 18:00:11,051 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:00:30,534 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:00:32,388 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: Element count mismatch: sim=2048 gold=1
+2026-04-03 18:00:32,389 - openevolve.evaluator - INFO - Evaluated program 5cfaaf70-2911-41e2-8512-d8d4fe5df1e2 in 1.85s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:00:32,391 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:00:32,394 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 81}
+2026-04-03 18:00:32,394 - openevolve.process_parallel - INFO - Iteration 18: Program 5cfaaf70-2911-41e2-8512-d8d4fe5df1e2 (parent: c04852d1-5d93-4e5d-bf18-02d9b9e6b89f) completed in 21.34s
+2026-04-03 18:00:32,394 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:00:43,343 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:00:45,133 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:00:45,134 - openevolve.evaluator - INFO - Evaluated program 44fd98de-73f2-4524-b6f8-4ed356dac749 in 1.79s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:00:45,137 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:00:45,143 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 45}
+2026-04-03 18:00:45,144 - openevolve.process_parallel - INFO - Iteration 19: Program 44fd98de-73f2-4524-b6f8-4ed356dac749 (parent: c28b9247-cc93-431e-8f7c-ae368884d304) completed in 12.74s
+2026-04-03 18:00:45,144 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:00:54,067 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:00:55,849 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:00:55,849 - openevolve.evaluator - INFO - Evaluated program 7029b7f7-467b-479d-9628-10d4d0fb9e55 in 1.78s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:00:55,852 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:00:55,855 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 63}
+2026-04-03 18:00:55,857 - openevolve.process_parallel - INFO - Iteration 20: Program 7029b7f7-467b-479d-9628-10d4d0fb9e55 (parent: ad282775-4278-4ded-81bc-f9e18749ea90) completed in 10.71s
+2026-04-03 18:00:55,857 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:01:00,922 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:01:02,709 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:01:02,710 - openevolve.evaluator - INFO - Evaluated program 50efec33-17a3-4530-8a03-9edc47b36623 in 1.78s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:01:02,712 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:01:02,714 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 72}
+2026-04-03 18:01:02,715 - openevolve.process_parallel - INFO - Iteration 21: Program 50efec33-17a3-4530-8a03-9edc47b36623 (parent: 5cfaaf70-2911-41e2-8512-d8d4fe5df1e2) completed in 6.86s
+2026-04-03 18:01:02,715 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:01:09,344 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:01:11,200 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: Element count mismatch: sim=128 gold=1
+2026-04-03 18:01:11,200 - openevolve.evaluator - INFO - Evaluated program fabe60e8-8488-4a72-97b4-8c8c7cfa0aed in 1.85s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:01:11,203 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:01:11,204 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 81}
+2026-04-03 18:01:11,204 - openevolve.process_parallel - INFO - Iteration 22: Program fabe60e8-8488-4a72-97b4-8c8c7cfa0aed (parent: 62518ad5-6e03-4305-98ae-f9d065a23f65) completed in 8.49s
+2026-04-03 18:01:11,204 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:01:23,616 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:01:25,401 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,4)
+2026-04-03 18:01:25,402 - openevolve.evaluator - INFO - Evaluated program ade28010-91ee-47f3-be0e-bbbee3400a43 in 1.78s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:01:25,404 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 76}
+2026-04-03 18:01:25,404 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:01:25,404 - openevolve.process_parallel - INFO - Iteration 23: Program ade28010-91ee-47f3-be0e-bbbee3400a43 (parent: 03e62ff5-9274-4296-8d5d-434498a883e3) completed in 14.20s
+2026-04-03 18:01:25,404 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:01:31,698 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:01:33,494 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,4)
+2026-04-03 18:01:33,494 - openevolve.evaluator - INFO - Evaluated program 5f5b5bba-c47f-4377-b70d-f1b53c5cbc86 in 1.79s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:01:33,497 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:01:33,497 - openevolve.process_parallel - INFO - Iteration 24: Program 5f5b5bba-c47f-4377-b70d-f1b53c5cbc86 (parent: 5cfaaf70-2911-41e2-8512-d8d4fe5df1e2) completed in 8.09s
+2026-04-03 18:01:33,498 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:01:44,221 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:01:45,989 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,4)
+2026-04-03 18:01:45,989 - openevolve.evaluator - INFO - Evaluated program 52598266-cd60-43fb-82bd-ac082d992efd in 1.77s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:01:45,992 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:01:46,000 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 61}
+2026-04-03 18:01:46,000 - openevolve.database - INFO - Island 0 MAP-Elites coverage reached 10.0% (10/100 cells)
+2026-04-03 18:01:46,000 - openevolve.process_parallel - INFO - Iteration 25: Program 52598266-cd60-43fb-82bd-ac082d992efd (parent: c28b9247-cc93-431e-8f7c-ae368884d304) completed in 12.49s
+2026-04-03 18:01:46,001 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:02:00,383 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:02:02,233 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: Element count mismatch: sim=2048 gold=1
+2026-04-03 18:02:02,234 - openevolve.evaluator - INFO - Evaluated program bdcc0429-ba34-4f00-894d-63002b1ab195 in 1.85s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:02:02,236 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:02:02,240 - openevolve.process_parallel - INFO - Iteration 26: Program bdcc0429-ba34-4f00-894d-63002b1ab195 (parent: 7029b7f7-467b-479d-9628-10d4d0fb9e55) completed in 16.24s
+2026-04-03 18:02:02,240 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:02:08,428 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:02:10,221 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:02:10,221 - openevolve.evaluator - INFO - Evaluated program e7a39ad0-a69a-415b-9284-0b9df6c48535 in 1.79s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:02:10,224 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:02:10,231 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 78}
+2026-04-03 18:02:10,231 - openevolve.process_parallel - INFO - Iteration 27: Program e7a39ad0-a69a-415b-9284-0b9df6c48535 (parent: 7a27eb75-e9d6-41c2-801c-ec072f300893) completed in 7.99s
+2026-04-03 18:02:10,231 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:02:21,597 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:02:23,386 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: Element count mismatch: sim=2048 gold=1
+2026-04-03 18:02:23,386 - openevolve.evaluator - INFO - Evaluated program b1a8fe7a-4337-46d6-8637-e9a3fb172456 in 1.79s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:02:23,389 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:02:23,393 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 55}
+2026-04-03 18:02:23,393 - openevolve.process_parallel - INFO - Iteration 28: Program b1a8fe7a-4337-46d6-8637-e9a3fb172456 (parent: 44fd98de-73f2-4524-b6f8-4ed356dac749) completed in 13.16s
+2026-04-03 18:02:23,393 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:02:30,798 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:02:32,576 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:02:32,576 - openevolve.evaluator - INFO - Evaluated program 667fad71-c9f8-4341-967d-c35d5b62b938 in 1.78s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:02:32,579 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:02:32,580 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 64}
+2026-04-03 18:02:32,580 - openevolve.process_parallel - INFO - Iteration 29: Program 667fad71-c9f8-4341-967d-c35d5b62b938 (parent: bdcc0429-ba34-4f00-894d-63002b1ab195) completed in 9.19s
+2026-04-03 18:02:32,580 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:02:41,967 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:02:43,737 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:02:43,737 - openevolve.evaluator - INFO - Evaluated program 1aa9c765-aa70-4f33-8e08-28e8024694ed in 1.77s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:02:43,740 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:02:43,747 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 77}
+2026-04-03 18:02:43,747 - openevolve.process_parallel - INFO - Iteration 30: Program 1aa9c765-aa70-4f33-8e08-28e8024694ed (parent: 9e14418f-8e5e-4258-a2cd-00270ebb25d9) completed in 11.16s
+2026-04-03 18:02:43,747 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:02:50,195 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:02:51,978 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: Element count mismatch: sim=2048 gold=1
+2026-04-03 18:02:51,979 - openevolve.evaluator - INFO - Evaluated program dac0c20b-b5f2-48a3-9cff-09759bbc4bd1 in 1.78s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:02:51,982 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:02:51,983 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 53}
+2026-04-03 18:02:51,983 - openevolve.process_parallel - INFO - Iteration 31: Program dac0c20b-b5f2-48a3-9cff-09759bbc4bd1 (parent: 44fd98de-73f2-4524-b6f8-4ed356dac749) completed in 8.24s
+2026-04-03 18:02:51,983 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:03:05,109 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:03:06,882 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:03:06,882 - openevolve.evaluator - INFO - Evaluated program 15c5df95-4219-4f36-a31f-8f4b6dfd1d69 in 1.77s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:03:06,885 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:03:06,885 - openevolve.process_parallel - INFO - Iteration 32: Program 15c5df95-4219-4f36-a31f-8f4b6dfd1d69 (parent: 7029b7f7-467b-479d-9628-10d4d0fb9e55) completed in 14.90s
+2026-04-03 18:03:06,886 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:03:11,823 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:03:13,635 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: Element count mismatch: sim=2048 gold=1
+2026-04-03 18:03:13,636 - openevolve.evaluator - INFO - Evaluated program 27edef02-db82-4232-867b-526a88ba9bb6 in 1.81s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:03:13,638 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:03:13,639 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 84}
+2026-04-03 18:03:13,639 - openevolve.process_parallel - INFO - Iteration 33: Program 27edef02-db82-4232-867b-526a88ba9bb6 (parent: e7a39ad0-a69a-415b-9284-0b9df6c48535) completed in 6.75s
+2026-04-03 18:03:13,639 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:03:27,342 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:03:29,152 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:03:29,153 - openevolve.evaluator - INFO - Evaluated program be316289-efaa-4fdd-a44c-63ae068d777f in 1.81s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:03:29,155 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:03:29,158 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 56}
+2026-04-03 18:03:29,158 - openevolve.process_parallel - INFO - Iteration 34: Program be316289-efaa-4fdd-a44c-63ae068d777f (parent: 3a6ae08f-de90-402f-b1d4-ed0919034118) completed in 15.52s
+2026-04-03 18:03:29,158 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:03:40,427 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:03:42,220 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:03:42,220 - openevolve.evaluator - INFO - Evaluated program 570cc5d0-a2d2-4591-a334-63193687505e in 1.79s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:03:42,222 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:03:42,227 - openevolve.process_parallel - INFO - Iteration 35: Program 570cc5d0-a2d2-4591-a334-63193687505e (parent: ad282775-4278-4ded-81bc-f9e18749ea90) completed in 13.07s
+2026-04-03 18:03:42,227 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:03:48,791 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:03:50,617 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: Element count mismatch: sim=2048 gold=1
+2026-04-03 18:03:50,617 - openevolve.evaluator - INFO - Evaluated program 1f050fb9-06d1-4ef8-abe0-62d7a4c6e84a in 1.82s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:03:50,620 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:03:50,622 - openevolve.process_parallel - INFO - Iteration 36: Program 1f050fb9-06d1-4ef8-abe0-62d7a4c6e84a (parent: 1aa9c765-aa70-4f33-8e08-28e8024694ed) completed in 8.40s
+2026-04-03 18:03:50,622 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:04:01,624 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:04:03,344 - openevolve.evaluator - INFO - Evaluated program 202fe932-6e54-4139-9a37-60e6b3cd5ad2 in 1.72s: combined_score=0.2000, success=0.0000
+2026-04-03 18:04:03,347 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:04:03,352 - openevolve.process_parallel - INFO - Iteration 37: Program 202fe932-6e54-4139-9a37-60e6b3cd5ad2 (parent: fabe60e8-8488-4a72-97b4-8c8c7cfa0aed) completed in 12.73s
+2026-04-03 18:04:03,352 - openevolve.process_parallel - INFO - Metrics: combined_score=0.2000, success=0.0000
+2026-04-03 18:04:09,256 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:04:11,024 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:04:11,025 - openevolve.evaluator - INFO - Evaluated program ef48452f-4d8f-4295-ba62-c8e9a58bb30a in 1.77s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:04:11,027 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:04:11,030 - openevolve.process_parallel - INFO - Iteration 38: Program ef48452f-4d8f-4295-ba62-c8e9a58bb30a (parent: 3d21080c-2de9-4960-8136-f33f6afd3767) completed in 7.68s
+2026-04-03 18:04:11,031 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:04:17,040 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:04:18,803 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:04:18,803 - openevolve.evaluator - INFO - Evaluated program 4eb3e969-9e8e-401f-970b-d1771b390c93 in 1.76s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:04:18,806 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:04:18,806 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 75}
+2026-04-03 18:04:18,807 - openevolve.process_parallel - INFO - Iteration 39: Program 4eb3e969-9e8e-401f-970b-d1771b390c93 (parent: 5cfaaf70-2911-41e2-8512-d8d4fe5df1e2) completed in 7.78s
+2026-04-03 18:04:18,807 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:04:26,060 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:04:26,065 - openevolve.evaluator - ERROR - Error in stage 1 evaluation: name 'result_load' is not defined
+2026-04-03 18:04:26,068 - openevolve.evaluator - INFO - Evaluated program ee449369-f890-4dfe-a915-79e69b273096 in 0.01s: stage1_passed=0.0000, error=0.0000
+2026-04-03 18:04:26,071 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:04:26,071 - openevolve.process_parallel - INFO - Iteration 40: Program ee449369-f890-4dfe-a915-79e69b273096 (parent: be316289-efaa-4fdd-a44c-63ae068d777f) completed in 7.26s
+2026-04-03 18:04:26,071 - openevolve.process_parallel - INFO - Metrics: stage1_passed=0.0000, error=0.0000
+2026-04-03 18:04:26,071 - openevolve.process_parallel - WARNING - ⚠️  No 'combined_score' metric found in evaluation results. Using average of all numeric metrics (0.0000) for evolution guidance. For better evolution results, please modify your evaluator to return a 'combined_score' metric that properly weights different aspects of program performance.
+2026-04-03 18:04:36,264 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:04:38,051 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:04:38,051 - openevolve.evaluator - INFO - Evaluated program 472f4f54-b112-4a51-9f98-c7ba125f3ee3 in 1.78s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:04:38,053 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 78}
+2026-04-03 18:04:38,053 - openevolve.process_parallel - INFO - Iteration 41: Program 472f4f54-b112-4a51-9f98-c7ba125f3ee3 (parent: 3d21080c-2de9-4960-8136-f33f6afd3767) completed in 11.98s
+2026-04-03 18:04:38,053 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:04:38,054 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:04:51,955 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:04:53,757 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:04:53,757 - openevolve.evaluator - INFO - Evaluated program f2c5a610-9257-455b-8fad-f4eeb887f2dd in 1.80s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:04:53,761 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:04:53,768 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 62}
+2026-04-03 18:04:53,769 - openevolve.database - INFO - Island 2 MAP-Elites coverage reached 10.0% (10/100 cells)
+2026-04-03 18:04:53,769 - openevolve.process_parallel - INFO - Iteration 42: Program f2c5a610-9257-455b-8fad-f4eeb887f2dd (parent: 1c1a17dd-33f9-41a2-80a3-0eb83206e309) completed in 15.70s
+2026-04-03 18:04:53,769 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:05:03,641 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:05:05,432 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:05:05,432 - openevolve.evaluator - INFO - Evaluated program c0ba9ff0-0eb3-4ff4-ae68-dceb8ab14922 in 1.79s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:05:05,435 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:05:05,443 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 70}
+2026-04-03 18:05:05,444 - openevolve.process_parallel - INFO - Iteration 43: Program c0ba9ff0-0eb3-4ff4-ae68-dceb8ab14922 (parent: 62518ad5-6e03-4305-98ae-f9d065a23f65) completed in 11.67s
+2026-04-03 18:05:05,444 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:05:20,226 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:05:25,001 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: Element count mismatch: sim=2048 gold=1
+2026-04-03 18:05:25,001 - openevolve.evaluator - INFO - Evaluated program 478b77dd-9a3b-48e7-bd06-c53ec142575a in 4.77s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:05:25,004 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:05:25,005 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 65}
+2026-04-03 18:05:25,005 - openevolve.process_parallel - INFO - Iteration 44: Program 478b77dd-9a3b-48e7-bd06-c53ec142575a (parent: 570cc5d0-a2d2-4591-a334-63193687505e) completed in 19.57s
+2026-04-03 18:05:25,006 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:05:29,419 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:05:31,191 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:05:31,191 - openevolve.evaluator - INFO - Evaluated program 22e6e10e-bf89-42df-893c-e82d8d12402d in 1.77s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:05:31,194 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:05:31,199 - openevolve.process_parallel - INFO - Iteration 45: Program 22e6e10e-bf89-42df-893c-e82d8d12402d (parent: 27edef02-db82-4232-867b-526a88ba9bb6) completed in 6.19s
+2026-04-03 18:05:31,199 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:05:36,548 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:05:38,324 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:05:38,324 - openevolve.evaluator - INFO - Evaluated program c8257460-932b-4399-a097-d997363e8cb4 in 1.77s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:05:38,327 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:05:38,333 - openevolve.process_parallel - INFO - Iteration 46: Program c8257460-932b-4399-a097-d997363e8cb4 (parent: b1a8fe7a-4337-46d6-8637-e9a3fb172456) completed in 7.13s
+2026-04-03 18:05:38,333 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:05:59,657 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:06:01,427 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:06:01,427 - openevolve.evaluator - INFO - Evaluated program f462f61d-0831-4b46-bb62-c4747fb7d30c in 1.77s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:06:01,430 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:06:01,431 - openevolve.process_parallel - INFO - Iteration 47: Program f462f61d-0831-4b46-bb62-c4747fb7d30c (parent: 667fad71-c9f8-4341-967d-c35d5b62b938) completed in 23.10s
+2026-04-03 18:06:01,431 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:06:16,061 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:06:17,845 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:06:17,845 - openevolve.evaluator - INFO - Evaluated program e70f6622-dc42-47ff-a12c-e1b743b3751f in 1.78s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:06:17,848 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:06:17,852 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 56}
+2026-04-03 18:06:17,853 - openevolve.process_parallel - INFO - Iteration 48: Program e70f6622-dc42-47ff-a12c-e1b743b3751f (parent: 1c1a17dd-33f9-41a2-80a3-0eb83206e309) completed in 16.42s
+2026-04-03 18:06:17,853 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:06:30,279 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:06:32,254 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: Element count mismatch: sim=2048 gold=1
+2026-04-03 18:06:32,254 - openevolve.evaluator - INFO - Evaluated program 09d4a992-3e44-48a7-8753-197c1d97e72a in 1.97s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:06:32,257 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 67}
+2026-04-03 18:06:32,258 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:06:32,258 - openevolve.process_parallel - INFO - Iteration 49: Program 09d4a992-3e44-48a7-8753-197c1d97e72a (parent: 52598266-cd60-43fb-82bd-ac082d992efd) completed in 14.41s
+2026-04-03 18:06:32,258 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:06:50,502 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:06:52,293 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:06:52,293 - openevolve.evaluator - INFO - Evaluated program 5304a2ab-7171-4559-b82e-697a1b56ccb7 in 1.79s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:06:52,295 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 86}
+2026-04-03 18:06:52,296 - openevolve.database - INFO - Island 1 MAP-Elites coverage reached 10.0% (10/100 cells)
+2026-04-03 18:06:52,296 - openevolve.process_parallel - INFO - Iteration 50: Program 5304a2ab-7171-4559-b82e-697a1b56ccb7 (parent: ade28010-91ee-47f3-be0e-bbbee3400a43) completed in 20.04s
+2026-04-03 18:06:52,296 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:06:52,296 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:07:06,246 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:07:08,052 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: Element count mismatch: sim=2048 gold=1
+2026-04-03 18:07:08,053 - openevolve.evaluator - INFO - Evaluated program 985d7298-3fec-4ce8-9e23-6c97a56605c3 in 1.80s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:07:08,056 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:07:08,064 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 82}
+2026-04-03 18:07:08,065 - openevolve.process_parallel - INFO - Iteration 51: Program 985d7298-3fec-4ce8-9e23-6c97a56605c3 (parent: 4eb3e969-9e8e-401f-970b-d1771b390c93) completed in 15.76s
+2026-04-03 18:07:08,065 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:07:21,178 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:07:22,963 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: Element count mismatch: sim=2048 gold=1
+2026-04-03 18:07:22,963 - openevolve.evaluator - INFO - Evaluated program 2ff5676e-7173-4020-aef1-4145a4b72493 in 1.78s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:07:22,966 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:07:22,968 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 68}
+2026-04-03 18:07:22,969 - openevolve.process_parallel - INFO - Iteration 52: Program 2ff5676e-7173-4020-aef1-4145a4b72493 (parent: afb808ac-d3b9-4010-a4a9-6cf0a661709d) completed in 14.91s
+2026-04-03 18:07:22,969 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:07:30,823 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:07:32,619 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:07:32,619 - openevolve.evaluator - INFO - Evaluated program dcc0d7b1-1f72-461a-96f8-423bd0f03d8d in 1.79s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:07:32,622 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:07:32,631 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 66}
+2026-04-03 18:07:32,631 - openevolve.process_parallel - INFO - Iteration 53: Program dcc0d7b1-1f72-461a-96f8-423bd0f03d8d (parent: 1bbfba1c-37fd-4721-ae3b-ba3937a88094) completed in 9.65s
+2026-04-03 18:07:32,631 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:07:37,589 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:07:39,417 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:07:39,417 - openevolve.evaluator - INFO - Evaluated program 8df77d22-00db-4fe6-81ea-1ad6fcb0a54e in 1.83s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:07:39,420 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:07:39,426 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 83}
+2026-04-03 18:07:39,426 - openevolve.process_parallel - INFO - Iteration 54: Program 8df77d22-00db-4fe6-81ea-1ad6fcb0a54e (parent: 27edef02-db82-4232-867b-526a88ba9bb6) completed in 6.80s
+2026-04-03 18:07:39,426 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:07:51,933 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:07:53,785 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: Element count mismatch: sim=2048 gold=1
+2026-04-03 18:07:53,785 - openevolve.evaluator - INFO - Evaluated program 1e4f4431-9ba1-402b-804d-d8a16f47ca54 in 1.85s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:07:53,788 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:07:53,792 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 51}
+2026-04-03 18:07:53,792 - openevolve.process_parallel - INFO - Iteration 55: Program 1e4f4431-9ba1-402b-804d-d8a16f47ca54 (parent: c8257460-932b-4399-a097-d997363e8cb4) completed in 14.37s
+2026-04-03 18:07:53,792 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:08:09,774 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:08:11,490 - openevolve.evaluator - INFO - Evaluated program b20d9e14-8a1e-434a-8b5c-f43167138a44 in 1.71s: combined_score=0.2000, success=0.0000
+2026-04-03 18:08:11,492 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 88}
+2026-04-03 18:08:11,492 - openevolve.process_parallel - INFO - Iteration 56: Program b20d9e14-8a1e-434a-8b5c-f43167138a44 (parent: 570cc5d0-a2d2-4591-a334-63193687505e) completed in 17.70s
+2026-04-03 18:08:11,493 - openevolve.process_parallel - INFO - Metrics: combined_score=0.2000, success=0.0000
+2026-04-03 18:08:11,493 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:08:20,201 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:08:22,005 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: Element count mismatch: sim=2048 gold=1
+2026-04-03 18:08:22,005 - openevolve.evaluator - INFO - Evaluated program d35482a5-9002-42ff-8d0c-2fe01d9da07d in 1.80s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:08:22,009 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:08:22,014 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 61}
+2026-04-03 18:08:22,014 - openevolve.process_parallel - INFO - Iteration 57: Program d35482a5-9002-42ff-8d0c-2fe01d9da07d (parent: f2c5a610-9257-455b-8fad-f4eeb887f2dd) completed in 10.51s
+2026-04-03 18:08:22,014 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:08:25,479 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:08:27,234 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:08:27,234 - openevolve.evaluator - INFO - Evaluated program f2b21552-7036-41eb-a1db-1f62ab9db6a2 in 1.75s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:08:27,237 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:08:27,239 - openevolve.process_parallel - INFO - Iteration 58: Program f2b21552-7036-41eb-a1db-1f62ab9db6a2 (parent: ee449369-f890-4dfe-a915-79e69b273096) completed in 5.23s
+2026-04-03 18:08:27,239 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:08:45,172 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:08:46,965 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: Element count mismatch: sim=2048 gold=1
+2026-04-03 18:08:46,965 - openevolve.evaluator - INFO - Evaluated program 6e5456da-abcd-4b2c-8e63-e543298bb0c2 in 1.79s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:08:46,968 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:08:46,975 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 53}
+2026-04-03 18:08:46,975 - openevolve.process_parallel - INFO - Iteration 59: Program 6e5456da-abcd-4b2c-8e63-e543298bb0c2 (parent: 7029b7f7-467b-479d-9628-10d4d0fb9e55) completed in 19.73s
+2026-04-03 18:08:46,975 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:08:55,865 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:08:57,645 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:08:57,645 - openevolve.evaluator - INFO - Evaluated program 27de4527-51a7-4e39-96ba-5a02b9b14e20 in 1.78s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:08:57,648 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:08:57,649 - openevolve.process_parallel - INFO - Iteration 60: Program 27de4527-51a7-4e39-96ba-5a02b9b14e20 (parent: 5cfaaf70-2911-41e2-8512-d8d4fe5df1e2) completed in 10.68s
+2026-04-03 18:08:57,649 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:09:03,080 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:09:04,844 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:09:04,845 - openevolve.evaluator - INFO - Evaluated program 209f3ae9-5495-4177-8ef1-a2960f681748 in 1.76s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:09:04,848 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:09:04,848 - openevolve.process_parallel - INFO - Iteration 61: Program 209f3ae9-5495-4177-8ef1-a2960f681748 (parent: b1a8fe7a-4337-46d6-8637-e9a3fb172456) completed in 7.20s
+2026-04-03 18:09:04,849 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:09:20,931 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:09:22,794 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: Element count mismatch: sim=2048 gold=1
+2026-04-03 18:09:22,795 - openevolve.evaluator - INFO - Evaluated program 0ee561b4-34a2-4c55-9018-d09c159fc3a2 in 1.86s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:09:22,798 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:09:22,804 - openevolve.process_parallel - INFO - Iteration 62: Program 0ee561b4-34a2-4c55-9018-d09c159fc3a2 (parent: 7029b7f7-467b-479d-9628-10d4d0fb9e55) completed in 17.95s
+2026-04-03 18:09:22,804 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:09:31,720 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:09:33,511 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: Element count mismatch: sim=2048 gold=1
+2026-04-03 18:09:33,512 - openevolve.evaluator - INFO - Evaluated program 7b1e2a41-f174-4a04-b963-7324cc85d5e3 in 1.79s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:09:33,515 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:09:33,518 - openevolve.process_parallel - INFO - Iteration 63: Program 7b1e2a41-f174-4a04-b963-7324cc85d5e3 (parent: 50efec33-17a3-4530-8a03-9edc47b36623) completed in 10.71s
+2026-04-03 18:09:33,519 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:09:53,006 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:09:54,718 - openevolve.evaluator - INFO - Evaluated program fcb38728-c5e0-4161-91c8-f89a6ad1cef6 in 1.71s: combined_score=0.2000, success=0.0000
+2026-04-03 18:09:54,720 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 88}
+2026-04-03 18:09:54,721 - openevolve.process_parallel - INFO - Iteration 64: Program fcb38728-c5e0-4161-91c8-f89a6ad1cef6 (parent: 814523f8-3b02-4de0-9c10-96a606c6dbb2) completed in 21.20s
+2026-04-03 18:09:54,721 - openevolve.process_parallel - INFO - Metrics: combined_score=0.2000, success=0.0000
+2026-04-03 18:09:54,721 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:10:03,304 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:10:05,019 - openevolve.evaluator - INFO - Evaluated program 89699f4b-7581-4efd-a0f5-6ec891c85f4b in 1.71s: combined_score=0.2000, success=0.0000
+2026-04-03 18:10:05,023 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:10:05,027 - openevolve.process_parallel - INFO - Iteration 65: Program 89699f4b-7581-4efd-a0f5-6ec891c85f4b (parent: 0802e93a-ef83-4281-a977-e74be7359691) completed in 10.30s
+2026-04-03 18:10:05,027 - openevolve.process_parallel - INFO - Metrics: combined_score=0.2000, success=0.0000
+2026-04-03 18:10:12,062 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:10:13,836 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:10:13,836 - openevolve.evaluator - INFO - Evaluated program 3d853234-9608-41e1-8fb4-726abd912d1e in 1.77s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:10:13,839 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:10:13,841 - openevolve.process_parallel - INFO - Iteration 66: Program 3d853234-9608-41e1-8fb4-726abd912d1e (parent: 5cfaaf70-2911-41e2-8512-d8d4fe5df1e2) completed in 8.81s
+2026-04-03 18:10:13,841 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:10:21,650 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:10:23,438 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: Element count mismatch: sim=2048 gold=1
+2026-04-03 18:10:23,438 - openevolve.evaluator - INFO - Evaluated program 261a6a36-c4a3-4f2a-9635-3f79bea94c3e in 1.79s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:10:23,441 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:10:23,443 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 66}
+2026-04-03 18:10:23,443 - openevolve.process_parallel - INFO - Iteration 67: Program 261a6a36-c4a3-4f2a-9635-3f79bea94c3e (parent: be316289-efaa-4fdd-a44c-63ae068d777f) completed in 9.60s
+2026-04-03 18:10:23,443 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:10:35,947 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:10:40,704 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: Element count mismatch: sim=2048 gold=1
+2026-04-03 18:10:40,705 - openevolve.evaluator - INFO - Evaluated program 5855525c-f289-49f1-96db-4d9d6d549cb4 in 4.75s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:10:40,709 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:10:40,715 - openevolve.process_parallel - INFO - Iteration 68: Program 5855525c-f289-49f1-96db-4d9d6d549cb4 (parent: 7029b7f7-467b-479d-9628-10d4d0fb9e55) completed in 17.26s
+2026-04-03 18:10:40,715 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:10:46,366 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:10:48,159 - openevolve.evaluator - ERROR - Error in stage 2 evaluation: cannot reshape array of size 1 into shape (32,64)
+2026-04-03 18:10:48,160 - openevolve.evaluator - INFO - Evaluated program d2b2eed4-561e-46ff-af31-4f6cb78a8219 in 1.79s: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000
+2026-04-03 18:10:48,163 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:10:48,165 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 58}
+2026-04-03 18:10:48,165 - openevolve.process_parallel - INFO - Iteration 69: Program d2b2eed4-561e-46ff-af31-4f6cb78a8219 (parent: d35482a5-9002-42ff-8d0c-2fe01d9da07d) completed in 7.45s
+2026-04-03 18:10:48,165 - openevolve.process_parallel - INFO - Metrics: combined_score=0.3000, stage=exec, success=1.0000, stage2_passed=0.0000

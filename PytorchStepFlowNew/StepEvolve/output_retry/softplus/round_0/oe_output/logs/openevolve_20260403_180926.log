@@ -1,0 +1,77 @@
+2026-04-03 18:09:26,322 - openevolve.controller - INFO - Logging to output_retry/softplus/round_0/oe_output/logs/openevolve_20260403_180926.log
+2026-04-03 18:09:26,322 - openevolve.controller - INFO - Set random seed to 42 for reproducibility
+2026-04-03 18:09:26,363 - openevolve.llm.openai - INFO - Initialized OpenAI LLM with model: openai/gpt-oss-120b
+2026-04-03 18:09:26,363 - openevolve.llm.ensemble - INFO - Initialized LLM ensemble with models: openai/gpt-oss-120b (weight: 1.00)
+2026-04-03 18:09:26,363 - openevolve.prompt.sampler - INFO - Initialized prompt sampler
+2026-04-03 18:09:26,364 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2026-04-03 18:09:26,364 - openevolve.database - INFO - Initialized program database with 0 programs
+2026-04-03 18:09:27,473 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output_retry/softplus/round_0/evaluator.py
+2026-04-03 18:09:27,473 - openevolve.evaluator - INFO - Initialized evaluator with output_retry/softplus/round_0/evaluator.py
+2026-04-03 18:09:27,473 - openevolve.controller - INFO - Initialized OpenEvolve with output_retry/softplus/round_0/seed.py
+2026-04-03 18:09:27,473 - openevolve.controller - INFO - Adding initial program to database
+2026-04-03 18:09:27,744 - openevolve.evaluator - ERROR - Error in stage 1 evaluation: name 'output_op' is not defined
+2026-04-03 18:09:27,747 - openevolve.evaluator - INFO - Evaluated program f75b122f-2d59-4443-a2a1-af5ebdc67a1c in 0.27s: stage1_passed=0.0000, error=0.0000
+2026-04-03 18:09:27,747 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 50}
+2026-04-03 18:09:27,747 - openevolve.controller - WARNING - ⚠️  No 'combined_score' metric found in evaluation results. Using average of all numeric metrics (0.0000) for evolution guidance. For better evolution results, please modify your evaluator to return a 'combined_score' metric that properly weights different aspects of program performance.
+2026-04-03 18:09:27,748 - openevolve.process_parallel - INFO - Initialized process parallel controller with 1 workers
+2026-04-03 18:09:27,749 - openevolve.process_parallel - INFO - Started process pool with 1 processes
+2026-04-03 18:09:27,749 - openevolve.controller - INFO - Using island-based evolution with 3 islands
+2026-04-03 18:09:27,749 - openevolve.database - INFO - Island Status:
+2026-04-03 18:09:27,749 - openevolve.database - INFO -  * Island 0: 1 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0 (best: f75b122f-2d59-4443-a2a1-af5ebdc67a1c)
+2026-04-03 18:09:27,749 - openevolve.database - INFO -    Island 1: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2026-04-03 18:09:27,749 - openevolve.database - INFO -    Island 2: 0 programs, best=0.0000, avg=0.0000, diversity=0.00, gen=0
+2026-04-03 18:09:27,749 - openevolve.process_parallel - INFO - Starting process-based evolution from iteration 1 for 100 iterations (total: 101)
+2026-04-03 18:09:27,761 - openevolve.process_parallel - INFO - Early stopping disabled
+2026-04-03 18:09:27,847 - openevolve.prompt.sampler - INFO - Set custom templates: system=evaluator_system_message, user=None
+2026-04-03 18:09:27,848 - openevolve.evaluator - INFO - Successfully loaded evaluation function from output_retry/softplus/round_0/evaluator.py
+2026-04-03 18:09:27,848 - openevolve.evaluator - INFO - Initialized evaluator with output_retry/softplus/round_0/evaluator.py
+2026-04-03 18:09:27,849 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:09:38,404 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:09:38,413 - openevolve.evaluator - ERROR - Error in stage 1 evaluation: name 'Log' is not defined
+2026-04-03 18:09:38,414 - openevolve.evaluator - INFO - Evaluated program 2de5967f-31e5-465e-916d-b237346f2264 in 0.01s: stage1_passed=0.0000, error=0.0000
+2026-04-03 18:09:38,415 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:09:38,424 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 99}
+2026-04-03 18:09:38,425 - openevolve.process_parallel - INFO - Iteration 1: Program 2de5967f-31e5-465e-916d-b237346f2264 (parent: f75b122f-2d59-4443-a2a1-af5ebdc67a1c) completed in 10.57s
+2026-04-03 18:09:38,425 - openevolve.process_parallel - INFO - Metrics: stage1_passed=0.0000, error=0.0000
+2026-04-03 18:09:38,425 - openevolve.process_parallel - WARNING - ⚠️  No 'combined_score' metric found in evaluation results. Using average of all numeric metrics (0.0000) for evolution guidance. For better evolution results, please modify your evaluator to return a 'combined_score' metric that properly weights different aspects of program performance.
+2026-04-03 18:09:48,599 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:09:48,603 - openevolve.evaluator - ERROR - Error in stage 1 evaluation: name 'Log' is not defined
+2026-04-03 18:09:48,604 - openevolve.evaluator - INFO - Evaluated program 27714909-c977-422c-b1d3-2e02ccb995e2 in 0.00s: stage1_passed=0.0000, error=0.0000
+2026-04-03 18:09:48,605 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:09:48,610 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 99}
+2026-04-03 18:09:48,611 - openevolve.process_parallel - INFO - Iteration 2: Program 27714909-c977-422c-b1d3-2e02ccb995e2 (parent: f75b122f-2d59-4443-a2a1-af5ebdc67a1c) completed in 10.19s
+2026-04-03 18:09:48,611 - openevolve.process_parallel - INFO - Metrics: stage1_passed=0.0000, error=0.0000
+2026-04-03 18:09:59,714 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:09:59,719 - openevolve.evaluator - ERROR - Error in stage 1 evaluation: name 'Log' is not defined
+2026-04-03 18:09:59,720 - openevolve.evaluator - INFO - Evaluated program e0a2f1c9-cfc3-456b-be1d-56504e730a2d in 0.00s: stage1_passed=0.0000, error=0.0000
+2026-04-03 18:09:59,722 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:09:59,724 - openevolve.database - INFO - New MAP-Elites cell occupied in island 2: {'complexity': 99}
+2026-04-03 18:09:59,724 - openevolve.process_parallel - INFO - Iteration 3: Program e0a2f1c9-cfc3-456b-be1d-56504e730a2d (parent: f75b122f-2d59-4443-a2a1-af5ebdc67a1c) completed in 11.12s
+2026-04-03 18:09:59,724 - openevolve.process_parallel - INFO - Metrics: stage1_passed=0.0000, error=0.0000
+2026-04-03 18:10:04,838 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:10:06,687 - openevolve.evaluator - INFO - Evaluated program c4e21c05-366e-48ab-b687-9c2b4d6fa58c in 1.85s: combined_score=0.5000, success=0.0000, cycles=213.0000, max_diff=28.8859
+2026-04-03 18:10:06,689 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:10:06,689 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 98}
+2026-04-03 18:10:06,689 - openevolve.database - INFO - New best program c4e21c05-366e-48ab-b687-9c2b4d6fa58c replaces f75b122f-2d59-4443-a2a1-af5ebdc67a1c
+2026-04-03 18:10:06,689 - openevolve.process_parallel - INFO - Iteration 4: Program c4e21c05-366e-48ab-b687-9c2b4d6fa58c (parent: 2de5967f-31e5-465e-916d-b237346f2264) completed in 6.97s
+2026-04-03 18:10:06,689 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=213.0000, max_diff=28.8859
+2026-04-03 18:10:06,689 - openevolve.process_parallel - INFO - 🌟 New best solution found at iteration 4: c4e21c05-366e-48ab-b687-9c2b4d6fa58c
+2026-04-03 18:10:15,086 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:10:16,912 - openevolve.evaluator - INFO - Evaluated program 8df5c017-a12b-46fb-8c0f-878e6d362b80 in 1.82s: combined_score=0.5000, success=0.0000, cycles=194.0000, max_diff=0.6931
+2026-04-03 18:10:16,914 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:10:16,917 - openevolve.database - INFO - New MAP-Elites cell occupied in island 1: {'complexity': 90}
+2026-04-03 18:10:16,917 - openevolve.process_parallel - INFO - Iteration 5: Program 8df5c017-a12b-46fb-8c0f-878e6d362b80 (parent: 27714909-c977-422c-b1d3-2e02ccb995e2) completed in 10.22s
+2026-04-03 18:10:16,917 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=194.0000, max_diff=0.6931
+2026-04-03 18:10:24,284 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:10:26,076 - openevolve.evaluator - INFO - Evaluated program 7c33250d-8fcc-4915-8af2-2fc6f70eb07c in 1.79s: combined_score=0.5000, success=0.0000, cycles=213.0000, max_diff=28.8859
+2026-04-03 18:10:26,078 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:10:26,084 - openevolve.database - INFO - Island 2 MAP-Elites cell improved: {'complexity': 99} (fitness: 0.000 -> 0.500)
+2026-04-03 18:10:26,085 - openevolve.process_parallel - INFO - Iteration 6: Program 7c33250d-8fcc-4915-8af2-2fc6f70eb07c (parent: e0a2f1c9-cfc3-456b-be1d-56504e730a2d) completed in 9.16s
+2026-04-03 18:10:26,085 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=213.0000, max_diff=28.8859
+2026-04-03 18:10:34,881 - httpx - INFO - HTTP Request: POST http://172.17.0.1:31001/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-03 18:10:39,696 - openevolve.evaluator - INFO - Evaluated program 6fed8d6c-2a22-42fc-828d-680d60945c19 in 4.81s: combined_score=0.5000, success=0.0000, cycles=38935.0000, max_diff=122.0393
+2026-04-03 18:10:39,698 - openevolve.llm.ensemble - INFO - Sampled model: openai/gpt-oss-120b
+2026-04-03 18:10:39,705 - openevolve.database - INFO - New MAP-Elites cell occupied in island 0: {'complexity': 84}
+2026-04-03 18:10:39,705 - openevolve.process_parallel - INFO - Iteration 7: Program 6fed8d6c-2a22-42fc-828d-680d60945c19 (parent: f75b122f-2d59-4443-a2a1-af5ebdc67a1c) completed in 13.62s
+2026-04-03 18:10:39,705 - openevolve.process_parallel - INFO - Metrics: combined_score=0.5000, success=0.0000, cycles=38935.0000, max_diff=122.0393
+2026-04-03 18:10:39,880 - openai._base_client - INFO - Retrying request to /chat/completions in 0.464403 seconds

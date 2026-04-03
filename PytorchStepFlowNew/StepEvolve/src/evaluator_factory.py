@@ -141,9 +141,40 @@ def _exec_program(program_path):
     return namespace, full_code
 
 
+import re as _re
+
+_ALLOWED_TORCH_CALLS = {{
+    'torch.randn', 'torch.zeros', 'torch.ones', 'torch.manual_seed',
+    'torch.tensor', 'torch.arange', 'torch.randint', 'torch.full',
+    'torch.empty', 'torch.rand', 'torch.linspace', 'torch.no_grad',
+}}
+
+
+def _check_no_precomputation(program_path):
+    """Reject programs that pre-compute answers with PyTorch instead of using STeP ops."""
+    code = Path(program_path).read_text()
+    block_match = _re.search(r'# EVOLVE-BLOCK-START\\n(.*?)# EVOLVE-BLOCK-END', code, _re.DOTALL)
+    if not block_match:
+        return
+    block = block_match.group(1)
+
+    torch_calls = _re.findall(r'(torch(?:\\.\\w+)+)\\s*\\(', block)
+    f_calls = _re.findall(r'((?:F|torch\\.nn\\.functional)\\.\\w+)\\s*\\(', block)
+
+    illegal = [c for c in torch_calls if c not in _ALLOWED_TORCH_CALLS]
+    illegal.extend(f_calls)
+    assert not illegal, (
+        f"ILLEGAL: Pre-computing answers with PyTorch is forbidden. "
+        f"Found: {{', '.join(illegal)}}. "
+        f"All computation must use STeP IR operators (UnaryMap, BinaryMap, BinaryMapAccum, etc.). "
+        f"The ONLY allowed torch calls are for input generation: torch.randn, torch.zeros, torch.ones, torch.manual_seed."
+    )
+
+
 def evaluate_stage1(program_path):
     """Stage 1: exec — verify that the program defines build_graph and it runs."""
     _setup_paths()
+    _check_no_precomputation(program_path)
     namespace, full_code = _exec_program(program_path)
     build_graph = namespace.get("build_graph")
     assert build_graph is not None, "Program does not define build_graph"
@@ -252,20 +283,31 @@ def evaluate_stage2(program_path):
     gold = ref_mod.compute_gold(DIMS).float()
 
     assert sim_tensor.numel() == gold.numel(), (
-        f"Element count mismatch: sim={{sim_tensor.numel()}} gold={{gold.numel()}}"
+        f"Output shape mismatch: STeP produced {{sim_tensor.shape}} ({{sim_tensor.numel()}} elements) "
+        f"but expected {{gold.shape}} ({{gold.numel()}} elements). "
+        f"Check your tiling and output dimensions."
     )
     sim_tensor = sim_tensor.reshape(gold.shape)
 
-    max_diff = (sim_tensor - gold).abs().max().item()
+    abs_diff = (sim_tensor - gold).abs()
+    max_diff = abs_diff.max().item()
     passed = torch.allclose(sim_tensor, gold, rtol=RTOL, atol=ATOL)
 
     if not passed:
+        worst_idx = abs_diff.argmax().item()
+        got_val = sim_tensor.flatten()[worst_idx].item()
+        exp_val = gold.flatten()[worst_idx].item()
         return {{
             "combined_score": 0.5,
             "stage": "correctness",
             "success": False,
             "cycles": float(cycles),
             "max_diff": max_diff,
+            "error": (
+                f"Output incorrect: max_diff={{max_diff:.6f}} (threshold: atol={{ATOL}}, rtol={{RTOL}}). "
+                f"Worst element at flat index {{worst_idx}}: got {{got_val:.6f}}, expected {{exp_val:.6f}}. "
+                f"Output shape: {{gold.shape}}."
+            ),
         }}
 
     # Score: higher is better, inversely proportional to cycles
