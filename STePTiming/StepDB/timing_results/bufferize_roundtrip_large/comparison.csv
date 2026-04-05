@@ -1,5 +1,5 @@
 op_id,op_name,op_str,sim_start,ana_start,delta_start,sim_end,ana_end,delta_end,sim_duration,ana_duration,delta_duration,sim_tiles,ana_N_fire,sim_avg_tile_dur,ana_T_fire,ana_OCI,ana_OTI,ana_ICI,ana_ICD,ana_fto
-104,LinearOffChipLoad,LinearOffChipLoad_104,0,0,0,332,432,100,332,432,100,16,16,20.75,0,27,27,0,0,27
-105,Bufferize,Bufferize_105(1 D),21,27,6,333,432,99,312,405,93,4,4,62.25,0,108,108,0,81,108
-106,Streamify,Streamify_106 (1 D),82,108,26,377,432,55,295,324,29,4,4,43.0,0,108,27,0,0,108
-107,OffChipStore,OffChipStore_107,83,108,25,415,540,125,332,432,100,16,16,20.375,0,27,27,27,0,135
+0,LinearOffChipLoad,LinearOffChipLoad_0,0,0,0,332,336,4,332,336,4,16,16,20.75,0,21,21,0,0,21
+1,Bufferize,Bufferize_1(1 D),21,21,0,333,336,3,312,315,3,4,4,62.25,0,84,84,0,63,84
+2,Streamify,Streamify_2 (1 D),82,84,2,377,88,-289,295,4,-291,4,4,43.0,4,84,21,0,0,88
+3,OffChipStore,OffChipStore_3,83,88,5,415,424,9,332,336,4,16,16,20.375,0,21,21,21,0,109
