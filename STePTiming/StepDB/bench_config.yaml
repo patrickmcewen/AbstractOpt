@@ -54,6 +54,12 @@ gemm_tile_mk:
       N: 64
       tile_m: 16
       tile_k: 16
+    bigger:
+      M: 512
+      K: 512
+      N: 512
+      tile_m: 128
+      tile_k: 128
     square:
       M: 64
       K: 64
@@ -502,6 +508,14 @@ moe_routed:
       tile_f: 32
     small:
       B: 8
+      D: 32
+      F: 48
+      n_experts: 4
+      n_active: 1
+      tile_n: 4
+      tile_f: 48
+    small_more_tokens:
+      B: 64
       D: 32
       F: 48
       n_experts: 4
