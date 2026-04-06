@@ -1,0 +1,471 @@
+\documentclass[10pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\title{An Analytical Performance Model for Streaming Tensor Programs}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Overview}
+
+We present an analytical timing model for dataflow graphs expressed in the Streaming Tensor Programs (STeP) abstraction. The model captures the steady-state throughput and startup latency of each operator in a STeP graph, accounting for compute-bound and memory-bound regimes via Roofline modeling. Dynamic tensor dimensions propagate as symbolic variables, enabling closed-form analysis that can be instantiated with concrete traces, distributions, or worst-case bounds.
+
+The model structure is inspired by the Stream-HLS performance model~\cite{basalama2025streamhls}, adapted to STeP's operator-based dataflow semantics. The key reformulation replaces loop-nest analysis with a rate-based abstraction built on chunk intervals and tile counts, which naturally captures the multi-rate behavior of STeP operators.
+
+\section{Graph Structure}
+
+A STeP program is modeled as a directed acyclic graph (DAG) $G$. Each STeP operator is a node; each stream connecting a producer to a consumer is an edge. We process nodes in topological order. The total execution time of the program is:
+\begin{equation}
+    T_{\text{graph}} = \max_{n \in \text{leaf}(G)} \bigl(\textit{end}(n)\bigr)
+\end{equation}
+
+\section{Per-Node Quantities}
+
+For each node $n$ in the graph, we define the following quantities, derived from the operator type, its stream shapes, and the hardware parameters.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Symbol} & \textbf{Name} & \textbf{Description} \\
+\midrule
+$T_{\text{fire}}(n)$ & Firing time & Processing time per input step (Roofline) \\
+$N_{\text{fire}}(n)$ & Output chunk count & Total output chunks produced; may be symbolic \\
+$\mathit{NIT}^{n'}_n$ & Input tile count & Input tiles consumed from predecessor $n'$ per output chunk \\
+$\mathit{OTPC}(n)$ & Output tiles per chunk & Output tiles produced per output chunk \\
+\bottomrule
+\end{tabular}
+\caption{Per-node quantities defined by operator type and stream shapes.}
+\label{tab:node-info}
+\end{table}
+
+The key distinction is that $T_{\text{fire}}$ is the cost of one \emph{input step}, while $\mathit{NIT}^{n'}_n$ counts how many tiles are consumed from predecessor $n'$ per output chunk. What constitutes a ``step'' depends on the operator: BinaryMap consumes one tile from each of its two inputs simultaneously per step; FlatReassemble consumes from one selected data input per step based on a control stream. For element-wise operators ($\mathit{NIT} = 1$), one step produces one output. For reducing operators like Accum ($\mathit{NIT} = K$), each output chunk requires $K$ sequential steps, each costing $T_{\text{fire}}$, giving an output chunk interval of $\mathit{NIT} \cdot \max(T_{\text{fire}},\, \mathit{OTI}(\text{pred}))$.
+
+\subsection{Firing Time (Roofline Model)}
+
+The firing time captures the cost of one input step. For compute operators, we use a Roofline model that accounts for compute cycles, PMU (scratchpad) store cycles, and PMU read cycles:
+\begin{equation}
+    T_{\text{fire}}(n) = \max\!\left(
+        T_{\text{PMU-read}}(n),\;
+        \left\lceil\frac{\mathit{FLOPs}}{\mathit{BW}_c}\right\rceil,\;
+        T_{\text{PMU-store}}(n)
+    \right)
+    \label{eq:tfire}
+\end{equation}
+where $\mathit{BW}_c$ is the allocated compute bandwidth (FLOPs/cycle).
+
+\paragraph{PMU store cycles.} When a compute operator writes its output tile to the on-chip scratchpad (PMU) --- indicated by the \texttt{write\_back\_mu} flag --- the store cost is:
+\begin{equation}
+    T_{\text{PMU-store}}(n) = \left\lceil\frac{S_{\text{out}}}{\mathit{BW}_{\text{PMU}}}\right\rceil
+\end{equation}
+where $S_{\text{out}}$ is the output tile size in bytes and $\mathit{BW}_{\text{PMU}} = 64$~bytes/cycle. When the output streams directly to a FIFO (\texttt{write\_back\_mu} = false), $T_{\text{PMU-store}} = 0$.
+
+\paragraph{PMU read cycles.} When a compute operator's inputs come from PMU-resident tiles (produced by off-chip loads, Bufferize, or other PMU-writing operators), the read cost is charged:
+\begin{equation}
+    T_{\text{PMU-read}}(n) = \sum_{\substack{n' \in \text{pred}(n) \\ n' \text{ produces PMU tile}}} \left\lceil\frac{S_{n'}}{\mathit{BW}_{\text{PMU}}}\right\rceil
+\end{equation}
+where $S_{n'}$ is the tile size of predecessor $n'$. Pass-through operators (no compute, no \texttt{write\_back\_mu}) do not incur PMU read costs. Predecessors whose output lives in streaming FIFOs (not PMU) contribute zero read cost.
+
+\paragraph{Structural operators.} For structural operators with no compute (shape operators, routing operators, Bufferize), $T_{\text{fire}}(n) = 0$.
+
+\paragraph{FLOPs estimation.} The per-firing FLOPs depend on the operator's function:
+\begin{itemize}[nosep]
+    \item \textbf{Matmul}: $2 \cdot M \cdot K \cdot N$ for tile shapes $[M, K] \times [K, N]$.
+    \item \textbf{RowWiseSum}: $R \cdot C$ for tile shape $[R, C]$.
+    \item \textbf{Default} (element-wise): $R \cdot C$ for output tile shape $[R, C]$, or 1 for scalar.
+    \item \textbf{Accum}: $R \cdot C$ per accumulation step (one FMA per input element).
+\end{itemize}
+
+\section{Core Timing Equations}
+
+We compute the following quantities for each node $n$ in topological order.
+
+\subsection{Start Time}
+
+A node cannot begin execution until all its input streams carry data. For source nodes (no predecessors), $\mathit{st}(n) = 0$.
+\begin{equation}
+    \mathit{st}(n) = \max_{n' \in \text{pred}(n)} \bigl(\mathit{fto}(n')\bigr)
+\end{equation}
+A consumer can start as soon as each predecessor emits its first output tile, so the start time is gated by the slowest predecessor's first-tile-out time.
+
+\subsection{First Tile Out}
+
+The absolute time at which node $n$ produces its first output tile. Before producing output, the node must (1) wait for enough input tiles to arrive to complete its first firing, and (2) perform one firing of computation.
+\begin{equation}
+    \mathit{fto}(n) = \mathit{st}(n) + \mathit{ICD}(n) + T_{\text{eff}}(n)
+\end{equation}
+where $T_{\text{eff}}(n)$ is the effective single-firing latency:
+\begin{equation}
+    T_{\text{eff}}(n) = \begin{cases}
+        \mathit{OTI}_{\text{HBM}}(n) & \text{if } n \text{ is an off-chip memory op} \\
+        T_{\text{fire}}(n) & \text{otherwise}
+    \end{cases}
+\end{equation}
+For off-chip operators, the first-tile latency is the HBM access time rather than compute time, since these operators have no compute ($T_{\text{fire}} = 0$) and the data rate is decoupled from the latency of sending data to/from HBM.
+
+\paragraph{Input Chunk Delay.}
+$\mathit{ICD}(n)$ is the time from when the first input tile arrives until the full input chunk for the first firing is available. It captures the wait for the remaining $\mathit{NIT} - 1$ tiles at each predecessor's effective output rate:
+\begin{equation}
+    \mathit{ICD}(n) = \max_{n' \in \text{pred}(n)} \bigl((\mathit{NIT}^{n'}_n - 1) \cdot \max(T_{\text{fire}}(n),\, \mathit{OTI}(n'))\bigr)
+\end{equation}
+The $\max(T_{\text{fire}}, \mathit{OTI}(n'))$ term reflects that each input tile consumption is gated by both the predecessor's production rate and the consumer's own processing time.
+
+\subsection{End Time}
+
+The absolute time at which node $n$ completes all its firings:
+\begin{equation}
+    \textit{end}(n) = \mathit{fto}(n) + \left(\left\lceil\frac{N_{\text{fire}}(n)}{\mathit{OTPC}(n)}\right\rceil - 1\right) \cdot \mathit{OCI}(n)
+\end{equation}
+This counts from the first tile out: after the first firing completes, the remaining $\lceil N_{\text{fire}} / \mathit{OTPC}\rceil - 1$ output chunks arrive at steady-state intervals of $\mathit{OCI}$.
+
+\subsection{Output Chunk Interval (OCI)}
+
+The time between consecutive output chunks produced by node $n$.
+
+\paragraph{Compute operators.} The OCI is computed via a unified formula that folds the firing time into each predecessor's contribution:
+\begin{equation}
+    \mathit{OCI}(n) = \max_{n' \in \text{pred}(n)} \bigl(\mathit{NIT}^{n'}_n \cdot \max(T_{\text{fire}}(n),\, \mathit{OTI}(n'))\bigr)
+    \label{eq:oci-compute}
+\end{equation}
+Each predecessor contributes $\mathit{NIT}$ sequential steps, each gated by $\max(T_{\text{fire}}, \mathit{OTI}(n'))$. The output rate is limited by the slowest predecessor. Since $\mathit{NIT} \geq 1$, the result is always $\geq T_{\text{fire}}$. For non-accumulating operators where $\mathit{NIT} = 1$ for all predecessors, this reduces to $\max_{n'}(\max(T_{\text{fire}}, \mathit{OTI}(n')))$.
+
+\paragraph{Off-chip memory operators.} The OCI is determined by the HBM contention model (Section~\ref{sec:contention}) and input availability:
+\begin{equation}
+    \mathit{OCI}(n) = \max\!\left(\mathit{OTI}_{\text{HBM}}(n),\; \max_{n' \in \text{pred}(n)} \bigl(\mathit{NIT}^{n'}_n \cdot \mathit{OTI}(n')\bigr)\right)
+\end{equation}
+
+\subsection{Output Tile Interval (OTI)}
+
+The time between consecutive output tiles produced by node $n$:
+\begin{equation}
+    \mathit{OTI}(n) = \frac{\mathit{OCI}(n)}{\mathit{OTPC}(n)}
+\end{equation}
+
+\paragraph{Reshape with padding.} When a Reshape operator has a padding function, padding tiles are generated locally at zero cost (no waiting for predecessor). The effective per-tile OTI is:
+\begin{equation}
+    \mathit{OTI}_{\text{reshape-pad}}(n) = \frac{\mathit{OCI}(n)}{\mathit{chunk\_size}(n)}
+\end{equation}
+which distributes the OCI across all tiles in the chunk (both real and padding), since the padding tiles are ``free.''
+
+\paragraph{FlatPartition fan-out.} Tiles from a FlatPartition are distributed round-robin to $N_c$ consumers. Each consumer sees tiles at $N_c$ times the interval:
+\begin{equation}
+    \mathit{OTI}_{\text{FlatPart}}(n) = \mathit{OTI}(n) \cdot N_c
+\end{equation}
+
+\paragraph{FlatReassemble fan-in.} FlatReassemble collects tiles from $N_d$ parallel data inputs. Since expert outputs arrive interleaved (round-robin), the effective per-predecessor OTI seen by the reassembler is:
+\begin{equation}
+    \mathit{OTI}_{\text{eff}}(n') = \frac{\mathit{OTI}(n')}{N_d}
+\end{equation}
+This divisor applies when computing $\mathit{ICI}$ and $\mathit{ICD}$ at a FlatReassemble node.
+
+\subsection{Summary of Dependencies}
+
+The equations form a chain that propagates rates through the graph in topological order. For each node, the computation order is:
+\[
+    \mathit{OTI}(\text{predecessors}) \;\rightarrow\; \mathit{OCI}(n) \;\rightarrow\; \mathit{OTI}(n)
+\]
+In parallel, the startup path is:
+\[
+    \mathit{OTI}(\text{predecessors}) \;\rightarrow\; \mathit{ICD}(n) \;\rightarrow\; \mathit{fto}(n) \;\rightarrow\; \mathit{st}(\text{successors})
+\]
+The total graph latency combines both: a startup transient (accumulated through the $\mathit{fto}$/$\mathit{st}$ chain) plus a steady-state execution phase ($(\lceil N_{\text{fire}} / \mathit{OTPC}\rceil - 1) \cdot \mathit{OCI}$ at each node).
+
+\section{Memory Contention Model}
+\label{sec:contention}
+
+When multiple off-chip memory operators are active concurrently, they compete for a shared set of HBM channels. We model this with a two-pass approach and a detailed per-tile HBM access model.
+
+\subsection{Per-Tile HBM Access Model}
+
+For each off-chip operator $n$, the per-tile HBM access time models the pipelined dispatch and channel processing:
+\begin{equation}
+    \mathit{OTI}_{\text{HBM}}(n) = \max\!\left(1,\; \text{bottleneck} + T_{\text{startup}} + T_{\text{sim}}\right)
+\end{equation}
+where:
+\begin{align}
+    \text{dispatch} &= \left\lceil\frac{R}{P}\right\rceil & \text{(address dispatch cycles)} \\
+    \text{channel\_pipe} &= \left(\left\lceil\frac{R_{\text{concurrent}}}{C}\right\rceil - 1\right) \cdot I_{\text{init}} & \text{(busiest channel pipeline)} \\
+    \text{bottleneck} &= \max(\text{dispatch},\, \text{channel\_pipe}) + L_{\text{ch}} & \text{(pipelined overlap)}
+\end{align}
+
+Here $R$ is the number of HBM requests per tile ($= \lceil\mathit{tile\_bytes} / \mathit{hbm\_addr\_offset}\rceil$), $P$ is the parallel dispatch width (\texttt{par\_dispatch}), $C$ is the number of HBM channels, $I_{\text{init}}$ is the per-channel initiation interval, $L_{\text{ch}}$ is the per-channel response latency, $T_{\text{startup}}$ is the per-tile channel startup overhead, and $T_{\text{sim}} = 3$ cycles accounts for per-tile bookkeeping overhead in the simulator's blocking per-tile loop (three \texttt{time.tick()} calls per tile in \texttt{linear\_offchip\_load.rs}: send-request timestamp, read-finish timestamp, and on-chip enqueue timestamp).
+
+$R_{\text{concurrent}}$ is the total number of concurrent HBM requests from all overlapping off-chip operators (see below).
+
+\subsection{Two-Pass Contention Estimation}
+
+Precisely identifying which off-chip operators overlap requires knowing their time intervals, which depend on $\mathit{OTI}_{\text{HBM}}$. We resolve this with two passes:
+
+\begin{description}[leftmargin=1.5em, labelindent=0em]
+    \item[Pass~1 (no contention).] Compute $\mathit{OTI}_{\text{HBM}}$ for each off-chip operator assuming it is alone ($R_{\text{concurrent}} = R$). Run a full timing pass to estimate $[\mathit{st}, \textit{end}]$ intervals for all nodes.
+
+    \item[Pass~2 (with contention).] For each off-chip operator $n$, compute the rate-weighted concurrent requests from all off-chip operators whose $[\mathit{st}, \textit{end}]$ intervals (from Pass~1) overlap with $n$'s interval:
+    \begin{equation}
+        R_{\text{concurrent}}(n) = \max\!\left(R_n,\; \left\lceil\sum_{\substack{n' \in \text{offchip} \\ [st_{n'}, end_{n'}] \cap [st_n, end_n] \neq \emptyset}} R_{n'} \cdot f_{\text{overlap}}(n, n') \cdot f_{\text{rate}}(n, n')\right\rceil\right)
+    \end{equation}
+    where $f_{\text{overlap}}$ is the fractional temporal overlap and $f_{\text{rate}} = \min(1, \mathit{OCI}_n / \mathit{OCI}_{n'})$ scales by relative firing rate (a slow operator with high OCI injects fewer requests per target tile access). Recompute $\mathit{OTI}_{\text{HBM}}$ with the updated $R_{\text{concurrent}}$ and run a second timing pass.
+\end{description}
+
+\section{Per-Operator Parameters}
+
+The tables below define $T_{\text{fire}}$, $N_{\text{fire}}$, $\mathit{NIT}$, and $\mathit{OTPC}$ for each STeP operator category. Stream shapes are written as $[D_a, \ldots, D_0]$. Symbolic variables (e.g.\ $D_i$) propagate through the model.
+
+\subsection{Shape and Pass-Through Operators}
+
+This category includes Flatten, Promote, PromoteOuter, Reshape (without padding), Expand, ExpandRef, RepeatRef, RepeatStatic, and Broadcast. These act as zero-cost pass-through for timing purposes.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Quantity} & \textbf{Value} \\
+\midrule
+$T_{\text{fire}}$ & $0$ \\
+$N_{\text{fire}}$ & output stream volume \\
+$\mathit{NIT}$ & $1$ per input \\
+$\mathit{OTPC}$ & $1$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Note: ExpandRef and RepeatRef take two inputs (data + reference); both have $\mathit{NIT} = 1$ per input.
+
+\subsection{UnaryMap}
+
+Element-wise computation with a single input. One input tile produces one output tile.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Quantity} & \textbf{Value} \\
+\midrule
+$T_{\text{fire}}$ & $\max\!\left(\lceil F / \mathit{BW}_c\rceil,\; T_{\text{PMU-store}}\right)$ \quad (Eq.~\ref{eq:tfire}) \\[4pt]
+$N_{\text{fire}}$ & $\prod D_i$ \\
+$\mathit{NIT}^{n'}_n$ & $1$ \\
+$\mathit{OTPC}$ & $1$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{BinaryMap}
+
+Element-wise computation with two inputs consumed in lockstep.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Quantity} & \textbf{Value} \\
+\midrule
+$T_{\text{fire}}$ & $\max\!\left(\lceil F / \mathit{BW}_c\rceil,\; T_{\text{PMU-store}}\right)$ \quad (Eq.~\ref{eq:tfire}) \\[4pt]
+$N_{\text{fire}}$ & $\prod D_i$ \\
+$\mathit{NIT}^{n'}_n$ & $1$ \quad (for each of the two input streams) \\
+$\mathit{OTPC}$ & $1$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Accum}
+
+Reduction over the inner $b$ dimensions. Input shape $[D_a, \ldots, D_b, D_{b-1}, \ldots, D_0]$. Let $K = \prod_{i=0}^{b-1} D_i$ (elements per reduction) and $M = \prod_{i=b}^{a} D_i$ (number of outputs). $K$ may be symbolic.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Quantity} & \textbf{Value} \\
+\midrule
+$T_{\text{fire}}$ & $\max\!\left(\lceil F / \mathit{BW}_c\rceil,\; T_{\text{PMU-store}}\right)$ \quad ($F = R \cdot C$ per accumulation step) \\[4pt]
+$N_{\text{fire}}$ & $M$ \\
+$\mathit{NIT}^{n'}_n$ & $K$ \quad (consumes $K$ input tiles per output) \\
+$\mathit{OTPC}$ & $1$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{BinaryMapAccum (Scan)}
+
+Two-input reduction: identical to Accum but with two input streams. Each firing consumes $K$ tiles from both inputs. Internal accumulator state does not affect the production rate.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Quantity} & \textbf{Value} \\
+\midrule
+$T_{\text{fire}}$ & $\max\!\left(\lceil F / \mathit{BW}_c\rceil,\; T_{\text{PMU-store}}\right)$ \\[4pt]
+$N_{\text{fire}}$ & $M$ \quad (output stream volume) \\
+$\mathit{NIT}^{n'}_n$ & $K$ \quad (for each of the two input streams) \\
+$\mathit{OTPC}$ & $1$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Bufferize}
+
+Accumulates $K = \prod_{i=0}^{b-1} D_i$ input tiles, emits one buffer reference. Scratchpad writes are pipelined with input arrival.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Quantity} & \textbf{Value} \\
+\midrule
+$T_{\text{fire}}$ & $0$ \\
+$N_{\text{fire}}$ & $\prod_{i=b}^{a} D_i$ \quad (number of buffers emitted) \\
+$\mathit{NIT}^{n'}_n$ & $K$ \quad (tiles accumulated per buffer) \\
+$\mathit{OTPC}$ & $1$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Streamify}
+
+Reads tiles from an on-chip buffer. Let $R$ be the number of buffer references and $E$ be the number of tiles read per buffer (including repeat factors).
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Quantity} & \textbf{Value} \\
+\midrule
+$T_{\text{fire}}$ & $E$ \quad (1 cycle per output tile) \\
+$N_{\text{fire}}$ & $R$ \quad (number of buffer references consumed) \\
+$\mathit{NIT}^{n'}_n$ & $1$ \quad (one buffer reference per firing) \\
+$\mathit{OTPC}$ & $E$ \quad (tiles emitted per buffer read) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{DynStreamify}
+
+Reference-addressed variant of Streamify. Takes a buffer input and a reference stream that controls read addresses.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Quantity} & \textbf{Value} \\
+\midrule
+$T_{\text{fire}}$ & $\lceil S_{\text{tile}} \cdot 8 / \mathit{BW}_{\text{scratchpad}}\rceil$ \quad (bits / scratchpad bandwidth) \\
+$N_{\text{fire}}$ & ref stream volume \\
+$\mathit{NIT}^{n'}_n$ & $1$ per input (buffer + reference) \\
+$\mathit{OTPC}$ & $E$ \quad (tiles per buffer) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Off-Chip Memory Operators}
+
+This category includes LinearOffChipLoad, LinearOffChipLoadRef, RandomOffChipLoad, DynLinearOffChipLoad, RandomOffChipStore, DynOffChipStore, and LinearOffChipStore. The $\mathit{OTI}$ is determined by the HBM contention model (Section~\ref{sec:contention}) rather than the Roofline equation.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Quantity} & \textbf{Value} \\
+\midrule
+$T_{\text{fire}}$ & $0$ \quad (rate set by HBM model, not Roofline) \\
+$N_{\text{fire}}$ & output/input stream volume \\
+$\mathit{NIT}^{n'}_n$ & $1$ per input (address/data/reference streams) \\
+$\mathit{OTPC}$ & $1$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Source loads (LinearOffChipLoad, DynLinearOffChipLoad) have no predecessors in the graph ($\mathit{NIT} = \{\}$). Reference-addressed loads (LinearOffChipLoadRef, RandomOffChipLoad) consume one reference tile per firing. Stores consume one data tile per firing; RandomOffChipStore additionally consumes one address tile.
+
+\subsection{Parallelize}
+
+Splits a stream across $N_c$ parallel consumers by dividing the outermost dimension.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Quantity} & \textbf{Value} \\
+\midrule
+$T_{\text{fire}}$ & $0$ \\
+$N_{\text{fire}}$ & $\sum_{i=1}^{N_c} \prod D^{(i)}_j$ \quad (total across all output streams) \\
+$\mathit{NIT}^{n'}_n$ & $1$ \\
+$\mathit{OTPC}$ & $1$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{FlatPartition and FlatReassemble}
+
+Control-driven routing for data-dependent parallelism (e.g., Mixture-of-Experts).
+
+\paragraph{FlatPartition.} Routes input tiles to $N_c$ consumers based on a control stream. $T_{\text{fire}} = 0$, $\mathit{OTPC} = 1$. Consumes one data tile and one control tile per firing ($\mathit{NIT} = 1$ for each). $N_{\text{fire}}$ is the sum of output stream volumes across all consumers. The OTI is multiplied by $N_c$ (fan-out effect) so each consumer sees tiles at $N_c \times$ the base interval.
+
+\paragraph{FlatReassemble.} Collects tiles from $N_d$ data inputs under control-stream guidance. $T_{\text{fire}} = 0$, $\mathit{OTPC} = 1$, $\mathit{NIT} = 1$ per input (data + control). The fan-in divisor $N_d$ is applied to predecessor OTI values when computing ICI and ICD.
+
+\subsection{EagerMerge}
+
+Nondeterministic (arrival-order) merging of multiple input streams. $T_{\text{fire}} = 0$, $\mathit{NIT} = 1$ per input, $\mathit{OTPC} = 1$. The model treats it identically to other routing operators, with $\mathit{st}(n)$ determined by the first branch to produce data and $\textit{end}(n)$ by the last.
+
+\subsection{Reshape (with Padding)}
+
+When Reshape has a padding function (\texttt{pad\_fn}), it groups input tiles into chunks of \texttt{chunk\_size}, padding incomplete chunks. $T_{\text{fire}} = 0$, $\mathit{NIT} = 1$, $\mathit{OTPC} = 1$. The OTI adjustment for padding is described in Section~4.5.
+
+\subsection{RetileStreamify and FlatmapFilterRowStreamify}
+
+Specialized FlatMap variants. RetileStreamify splits a tile into \texttt{num\_chunks} sub-tiles: $T_{\text{fire}} = 0$, $\mathit{OTPC} = \mathit{num\_chunks}$. FlatmapFilterRowStreamify filters rows based on a mask: $T_{\text{fire}} = 0$, $\mathit{NIT} = 1$ per input (data + mask), $\mathit{OTPC} = R$ (tile rows).
+
+\section{Handling Dynamic Dimensions}
+
+STeP streams may have dynamic-regular or ragged dimensions. These appear as symbolic variables throughout the model (e.g., $D_i$ for the number of tokens routed to expert $i$, or $K$ for a dynamic reduction dimension in Accum).
+
+\subsection{Expected-Value Substitution}
+
+For FlatPartition and FlatReassemble operators with dynamic dimensions (\texttt{DynDim}), the model computes expected-value substitutions assuming uniform routing:
+
+\begin{itemize}[nosep]
+    \item \textbf{FlatPartition}: Expected tiles per consumer $= \lfloor N_{\text{fire}}(\text{input}) / N_c \rfloor$.
+    \item \textbf{FlatReassemble}: Expected elements per control firing $= \lfloor \sum N_{\text{fire}}(\text{data inputs}) / N_{\text{fire}}(\text{control}) \rfloor$.
+\end{itemize}
+
+These substitutions are applied before the timing passes so that DynDim symbols are resolved early in rate computations.
+
+\subsection{Alternative Evaluation Strategies}
+
+The timing equations remain closed-form expressions over symbolic variables. Beyond expected-value substitution, two other strategies are available:
+\begin{description}[leftmargin=1.5em, labelindent=0em]
+    \item[Concrete instantiation.] Substitute symbols with values from a specific trace.
+    \item[Worst/best-case bounds.] Substitute extreme values to obtain performance envelopes.
+\end{description}
+
+\section{Relationship to the Stream-HLS Model}
+
+The model shares the same DAG-based, topological-order structure as Stream-HLS~\cite{basalama2025streamhls}. The key differences are:
+
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{Rate-based reformulation with folded T\_fire.} Stream-HLS tracks $FW_n$, $LW_n$, and $LR^{n'}_n$ as absolute relative times, with a Depend/Epilogue decomposition to handle stalls. This model uses a unified OCI formula (Eq.~\ref{eq:oci-compute}) where $T_{\text{fire}}$ is folded into each predecessor's contribution via $\mathit{NIT} \cdot \max(T_{\text{fire}}, \mathit{OTI}(n'))$, naturally capturing both backpressure and compute-bound behavior.
+
+    \item \textbf{Uniform streaming edges.} Stream-HLS distinguishes FIFO edges ($WAF = RAF$) from shared-buffer edges. In this model, all edges are streaming. Buffering delays emerge from Bufferize nodes (which have $\mathit{NIT} = K$, causing a proportional $\mathit{ICD}$ at downstream consumers) rather than from edge classification.
+
+    \item \textbf{Three-term Roofline with PMU modeling.} Per-node timing uses a Roofline model that separately accounts for PMU reads, compute, and PMU stores, with the PMU store term gated by \texttt{write\_back\_mu}.
+
+    \item \textbf{Detailed HBM contention model.} Off-chip memory operators use a physics-based per-tile HBM model (dispatch, channel pipelining, startup, sim overhead) with a two-pass temporal-overlap contention estimation, rather than a simple $R_{\text{total}} / C$ approximation.
+
+    \item \textbf{Symbolic dimensions with expected-value resolution.} Node parameters may contain symbolic variables representing data-dependent stream dimensions. FlatPartition/FlatReassemble DynDim symbols are resolved via uniform-routing expected values before timing computation.
+\end{enumerate}
+
+\begin{thebibliography}{9}
+\bibitem{basalama2025streamhls}
+S.~Basalama and J.~Cong, ``Stream-HLS: Towards Automatic Dataflow Acceleration,'' in \emph{Proc.\ ACM/SIGDA International Symposium on Field Programmable Gate Arrays (FPGA~'25)}, Monterey, CA, USA, Feb.\ 2025, pp.~103--114.
+
+\bibitem{sohn2026step}
+G.~Sohn, G.~Zhang, K.~Hossfeld, J.~Kim, N.~Sobotka, N.~Zhang, O.~Hsu, and K.~Olukotun, ``Streaming Tensor Programs: A Streaming Abstraction for Dynamic Parallelism,'' in \emph{Proc.\ 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS~'26)}, Pittsburgh, PA, USA, Mar.\ 2026.
+\end{thebibliography}
+
+\end{document}

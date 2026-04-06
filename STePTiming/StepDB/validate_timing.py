@@ -1,15 +1,20 @@
 """Validate the analytical timing model against the cycle-accurate simulator.
 
 Usage:
-    python validate_timing.py                    # all seed kernels, first preset
+    python validate_timing.py                    # all seed kernels, first preset only
+    python validate_timing.py gemm               # single kernel, all its presets
     python validate_timing.py gemm small         # specific kernel + preset
-    python validate_timing.py --all              # all seed kernels, small presets
+    python validate_timing.py --all-small        # all seed kernels, small presets only
+    python validate_timing.py --all              # all seed kernels, every preset
+    python validate_timing.py --all -j 8         # all seed kernels, every preset, 8 workers
 """
 import argparse
 import json
 import os
 import subprocess
 import sys
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict
 from pathlib import Path
 
@@ -19,7 +24,8 @@ import yaml
 STEPDB_DIR = str(Path(__file__).resolve().parent)
 STEP_TL_SRC = str(Path(__file__).resolve().parent.parent / "step_tl" / "src")
 STEP_TL_PROTO = str(Path(__file__).resolve().parent.parent / "step_tl" / "src" / "proto")
-SIM_TIMEOUT_SECONDS = 90
+SIM_TIMEOUT_SECONDS = 100000
+_serialize_lock = threading.Lock()
 
 # Ensure imports work
 sys.path.insert(0, STEP_TL_SRC)
@@ -149,10 +155,9 @@ def run_simulator(graph, output_op, work_dir):
     """Run the cycle-accurate simulator and return actual cycles."""
     from sim import serialize, SimConfig, HBMConfig
 
+    work_dir = os.path.abspath(work_dir)
     os.makedirs(work_dir, exist_ok=True)
-    orig_dir = os.getcwd()
-    os.chdir(work_dir)
-    pb_path = os.path.join(os.getcwd(), "graph.pb")
+    pb_path = os.path.join(work_dir, "graph.pb")
 
     sim_config = SimConfig(channel_depth=2, functional_sim=True, mock_bf16=False)
     hbm_config = HBMConfig(
@@ -161,7 +166,13 @@ def run_simulator(graph, output_op, work_dir):
         per_channel_outstanding=1, per_channel_start_up_time=0,
     )
 
-    serialize(graph, pb_path, sim_config.functional_sim)
+    # serialize writes .npy files to cwd using relative paths, so we must
+    # chdir into work_dir. Lock protects the cwd change across threads.
+    with _serialize_lock:
+        orig_dir = os.getcwd()
+        os.chdir(work_dir)
+        serialize(graph, pb_path, sim_config.functional_sim)
+        os.chdir(orig_dir)
 
     sim_runner_script = (
         "import json, sys, os\n"
@@ -190,7 +201,7 @@ def run_simulator(graph, output_op, work_dir):
 
     proc = subprocess.run(
         [sys.executable, "-c", sim_runner_script,
-         os.getcwd(), pb_path,
+         work_dir, pb_path,
          json.dumps(asdict(hbm_config)),
          json.dumps({"channel_depth": sim_config.channel_depth,
                       "functional_sim": sim_config.functional_sim,
@@ -198,8 +209,6 @@ def run_simulator(graph, output_op, work_dir):
         capture_output=True, text=True, timeout=SIM_TIMEOUT_SECONDS,
         env=env,
     )
-
-    os.chdir(orig_dir)
 
     assert proc.returncode == 0, (
         f"Simulator failed (rc={proc.returncode}):\n{proc.stderr[-2000:]}"
@@ -229,84 +238,127 @@ def run_simulator(graph, output_op, work_dir):
 
 
 def validate_kernel(kernel_name, preset, config, verbose=False):
-    """Validate one kernel+preset. Returns (kernel, preset, predicted, actual, error_pct) or error tuple."""
+    """Validate one kernel+preset. Returns (kernel, preset, predicted, actual, error_pct, detail)."""
+    dims = dict(config[kernel_name]["presets"][preset])
+    graph, output_op = build_graph_from_impl(kernel_name, dims, config)
+
+    predicted, detail = run_analytical_model(graph)
+
+    work_dir = os.path.join(STEPDB_DIR, "seed_kernels", kernel_name, f"_work_timing_{preset}")
+    actual = run_simulator(graph, output_op, work_dir)
+
+    error_pct = (predicted - actual) / max(actual, 1) * 100
+    return kernel_name, preset, predicted, actual, error_pct, detail
+
+
+def print_kernel_result(kernel_name, preset, config, predicted, actual, error_pct, detail, verbose=False):
+    """Print detailed result for a single kernel+preset."""
     dims = dict(config[kernel_name]["presets"][preset])
     print(f"\n{'='*60}")
     print(f"  {kernel_name} / {preset}  dims={dims}")
     print(f"{'='*60}")
-
-    graph, output_op = build_graph_from_impl(kernel_name, dims, config)
-
-    # Analytical model
-    predicted, detail = run_analytical_model(graph)
     print(f"  Analytical model: {predicted} cycles")
-
     if verbose:
         for nid, ninfo in detail["per_node"].items():
             node = ninfo["node"]
             print(f"    {str(node):50s}  st={ninfo['st']}  end={ninfo['end']}  OCI={ninfo['OCI']}  OTI={ninfo['OTI']}")
-
-    # Cycle-accurate simulator
-    work_dir = os.path.join(STEPDB_DIR, "seed_kernels", kernel_name, f"_work_timing_{preset}")
-    actual = run_simulator(graph, output_op, work_dir)
     print(f"  Cycle-accurate sim: {actual} cycles")
-
-    error_pct = abs(predicted - actual) / max(actual, 1) * 100
     print(f"  Error: {error_pct:.1f}%")
 
-    return kernel_name, preset, predicted, actual, error_pct
+
+def _build_job_list(config, args):
+    """Return list of (kernel, preset) pairs to validate."""
+    seed_kernels = [k for k, v in config.items() if v.get("origin") == "seed"]
+    SMALL_PRESETS = {"small", "tiny", "square"}
+
+    if args.kernel and args.preset:
+        return [(args.kernel, args.preset)]
+    elif args.kernel:
+        assert args.kernel in config, f"Unknown kernel: {args.kernel}"
+        return [(args.kernel, p) for p in config[args.kernel]["presets"]]
+    elif args.all:
+        return [(k, p) for k in seed_kernels for p in config[k]["presets"]]
+    elif args.all_small:
+        return [(k, p) for k in seed_kernels for p in config[k]["presets"] if p in SMALL_PRESETS]
+    else:
+        return [(k, list(config[k]["presets"].keys())[0]) for k in seed_kernels]
+
+
+def _run_serial(jobs, config, verbose):
+    """Run jobs sequentially with full output."""
+    results = []
+    skipped = []
+    for kernel, preset in jobs:
+        try:
+            r = validate_kernel(kernel, preset, config, verbose)
+            kernel, preset, predicted, actual, error_pct, detail = r
+            print_kernel_result(kernel, preset, config, predicted, actual, error_pct, detail, verbose)
+            results.append((kernel, preset, predicted, actual, error_pct))
+        except Exception as e:
+            print(f"  SKIPPED {kernel}/{preset}: {e}")
+            skipped.append((kernel, preset, str(e)))
+    return results, skipped
+
+
+def _run_parallel(jobs, config, verbose, max_workers):
+    """Run jobs in parallel, logging each as it completes."""
+    results = []
+    skipped = []
+    print_lock = threading.Lock()
+    total = len(jobs)
+    done_count = [0]  # mutable counter for closure
+
+    def _worker(kernel, preset):
+        return validate_kernel(kernel, preset, config, verbose)
+
+    with ThreadPoolExecutor(max_workers=max_workers) as pool:
+        future_to_job = {
+            pool.submit(_worker, kernel, preset): (kernel, preset)
+            for kernel, preset in jobs
+        }
+        for future in as_completed(future_to_job):
+            kernel, preset = future_to_job[future]
+            done_count[0] += 1
+            idx = done_count[0]
+            try:
+                kernel, preset, predicted, actual, error_pct, detail = future.result()
+                results.append((kernel, preset, predicted, actual, error_pct))
+                with print_lock:
+                    print(f"  [{idx}/{total}] {kernel:30s} {preset:15s}  pred={predicted:>8d}  actual={actual:>8d}  err={error_pct:.1f}%")
+                    if verbose:
+                        for nid, ninfo in detail["per_node"].items():
+                            node = ninfo["node"]
+                            print(f"           {str(node):50s}  st={ninfo['st']}  end={ninfo['end']}  OCI={ninfo['OCI']}  OTI={ninfo['OTI']}")
+            except Exception as e:
+                skipped.append((kernel, preset, str(e)))
+                with print_lock:
+                    print(f"  [{idx}/{total}] {kernel:30s} {preset:15s}  SKIPPED: {e}")
+
+    return results, skipped
 
 
 def main():
     parser = argparse.ArgumentParser(description="Validate analytical timing model")
     parser.add_argument("kernel", nargs="?", help="Kernel name")
     parser.add_argument("preset", nargs="?", help="Preset name")
-    parser.add_argument("--all", action="store_true", help="All seed kernels, small presets")
+    parser.add_argument("--all-small", action="store_true", help="All seed kernels, small presets only")
+    parser.add_argument("--all", action="store_true", help="All seed kernels, every preset")
+    parser.add_argument("-j", "--jobs", type=int, default=1, help="Parallel workers (default: 1 = serial)")
     parser.add_argument("-v", "--verbose", action="store_true")
     args = parser.parse_args()
 
     config = load_config()
-    seed_kernels = [k for k, v in config.items() if v.get("origin") == "seed"]
-    SMALL_PRESETS = ["small", "tiny", "square"]
+    jobs = _build_job_list(config, args)
+    print(f"Running {len(jobs)} benchmark(s) with {args.jobs} worker(s)\n")
 
-    results = []
-    skipped = []
-
-    def _try_validate(kernel, preset):
-        """Run validation, catching failures from unsupported kernels."""
-        try:
-            return validate_kernel(kernel, preset, config, args.verbose)
-        except Exception as e:
-            print(f"  SKIPPED: {e}")
-            skipped.append((kernel, preset, str(e)))
-            return None
-
-    if args.kernel and args.preset:
-        r = _try_validate(args.kernel, args.preset)
-        if r:
-            results.append(r)
-    elif args.kernel:
-        for preset in config[args.kernel]["presets"]:
-            if preset in SMALL_PRESETS:
-                r = _try_validate(args.kernel, preset)
-                if r:
-                    results.append(r)
-    elif args.all:
-        for kernel in seed_kernels:
-            for preset in config[kernel]["presets"]:
-                if preset in SMALL_PRESETS:
-                    r = _try_validate(kernel, preset)
-                    if r:
-                        results.append(r)
+    if args.jobs > 1:
+        results, skipped = _run_parallel(jobs, config, args.verbose, args.jobs)
     else:
-        # Default: all seed kernels, first preset only
-        for kernel in seed_kernels:
-            presets = list(config[kernel]["presets"].keys())
-            r = _try_validate(kernel, presets[0])
-            if r:
-                results.append(r)
+        results, skipped = _run_serial(jobs, config, args.verbose)
 
-    # Summary
+    # Summary sorted by kernel name then preset
+    results.sort(key=lambda r: (r[0], r[1]))
+
     print(f"\n{'='*80}")
     print(f"  {'Kernel':30s} {'Preset':15s} {'Predicted':>10s} {'Actual':>10s} {'Error%':>8s}")
     print(f"{'='*80}")
@@ -318,7 +370,7 @@ def main():
             print(f"    {kernel}/{preset}: {reason[:80]}")
     print(f"{'='*80}")
 
-    avg_err = sum(e for _, _, _, _, e in results) / len(results) if results else 0
+    avg_err = sum(abs(e) for _, _, _, _, e in results) / len(results) if results else 0
     print(f"  Average error: {avg_err:.1f}% ({len(results)} kernels, {len(skipped)} skipped)")
 
 
