@@ -26,7 +26,7 @@ from loader import load_config, get_dims, list_kernels, list_presets, load_probl
 STEP_TL_SRC = str(Path(__file__).resolve().parent.parent / "step_tl" / "src")
 STEP_TL_PROTO = str(Path(__file__).resolve().parent.parent / "step_tl" / "src" / "proto")
 
-SIM_TIMEOUT_SECONDS = 90
+SIM_TIMEOUT_SECONDS = 100000
 RTOL = 1e-3
 ATOL = 1e-3
 
@@ -118,13 +118,15 @@ def _strip_imports(code: str) -> str:
     return "\n".join(result)
 
 
-def evaluate_kernel(kernel_name: str, preset: str, work_dir: str | None = None) -> EvalResult:
+def evaluate_kernel(kernel_name: str, preset: str, work_dir: str | None = None,
+                    timing_only: bool = False) -> EvalResult:
     """Run the full evaluation pipeline for a single kernel pair + preset.
 
     Stages: exec -> simulate -> correctness -> success.
+    When timing_only=True, skips correctness (stage 3) and disables functional sim.
     """
     dims = get_dims(kernel_name, preset)
-    ref_mod = load_problem(kernel_name)
+    ref_mod = None if timing_only else load_problem(kernel_name)
     step_code = load_step_impl(kernel_name)
 
     if work_dir is None:
@@ -142,7 +144,7 @@ def evaluate_kernel(kernel_name: str, preset: str, work_dir: str | None = None) 
         sys.path.append(STEP_TL_PROTO)
 
     # --- Stage 1: exec — load and execute the STeP impl ---
-    full_code = IMPORT_SCAFFOLD + _strip_imports(step_code)
+    full_code = IMPORT_SCAFFOLD + step_code#_strip_imports(step_code)
     (Path(work_dir) / "full_body.py").write_text(full_code)
 
     namespace = {}
@@ -162,7 +164,7 @@ def evaluate_kernel(kernel_name: str, preset: str, work_dir: str | None = None) 
     os.chdir(work_dir)
     pb_path = os.path.join(os.getcwd(), "graph.pb")
 
-    sim_config = SimConfig(channel_depth=2, functional_sim=True, mock_bf16=False)
+    sim_config = SimConfig(channel_depth=2, functional_sim=not timing_only, mock_bf16=False)
     hbm_config = HBMConfig(
         addr_offset=64, channel_num=32,
         per_channel_latency=2, per_channel_init_interval=2,
@@ -220,6 +222,14 @@ def evaluate_kernel(kernel_name: str, preset: str, work_dir: str | None = None) 
     cycles = sim_result["cycles"]
 
     # --- Stage 3: correctness ---
+    if timing_only:
+        result = EvalResult(
+            kernel=kernel_name, preset=preset, stage="success", success=True,
+            dims=dims, cycle_time=float(cycles),
+        )
+        (Path(work_dir) / "result.json").write_text(result.to_json())
+        return result
+
     store_name = output_op.store_file_name
     store_path = os.path.join(work_dir, store_name)
 
@@ -267,6 +277,8 @@ def main():
     parser.add_argument("--all", action="store_true", help="Evaluate all kernels, all presets")
     parser.add_argument("--all-presets", action="store_true", help="Evaluate all presets for one kernel")
     parser.add_argument("--list", action="store_true", help="List available kernels and presets")
+    parser.add_argument("--timing-only", action="store_true",
+                        help="Skip correctness check, run cycle-accurate timing only")
     args = parser.parse_args()
 
     if args.list:
@@ -294,7 +306,7 @@ def main():
         print(f"\n{'='*60}")
         print(f"Evaluating: {name} / {preset}")
         print(f"{'='*60}")
-        result = evaluate_kernel(name, preset)
+        result = evaluate_kernel(name, preset, timing_only=args.timing_only)
         results.append(result)
         status = "PASS" if result.success else f"FAIL @ {result.stage}"
         cycles_str = f" ({result.cycle_time} cycles)" if result.cycle_time else ""

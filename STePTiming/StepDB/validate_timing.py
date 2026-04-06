@@ -113,7 +113,7 @@ def build_graph_from_impl(kernel_name, dims, config):
     with open(impl_path) as f:
         impl_code = f.read()
 
-    full_code = IMPORT_SCAFFOLD + "\n" + _strip_imports(impl_code)
+    full_code = IMPORT_SCAFFOLD + "\n" + impl_code#_strip_imports(impl_code)
     namespace = {}
     exec(full_code, namespace)
     assert "build_graph" in namespace, f"build_graph not found in {impl_path}"
@@ -159,7 +159,7 @@ def run_simulator(graph, output_op, work_dir):
     os.makedirs(work_dir, exist_ok=True)
     pb_path = os.path.join(work_dir, "graph.pb")
 
-    sim_config = SimConfig(channel_depth=2, functional_sim=True, mock_bf16=False)
+    sim_config = SimConfig(channel_depth=2, functional_sim=False, mock_bf16=False)
     hbm_config = HBMConfig(
         addr_offset=64, channel_num=32,
         per_channel_latency=2, per_channel_init_interval=2,
@@ -243,6 +243,8 @@ def validate_kernel(kernel_name, preset, config, verbose=False):
     graph, output_op = build_graph_from_impl(kernel_name, dims, config)
 
     predicted, detail = run_analytical_model(graph)
+
+    print(f"Predicted: {predicted}")
 
     work_dir = os.path.join(STEPDB_DIR, "seed_kernels", kernel_name, f"_work_timing_{preset}")
     actual = run_simulator(graph, output_op, work_dir)

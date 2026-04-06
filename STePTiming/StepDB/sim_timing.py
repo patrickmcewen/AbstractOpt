@@ -55,7 +55,7 @@ def build_graph(kernel_name: str, preset: str):
 
     _ensure_paths()
 
-    full_code = IMPORT_SCAFFOLD + _strip_imports(step_code)
+    full_code = IMPORT_SCAFFOLD + step_code#_strip_imports(step_code)
     namespace = {}
     exec(full_code, namespace)
     assert namespace.get("build_graph") is not None, "step_impl.py does not define build_graph"
