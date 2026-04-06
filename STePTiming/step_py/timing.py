@@ -8,7 +8,12 @@ then returns the total graph execution time in cycles.
 import math
 import sympy
 from networkx import MultiDiGraph, topological_sort
-from step_py.ops import StepOps, get_stream
+from step_py.ops import (
+    StepOps, get_stream,
+    Bufferize, Streamify,
+    FlatPartition, FlatReassemble,
+    Reshape,
+)
 from step_py.datatype import Tile, DynTile, Buffer
 
 DEFAULT_HW_CONFIG = {
@@ -56,7 +61,6 @@ def _produces_pmu_tile(node):
     if wb is False:
         return False
     # No write_back_mu attr → check specific op types
-    from step_py.ops import Bufferize, Streamify
     if isinstance(node, Bufferize):
         return True
     if isinstance(node, Streamify):
@@ -76,16 +80,15 @@ def _get_pmu_read_cycles(node, graph):
 
     Only charges PMU read cost for inputs whose producer wrote to PMU.
     The sim does: load_cycle += div_ceil(tile_bytes, PMU_BW) per input with read_from_mu=true.
+
+    Pass-through ops (no write_back_mu, no compute_bw) forward tile references
+    without performing PMU reads — return 0 for them.
     """
-    pmu_read = 0
-    try:
-        inputs = node.input_list
-    except (NotImplementedError, AttributeError):
+    if not hasattr(node, 'write_back_mu') and not hasattr(node, 'compute_bw'):
         return 0
+    pmu_read = 0
 
-    preds = list(graph.predecessors(node))
-
-    for inp in inputs:
+    for inp in node.input_list:
         inp_node = inp if isinstance(inp, StepOps) else inp[0]
         if _produces_pmu_tile(inp_node):
             stream = get_stream(inp)
@@ -98,17 +101,6 @@ def _get_pmu_read_cycles(node, graph):
 def _get_par_dispatch(node):
     """Get par_dispatch from an off-chip op, default 1."""
     return getattr(node, 'par_dispatch', 1)
-
-
-def _is_leq(a, b, sym_subs=None):
-    """Check if sympy expression a <= b, conservatively returning False if uncertain."""
-    diff = b - a
-    if sym_subs and diff.free_symbols:
-        diff = diff.subs(sym_subs)
-    diff = sympy.simplify(diff)
-    if diff.free_symbols:
-        return False
-    return int(sympy.N(diff)) >= 0
 
 
 
@@ -146,17 +138,19 @@ def _compute_hbm_oti(requests, par_dispatch, hw_config, concurrent_requests):
     # means channels cool down between tile batches).
     startup_overhead = startup
 
-    # Backpressure from bounded DAM channels (depth=2) between operators.
-    # Per-tile traces show ~3 cycles additive overhead in steady state.
-    backpressure_overhead = 3
+    # Per-tile sim overhead: the Rust sim's blocking per-tile loop executes
+    # three time.tick() calls per tile (send_request_time, read_finish_time,
+    # on_chip_snd enqueue time) in linear_offchip_load.rs, adding 3 cycles
+    # of bookkeeping overhead to every tile in steady state.
+    sim_overhead = 3
 
-    return max(1, bottleneck + startup_overhead + backpressure_overhead)
+    return max(1, bottleneck + startup_overhead + sim_overhead)
 
 
 
 
 def _run_timing_pass(nodes, graph, hw_config, offchip_oti,
-                     adjust_reshape_padding=False, buffer_absorption=False,
+                     adjust_reshape_padding=False,
                      sym_subs={}):
     """Run one pass of the timing model with given off-chip OTI values."""
     info = {}
@@ -169,26 +163,16 @@ def _run_timing_pass(nodes, graph, hw_config, offchip_oti,
         otpc = n.OTPC()
         nit_map = n.NIT()
 
-        from step_py.ops import Streamify as _Streamify
-        if n.is_offchip_memory_op():
-            t_fire = sympy.Integer(0)
-        elif getattr(n, 'write_back_mu', None) is None and not hasattr(n, 'compute_bw'):
-            # Pass-through op (Broadcast, RepeatStatic, etc.)
-            # These don't do compute or PMU reads — they forward tile references.
-            # T_fire = 0 in the sim (no trace events emitted for Broadcast).
-            t_fire = sympy.Integer(0)
-        else:
-            # T_fire from the op = max(comp_cycles, store_cycles)
-            t_fire_base = n.T_fire(hw_config)
-            # Add PMU read cost: sim does max(load_cycles, comp_cycles, store_cycles)
-            # Only charged for inputs from PMU-backed sources (off-chip loads, Bufferize, etc.)
-            pmu_read_cycles = _get_pmu_read_cycles(n, graph)
-            t_fire = sympy.Max(t_fire_base, sympy.Integer(pmu_read_cycles))
+        # T_fire from the op = max(comp_cycles, store_cycles)
+        # PMU read cost added: sim does max(load_cycles, comp_cycles, store_cycles).
+        # Pass-through ops (Broadcast, etc.) return T_fire=0 and pmu_read=0.
+        t_fire_base = n.T_fire(hw_config)
+        pmu_read_cycles = _get_pmu_read_cycles(n, graph)
+        t_fire = sympy.Max(t_fire_base, sympy.Integer(pmu_read_cycles))
 
         # FlatReassemble fan-in: collects tiles from N parallel expert paths.
         # Expert outputs arrive interleaved (round-robin), so the effective
         # per-predecessor OTI is divided by the number of data inputs.
-        from step_py.ops import FlatReassemble
         fan_in_divisor = sympy.Integer(1)
         if isinstance(n, FlatReassemble) and hasattr(n, '_inputs') and len(n._inputs) > 1:
             fan_in_divisor = sympy.Integer(len(n._inputs))
@@ -210,7 +194,6 @@ def _run_timing_pass(nodes, graph, hw_config, offchip_oti,
         # max(T_fire, input_tile_interval). The output rate is limited by the
         # slowest predecessor. For non-accumulating ops (NIT=1 for all preds),
         # this reduces to max(T_fire, max(OTI(preds))).
-        absorbed_preds = []
         if n.is_offchip_memory_op():
             # Off-chip: no compute, rate limited by HBM and input availability
             ici = sympy.Integer(0)
@@ -226,15 +209,6 @@ def _run_timing_pass(nodes, graph, hw_config, offchip_oti,
             for pred in preds:
                 pid = pred.instance_id
                 pred_oti = info[pid]["OTI"] / fan_in_divisor
-                """# PMU buffer absorption: if predecessor stores to PMU and has
-                # finished before this node starts, skip it from OCI — tiles
-                # are all in PMU, consumer reads at its own rate.
-                if buffer_absorption and _produces_pmu_tile(pred):
-                    pred_end = info[pid]["end"]
-                    if _is_leq(pred_end, st, sym_subs):
-                        print(f"absorbing pred {pred.instance_id} because pred_end <= st")
-                        absorbed_preds.append(pred)
-                        continue  # Skip this pred — handled by end constraint"""
                 nit_count = nit_map.get(pid, sympy.Integer(1))
                 oci = sympy.Max(oci, nit_count * sympy.Max(t_fire, pred_oti))
             oci = sympy.Max(t_fire, oci)
@@ -245,13 +219,11 @@ def _run_timing_pass(nodes, graph, hw_config, offchip_oti,
         # cost (no waiting for predecessor). Within each chunk of chunk_size
         # tiles, some may be padding, so the effective per-tile OTI is lower.
         # Approximation: OTI = OCI / chunk_size (uniform padding distribution).
-        from step_py.ops import Reshape
         if adjust_reshape_padding and isinstance(n, Reshape) and n.pad_fn is not None:
             oti = oci / sympy.Integer(n.chunk_size)
 
         # FlatPartition fan-out: tiles are distributed round-robin to N consumers.
         # Each consumer sees tiles at N times the interval.
-        from step_py.ops import FlatPartition
         if isinstance(n, FlatPartition):
             oti = oti * sympy.Integer(n.num_consumers)
 
@@ -259,14 +231,13 @@ def _run_timing_pass(nodes, graph, hw_config, offchip_oti,
         # Absorbed PMU preds are skipped — no initial collection delay from PMU.
         icd = sympy.Integer(0)
         for pred in preds:
-            if pred in absorbed_preds:
-                continue  # Already absorbed
             pid = pred.instance_id
             pred_oti = info[pid]["OTI"] / fan_in_divisor
             nit_count = nit_map.get(pid, sympy.Integer(1))
             icd = sympy.Max(icd, (nit_count - 1) * sympy.Max(t_fire, pred_oti))
 
-        # First tile out: off-chip ops use their OTI (which already includes startup)
+        # for off chip ops, t_fire=0. data rate decoupled from latency of sending data to/from HBM,
+        # unlike compute ops where tile processing must complete before output tile is produced and next inputs can be consumed.
         if n.is_offchip_memory_op():
             fto = st + icd + sympy.Integer(offchip_oti[nid])
         else:
@@ -299,18 +270,13 @@ def _run_timing_pass(nodes, graph, hw_config, offchip_oti,
 
 
 def _compute_contention_oti(offchip_nodes, offchip_requests, offchip_pardispatch,
-                             hw_config, pass_info, has_symbolic, sym_subs):
+                             hw_config, pass_info):
     """Compute per-op HBM OTI based on interval overlap from a timing pass."""
     offchip_intervals = {}
     for n in offchip_nodes:
         nid = n.instance_id
-        st_expr = pass_info[nid]["st"]
-        end_expr = pass_info[nid]["end"]
-        if has_symbolic and sym_subs:
-            st_expr = st_expr.subs(sym_subs)
-            end_expr = end_expr.subs(sym_subs)
-        st_val = int(sympy.N(st_expr))
-        end_val = max(st_val + 1, int(sympy.N(end_expr)))
+        st_val = int(sympy.N(pass_info[nid]["st"]))
+        end_val = max(st_val + 1, int(sympy.N(pass_info[nid]["end"])))
         offchip_intervals[nid] = (st_val, end_val)
 
     offchip_oti = {}
@@ -326,10 +292,7 @@ def _compute_contention_oti(offchip_nodes, offchip_requests, offchip_pardispatch
         # An op with R=96 but OCI=992 sends 96/992 ≈ 0.1 req/cycle — it
         # shouldn't inflate contention like an op sending 96 req/tile at
         # OCI=96 would. Scale by min(1, my_OCI / other_OCI).
-        my_oci_expr = pass_info[nid]["OCI"]
-        if has_symbolic and sym_subs:
-            my_oci_expr = my_oci_expr.subs(sym_subs)
-        my_oci = max(1, int(sympy.N(my_oci_expr)))
+        my_oci = max(1, int(sympy.N(pass_info[nid]["OCI"])))
 
         concurrent_R = 0
         for other in offchip_nodes:
@@ -341,10 +304,7 @@ def _compute_contention_oti(offchip_nodes, offchip_requests, offchip_pardispatch
                 overlap_frac = (overlap_end - overlap_st) / my_dur
                 # Scale by relative firing rate: a slow op (high OCI)
                 # injects fewer requests per target tile access.
-                o_oci_expr = pass_info[oid]["OCI"]
-                if has_symbolic and sym_subs:
-                    o_oci_expr = o_oci_expr.subs(sym_subs)
-                o_oci = max(1, int(sympy.N(o_oci_expr)))
+                o_oci = max(1, int(sympy.N(pass_info[oid]["OCI"])))
                 rate_scale = min(1.0, my_oci / o_oci)
                 concurrent_R += offchip_requests[oid] * overlap_frac * rate_scale
 
@@ -352,6 +312,57 @@ def _compute_contention_oti(offchip_nodes, offchip_requests, offchip_pardispatch
         offchip_oti[nid] = _compute_hbm_oti(R, P, hw_config, concurrent_R)
 
     return offchip_oti
+
+
+def _compute_dyndim_expected_values(nodes):
+    """Compute expected-value substitutions for symbolic dimensions.
+
+    FlatPartition creates DynDim symbols for per-consumer tile counts.
+    FlatReassemble creates DynDim symbols for reassembled elements per
+    control firing. Both are resolved assuming uniform routing.
+
+    Must run before timing passes so DynDims are substituted early in
+    rate computations (N_fire, NIT, OTPC).
+    """
+    sym_expected = {}
+
+    # FlatPartition: expected tiles per consumer = input_N_fire / num_consumers
+    for n in nodes:
+        if isinstance(n, FlatPartition) and n.num_consumers > 1:
+            inp_node = n.input if isinstance(n.input, StepOps) else n.input[0]
+            inp_nfire = inp_node.N_fire()
+            if not hasattr(inp_nfire, 'free_symbols') or not inp_nfire.free_symbols:
+                expected_per_consumer = max(1, int(inp_nfire) // n.num_consumers)
+                for stream in n.stream_list:
+                    for dim in stream.shape:
+                        if hasattr(dim, 'expr'):
+                            sym_expected[dim.expr] = expected_per_consumer
+
+    # FlatReassemble: expected elements per control = sum(input_N_fires) / control_N_fire
+    # Input N_fires may contain FlatPartition symbols, so substitute those first.
+    for n in nodes:
+        if isinstance(n, FlatReassemble):
+            ctrl_node = n.control if isinstance(n.control, StepOps) else n.control[0]
+            ctrl_nfire = ctrl_node.N_fire()
+            if sym_expected:
+                ctrl_nfire = ctrl_nfire.subs(sym_expected)
+            total_input_nfire = sympy.Integer(0)
+            for inp in n._inputs:
+                inp_node = inp if isinstance(inp, StepOps) else inp[0]
+                inp_nfire = inp_node.N_fire()
+                if sym_expected:
+                    inp_nfire = inp_nfire.subs(sym_expected)
+                total_input_nfire += inp_nfire
+            assert not total_input_nfire.free_symbols, \
+                f"FlatReassemble {n} has unresolved symbols in input N_fires: {total_input_nfire.free_symbols}"
+            assert not ctrl_nfire.free_symbols, \
+                f"FlatReassemble {n} has unresolved symbols in control N_fire: {ctrl_nfire.free_symbols}"
+            expected_per_ctrl = max(1, int(total_input_nfire) // max(1, int(ctrl_nfire)))
+            for dim in n.stream.shape:
+                if hasattr(dim, 'expr'):
+                    sym_expected[dim.expr] = expected_per_ctrl
+
+    return sym_expected
 
 
 def analyze_timing(graph: MultiDiGraph, hw_config: dict = None) -> dict:
@@ -381,51 +392,7 @@ def analyze_timing(graph: MultiDiGraph, hw_config: dict = None) -> dict:
         offchip_requests[nid] = math.ceil(tile_bytes / hbm_addr_offset)
         offchip_pardispatch[nid] = _get_par_dispatch(n)
 
-    # --- Compute expected-value substitutions for symbolic dimensions ---
-    # Derive expected per-consumer values from FlatPartition nodes.
-    # Each FlatPartition creates SelectGen symbols for its consumers.
-    # Expected value = input_N_fire / num_consumers (uniform routing).
-    # Computed before pass 1 so DynDims are substituted early in rate
-    # computations (N_fire, NIT, OTPC) rather than deferred to the end.
-    from step_py.ops import FlatPartition, FlatReassemble
-    sym_expected = {}
-    for n in nodes:
-        if isinstance(n, FlatPartition) and n.num_consumers > 1:
-            inp_node = n.input if isinstance(n.input, StepOps) else n.input[0]
-            inp_nfire = inp_node.N_fire()
-            if not hasattr(inp_nfire, 'free_symbols') or not inp_nfire.free_symbols:
-                expected_per_consumer = max(1, int(inp_nfire) // n.num_consumers)
-                for stream in n.stream_list:
-                    for dim in stream.shape:
-                        if hasattr(dim, 'expr'):
-                            sym_expected[dim.expr] = expected_per_consumer
-    
-    # Derive expected values for FlatReassemble dynamic dimensions.
-    # FlatReassemble gathers from multiple inputs into one stream; its DynDim
-    # represents reassembled elements per control firing.
-    # Expected value = sum(input_N_fires) / control_N_fire (uniform routing).
-    # Input N_fires may contain FlatPartition symbols, so substitute those first.
-    for n in nodes:
-        if isinstance(n, FlatReassemble):
-            ctrl_node = n.control if isinstance(n.control, StepOps) else n.control[0]
-            ctrl_nfire = ctrl_node.N_fire()
-            if sym_expected:
-                ctrl_nfire = ctrl_nfire.subs(sym_expected)
-            total_input_nfire = sympy.Integer(0)
-            for inp in n._inputs:
-                inp_node = inp if isinstance(inp, StepOps) else inp[0]
-                inp_nfire = inp_node.N_fire()
-                if sym_expected:
-                    inp_nfire = inp_nfire.subs(sym_expected)
-                total_input_nfire += inp_nfire
-            assert not total_input_nfire.free_symbols, \
-                f"FlatReassemble {n} has unresolved symbols in input N_fires: {total_input_nfire.free_symbols}"
-            assert not ctrl_nfire.free_symbols, \
-                f"FlatReassemble {n} has unresolved symbols in control N_fire: {ctrl_nfire.free_symbols}"
-            expected_per_ctrl = max(1, int(total_input_nfire) // max(1, int(ctrl_nfire)))
-            for dim in n.stream.shape:
-                if hasattr(dim, 'expr'):
-                    sym_expected[dim.expr] = expected_per_ctrl
+    sym_expected = _compute_dyndim_expected_values(nodes)
 
     # --- Pass 1: no contention (each op alone) ---
     offchip_oti_p1 = {}
@@ -438,35 +405,14 @@ def analyze_timing(graph: MultiDiGraph, hw_config: dict = None) -> dict:
     pass1 = _run_timing_pass(nodes, graph, hw_config, offchip_oti_p1,
                              sym_subs=sym_expected)
 
-    # Always seed sym_subs from sym_expected so both passes get DynDim values.
-    # Pass 1 early substitution makes expressions concrete, so we can't rely
-    # on collecting free_symbols from pass 1 results to build sym_subs.
-    sym_subs = dict(sym_expected)
-
-    # Offchip-scoped contention estimation (changing scope alters which
-    # intervals overlap, breaking contention accuracy).
-    has_symbolic = any(
-        pass1[n.instance_id]["end"].free_symbols for n in offchip_nodes
-    )
-    if has_symbolic:
-        all_symbols = set()
-        for n in offchip_nodes:
-            nid = n.instance_id
-            all_symbols |= pass1[nid]["st"].free_symbols
-            all_symbols |= pass1[nid]["end"].free_symbols
-
-        for s in all_symbols:
-            if s not in sym_subs:
-                raise ValueError(f"Symbol {s} not found in sym_subs")
-
     offchip_oti_p2 = _compute_contention_oti(
         offchip_nodes, offchip_requests, offchip_pardispatch,
-        hw_config, pass1, has_symbolic, sym_subs)
+        hw_config, pass1)
 
     # --- Pass 2: with contention + buffer absorption ---
     info = _run_timing_pass(nodes, graph, hw_config, offchip_oti_p2,
-                            adjust_reshape_padding=True, buffer_absorption=True,
-                            sym_subs=sym_subs)
+                            adjust_reshape_padding=True,
+                            sym_subs=sym_expected)
 
     # Total = max end across leaf nodes
     leaf_nodes = [n for n in nodes if graph.out_degree(n) == 0]
@@ -478,5 +424,5 @@ def analyze_timing(graph: MultiDiGraph, hw_config: dict = None) -> dict:
     return {
         "total_cycles": total_cycles,
         "per_node": info,
-        "sym_subs": sym_subs,
+        "sym_subs": sym_expected,
     }
