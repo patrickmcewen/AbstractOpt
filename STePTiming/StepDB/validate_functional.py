@@ -23,8 +23,11 @@ sys.path.insert(0, STEP_TL_PROTO)
 
 # Imports prepended to step_impl code (mirrors validate_timing.py)
 IMPORT_SCAFFOLD = """\
+import sys
+import random
 import math
 from math import ceil
+from pathlib import Path
 import torch
 import numpy as np
 
@@ -78,21 +81,40 @@ def load_config():
         return yaml.safe_load(f)
 
 
+# Prefixes of import lines the scaffold already provides — only these are stripped.
+_SCAFFOLD_PREFIXES = (
+    "import math", "from math ", "import torch", "import numpy",
+    "import sys", "import random", "from pathlib ",
+    "from graph.", "from rewrite.", "from step_py.", "from step_py ",
+)
+
+
 def _strip_imports(code):
-    """Remove import lines from step_impl code since we prepend our own."""
+    """Remove import lines already provided by IMPORT_SCAFFOLD; preserve all others."""
     lines = code.split("\n")
     result = []
     in_multiline = False
+    skip_multiline = False
     for line in lines:
         s = line.strip()
         if in_multiline:
             if ")" in s:
                 in_multiline = False
+                if skip_multiline:
+                    continue
+            if skip_multiline:
+                continue
+            result.append(line)
             continue
         if s.startswith(("import ", "from ")) and s != "":
+            is_scaffold = any(s.startswith(p) for p in _SCAFFOLD_PREFIXES)
             if "(" in s and ")" not in s:
                 in_multiline = True
-            continue
+                skip_multiline = is_scaffold
+                if is_scaffold:
+                    continue
+            elif is_scaffold:
+                continue
         result.append(line)
     return "\n".join(result)
 
