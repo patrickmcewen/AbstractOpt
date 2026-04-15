@@ -1,0 +1,356 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  breaklines=true
+}
+
+\title{STeP Functional Emulation Model:\\Design Document}
+\author{STeP Team}
+\date{April 2026}
+
+\begin{document}
+\maketitle
+
+\section{Overview}
+
+The functional emulator computes \emph{values} through a STeP dataflow graph without modeling timing, bandwidth, or hardware resource contention.
+Its purpose is to verify that a STeP graph produces the correct output tensor by comparing against a PyTorch reference implementation.
+
+\paragraph{Contrast with cycle-accurate simulation.}
+The Rust cycle-accurate simulator models per-cycle tile movement through compute units, on-chip buffers, and off-chip memory channels.
+The functional emulator abstracts all of this away: each operator is a pure function from input tensors to output tensors, evaluated once in topological order.
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+& \textbf{Functional Emulator} & \textbf{Cycle-Accurate Sim} \\
+\midrule
+Language        & Python (PyTorch)  & Rust \\
+Semantics       & Value-level       & Cycle-level \\
+Output          & Dense tensor      & Dense tensor + timing trace \\
+Speed           & Milliseconds      & Seconds--minutes \\
+Use case        & Graph correctness & Performance modeling \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Tensor Representation}
+
+Every node produces a tiled tensor of shape
+\[
+  (\underbrace{s_0, s_1, \ldots, s_{n-1}}_{\text{stream shape}},\; \text{tile\_r},\; \text{tile\_c})
+\]
+where the last two dimensions are the spatial tile dimensions and the leading dimensions describe the tile grid (the \emph{stream shape}).
+
+\paragraph{Convention.} Source nodes prepend a leading~1 to the stream shape, i.e.\ $s_0 = 1$, matching the STeP IR convention that every tile stream begins with a singleton batch dimension.
+
+\paragraph{Multi-output nodes.} \texttt{Broadcast} and \texttt{FlatPartition} produce a Python \texttt{list} of tensors rather than a single tensor.
+Downstream consumers reference a specific output index.
+
+\section{Execution Model}
+
+\begin{enumerate}[leftmargin=*]
+  \item Compute a topological ordering of the graph (via NetworkX).
+  \item Walk nodes in order; dispatch each to its handler, which reads predecessor values from a dictionary keyed by instance ID and writes its own result back.
+  \item After all nodes are evaluated, the designated \texttt{OffChipStore} node's input is \emph{untiled} into a dense 2-D tensor and returned.
+\end{enumerate}
+
+\noindent Untiling reverses the tiling: the leading singleton is stripped, tile grid dimensions are permuted so that row-tiles and col-tiles are adjacent, and the result is reshaped into $(R, C)$.
+
+\section{Operator Semantics}
+
+\subsection{Source Nodes}
+
+\paragraph{\texttt{LinearOffChipLoad}.}
+The underlying dense tensor is reshaped into a grid of $(R/\text{tile\_r}) \times (C/\text{tile\_c})$ tiles, flattened, and then indexed by a multi-dimensional stride mapping:
+\[
+  \text{linear\_idx}(\mathbf{i}) = \sum_{d} i_d \cdot \text{stride}_d
+\]
+This produces a tensor of shape $(\texttt{out\_shape\_tiled},\;\text{tile\_r},\;\text{tile\_c})$, to which a leading~1 is prepended.
+
+\paragraph{\texttt{LinearOffChipLoadRef}.}
+Same tiling as above, but the tile tensor is broadcast over the outer stream dimensions of a \emph{reference} input, enabling weight reuse across batches.
+
+\paragraph{\texttt{SelectGen}.}
+Returns the raw multi-hot selection tensor (used by \texttt{FlatPartition}/\texttt{FlatReassemble} for MoE routing).
+
+\subsection{Compute Nodes}
+
+\paragraph{\texttt{UnaryMap}$(f, x)$.}
+Applies $f$ element-wise to the full tiled tensor.
+Supported functions and their semantics:
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Function} & \textbf{Semantics} \\
+\midrule
+\texttt{Square}         & $x^2$ \\
+\texttt{Silu}           & $x \cdot \sigma(x)$ \\
+\texttt{Exp}            & $e^x$ \\
+\texttt{Rsqrt}          & $1/\sqrt{x}$ \\
+\texttt{Pow2}           & $2^x$ \\
+\texttt{MulImmediate}$(c)$ & $x \cdot c$ \\
+\texttt{AddImmediate}$(c)$ & $x + c$ \\
+\texttt{SubImmediate}$(c)$ & $x - c$ \\
+\texttt{RowWiseSum}     & $\sum_j x_{ij}$ (reduce last dim, keep dim) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{\texttt{BinaryMap}$(f, a, b)$.}
+Applies $f$ element-wise (with broadcasting) to two tiled tensors.
+Supported: \texttt{Matmul} ($ab$ or $ab^\top$), \texttt{Add}, \texttt{Mul}, \texttt{Div}.
+
+\paragraph{\texttt{BinaryMapAccum}$(f, a, b, \text{rank})$.}
+Applies the map function $f$ tile-wise, then sum-reduces over the last \texttt{rank} stream dimensions (dimension $-3$ relative to tile dims).
+Used for tiled matrix multiplication with accumulation:
+\[
+  C_{ij} = \sum_k f(A_{ik}, B_{kj})
+\]
+
+\paragraph{\texttt{Accum}$(f, x, \text{rank})$.}
+Reduces the last \texttt{rank} stream dimensions of $x$ using function $f$:
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Function} & \textbf{Semantics} \\
+\midrule
+\texttt{Add}       & Sum-reduce along dim $-3$ \\
+\texttt{Mul}       & Product-reduce along dim $-3$ \\
+\texttt{RetileRow} & Concatenate tiles vertically: $(\ldots, K, t_r, t_c) \to (\ldots, K \cdot t_r, t_c)$ \\
+\texttt{RetileCol} & Concatenate tiles horizontally: $(\ldots, K, t_r, t_c) \to (\ldots, t_r, K \cdot t_c)$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Structural Nodes}
+
+\paragraph{\texttt{Broadcast}$(x, n)$.}
+Duplicates the tensor $n$ times; returns a list of $n$ identical references.
+Inserted by \texttt{infer\_broadcast} when one output feeds multiple consumers.
+
+\paragraph{\texttt{RepeatStatic}$(x, k)$.}
+Inserts a new stream dimension of size $k$ at position $-3$ (before tile dims) and expands.
+Used to replicate a reduced value (e.g., row-wise statistics) across $k$ column tiles.
+
+\paragraph{\texttt{Bufferize} / \texttt{Streamify}.}
+\texttt{Bufferize} is an identity on values (it marks a buffering boundary in the timing model).
+\texttt{Streamify} optionally inserts and expands new stream dimensions with given repeat factors, broadcasting buffered values back into a stream.
+
+\paragraph{\texttt{Flatten}$(\text{min\_rank}, \text{max\_rank})$.}
+Merges stream dimensions between \texttt{min\_rank} and \texttt{max\_rank} (counting from the right) into a single dimension.
+
+\paragraph{\texttt{Reshape}$(\text{chunk}, \text{rank}, \text{add\_outer})$.}
+Splits the stream dimension at position \texttt{rank} into $(\lceil D / \text{chunk} \rceil, \text{chunk})$, with optional zero-padding and an optional outer singleton dimension.
+
+\paragraph{\texttt{RetileStreamify}$(\text{chunk}, \text{split\_row}/\text{split\_col})$.}
+Splits the tile's row or column dimension into chunks, merging the chunk count into the preceding stream dimension.
+Optional \texttt{filter\_mask} removes zero-padded chunks.
+
+\paragraph{\texttt{Promote} / \texttt{PromoteOuter}.}
+Insert a singleton stream dimension at a specified rank (Promote) or at the outermost position (PromoteOuter).
+
+\paragraph{\texttt{ExpandRef} / \texttt{RepeatRef}.}
+Broadcast the input's stream dimensions to match a reference tensor's stream shape.
+
+\subsection{Routing Nodes (MoE)}
+
+\paragraph{\texttt{FlatPartition}$(x, \text{ctrl}, n)$.}
+Partitions a flat tile stream into $n$ expert streams using a multi-hot selection tensor from \texttt{SelectGen}.
+For each expert $i$, selects tiles where $\text{ctrl}[\cdot, i] > 0$.
+Returns a list of $n$ tensors.
+
+\paragraph{\texttt{FlatReassemble}$(\{x_i\}, \text{ctrl})$.}
+Inverse of partition: iterates over all token positions, reads from expert streams using per-expert pointers guided by the multi-hot mask, and stacks results.
+Output shape follows the control stream convention with a leading~1.
+
+\section{Validation}
+
+The validation harness (\texttt{validate\_functional.py}) compares the functional emulator's output against PyTorch reference implementations for all 14 seed kernels across 55 presets.
+The comparison uses relative error:
+\[
+  \text{rel\_err} = \frac{\|y_{\text{sim}} - y_{\text{ref}}\|_\infty}{\|y_{\text{ref}}\|_\infty + 10^{-12}} < 10^{-5}
+\]
+
+All 117 kernel$\times$preset validations pass (as of April 2026).
+
+\section{Comparison with PCL-lite Emulator}
+
+An earlier functional emulator exists in \texttt{AccelOptStep/PCL-lite/step/} (3 files, ${\sim}670$ lines).
+It was built for an older version of the STeP IR and targets a different use case: serving as the executable semantics for LLM-based code generation (PCL-lite), where the emulator must validate LLM-synthesized operator graphs.
+This section contrasts the two designs.
+
+\subsection{Graph Representation}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+& \textbf{Current (STePTiming)} & \textbf{PCL-lite} \\
+\midrule
+Graph structure  & NetworkX \texttt{MultiDiGraph}; nodes are & No explicit graph object; \\
+                 & \texttt{StepOps} instances with typed edges & \texttt{Stream} objects threaded \\
+                 &                                             & through \texttt{OpBase.apply()} calls \\
+Traversal        & Topological sort over graph & Implicit via Python call order \\
+Node identity    & \texttt{instance\_id} (global counter) & UUID-based names \\
+Multi-output     & List of tensors (Broadcast, FlatPartition) & Tuple return (Copy), list (Partition) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The current emulator operates on a pre-built graph and walks it; PCL-lite builds the computation inline---each operator call immediately produces a new \texttt{Stream} and (if data is present) evaluates it.
+
+\subsection{Tensor Layout}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+& \textbf{Current} & \textbf{PCL-lite} \\
+\midrule
+Shape convention & $(\text{stream},\; t_r,\; t_c)$  & $(\text{stream reversed})$; tile dims \\
+                 & last two dims are tile spatial     & folded into element dtype \\
+Dimension order  & Outermost-first (Python standard) & \textbf{Innermost-first} (reversed) \\
+Leading singleton & Always prepended by sources & Not used \\
+Data storage     & Single \texttt{torch.Tensor} per node & \texttt{list[torch.Tensor]} per stream \\
+                 &                                       & (one tensor per dtype field in STuple) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The reversed dimension order in PCL-lite means that \texttt{shape[0]} is the innermost (fastest-varying) stream dimension.
+This requires frequent \texttt{[::-1]} reversals when interfacing with PyTorch.
+The current emulator uses standard outermost-first ordering, avoiding this indirection.
+
+\subsection{Type System}
+
+PCL-lite has a richer type system that separates element-level types from stream-level structure:
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Element types}: \texttt{Scalar(dtype)}, \texttt{Tile(dtype, shape)}, \texttt{Multihot(dtype, length)}.
+  \item \textbf{Buffer}: wraps an element type with a symbolic shape, representing buffered (non-streaming) data.
+  \item \textbf{STuple}: heterogeneous tuple of elements, enabling multi-field streams (e.g., key-value pairs).
+  \item \textbf{Symbolic dimensions}: uses \texttt{sympy.Symbol} for shapes that depend on runtime routing decisions.
+\end{itemize}
+
+The current emulator has no separate type system---tile dimensions are encoded directly in the tensor shape, and the STeP IR's own \texttt{Tile}/\texttt{DynTile}/\texttt{Buffer} datatype classes (defined in \texttt{step\_py/datatype.py}) carry type metadata.
+This is simpler but means the emulator relies on the IR's type annotations rather than enforcing its own type invariants.
+
+\subsection{Operator Coverage}
+
+\begin{center}
+\small
+\begin{tabular}{lcc}
+\toprule
+\textbf{Category} & \textbf{Current} & \textbf{PCL-lite} \\
+\midrule
+\multicolumn{3}{l}{\emph{Compute}} \\
+\quad Element-wise map      & UnaryMap, BinaryMap      & Map (via Fn) \\
+\quad Map + accumulate      & BinaryMapAccum           & --- \\
+\quad Accumulate / reduce   & Accum (Add, Mul, RetileRow/Col) & Accum (arbitrary Fn) \\
+\quad Scan (prefix)         & ---                      & Scan \\
+\midrule
+\multicolumn{3}{l}{\emph{Structure}} \\
+\quad Broadcast / copy      & Broadcast                & Copy \\
+\quad Repeat                & RepeatStatic, RepeatRef  & Repeat, RepeatRef \\
+\quad Bufferize / streamify & Bufferize, Streamify     & Bufferize, Streamify \\
+\quad Reshape / flatten     & Reshape, Flatten         & Reshape, Flatten \\
+\quad Promote               & Promote, PromoteOuter    & Promote \\
+\quad RetileStreamify       & RetileStreamify          & --- \\
+\quad ExpandRef             & ExpandRef                & --- \\
+\midrule
+\multicolumn{3}{l}{\emph{Routing (MoE)}} \\
+\quad Partition             & FlatPartition            & Partition \\
+\quad Reassemble / merge    & FlatReassemble           & Merge \\
+\midrule
+\multicolumn{3}{l}{\emph{I/O}} \\
+\quad Load                  & LinearOffChipLoad, LoadRef & (external) \\
+\quad Store                 & OffChipStore + untiling  & (external) \\
+\midrule
+\multicolumn{3}{l}{\emph{Misc}} \\
+\quad Zip (multi-field)     & ---                      & Zip \\
+\quad Identity              & ---                      & Identity \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Key differences:
+\begin{itemize}[leftmargin=*]
+  \item PCL-lite's \texttt{Map} is fully generic: the user supplies a \texttt{Fn} object with an \texttt{apply()} method, so any element-wise function can be expressed.
+        The current emulator hard-codes each supported function in a dispatch chain.
+  \item PCL-lite has \texttt{Scan} (prefix accumulation retaining all intermediate states); the current emulator does not.
+  \item PCL-lite has \texttt{Zip} for composing multi-field streams via \texttt{STuple}; the current emulator handles multi-input ops directly in \texttt{BinaryMap}/\texttt{BinaryMapAccum}.
+  \item The current emulator has \texttt{BinaryMapAccum} (fused map-then-reduce, critical for tiled matmul), \texttt{RetileStreamify}, and \texttt{ExpandRef}, which PCL-lite lacks.
+  \item The current emulator handles I/O nodes (load with stride-based tiling, store with untiling); PCL-lite treats data creation as external to the operator graph.
+\end{itemize}
+
+\subsection{Compute Functions}
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Current} & \textbf{PCL-lite} \\
+\midrule
+Fixed set of \texttt{map\_fn} classes & User-defined \texttt{Fn} subclasses \\
+(Square, Silu, Matmul, Add, \ldots) & with arbitrary \texttt{apply()} \\
+Dispatched by \texttt{isinstance} checks & Dispatched by virtual method call \\
+No initial state (Accum fns are also fixed) & \texttt{Fn.getInit()} provides initial accumulator state \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+PCL-lite's approach is more extensible---new functions require only a new \texttt{Fn} subclass.
+The current emulator requires adding a branch to \texttt{\_apply\_unary} or \texttt{\_apply\_binary}, but benefits from using PyTorch's vectorized ops on full tiled tensors rather than iterating tile-by-tile.
+
+\subsection{Execution Strategy}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+& \textbf{Current} & \textbf{PCL-lite} \\
+\midrule
+Evaluation & Batch: full tensor ops via PyTorch & Per-tile: iterates over \\
+           & broadcasting and indexing          & \texttt{get\_full\_indices(shape)}, \\
+           &                                    & PyTorch within each tile \\
+Graph walk & Explicit topological sort           & Implicit (eager, inline) \\
+Shape analysis & Not separated from execution   & Dual-phase: shape/type analysis \\
+               &                                & runs even without data \\
+Symbol handling & Concrete shapes; DynDim for     & \texttt{sympy.Symbol} throughout; \\
+               & symbolic MoE dims               & substituted at evaluation time \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The most significant performance difference: PCL-lite's \texttt{Map} and \texttt{Accum} operators iterate over every tile index individually via \texttt{get\_full\_indices()}, calling \texttt{Fn.apply()} on each tile separately and \texttt{torch.stack}-ing the results.
+Both emulators use PyTorch for the per-tile math, but the current emulator applies PyTorch operations to the entire tiled tensor at once (e.g., \texttt{x ** 2} on a tensor of shape $(1, M/t_m, K/t_k, t_m, t_k)$), so PyTorch vectorizes over the tile grid as well---which is orders of magnitude faster for large grids.
+
+\subsection{Design Philosophy}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+& \textbf{Current} & \textbf{PCL-lite} \\
+\midrule
+Goal        & Validate STeP IR graphs & Executable spec for LLM code synthesis \\
+Extensibility & Add IR ops as needed   & Fully generic via Fn/STuple \\
+Coupling    & Tightly coupled to \texttt{step\_py} IR & Self-contained (no IR dependency) \\
+Performance & Vectorized (fast)       & Scalar iteration (correct but slow) \\
+Type safety & Relies on IR types      & Own type system with assertions \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+PCL-lite was designed as a \emph{language definition}: a minimal, self-contained specification of what each operator means, suitable for constraining LLM-generated programs.
+The current emulator was designed as a \emph{verification tool}: tightly integrated with the STeP Python frontend, optimized for speed, and validated against 117 kernel$\times$preset configurations.
+
+\end{document}

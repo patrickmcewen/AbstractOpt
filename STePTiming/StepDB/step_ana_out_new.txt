@@ -1,0 +1,920 @@
+Running 194 benchmark(s) with 100 worker(s)
+
+Predicted: 6170
+Predicted: 2066
+Predicted: 2090
+Predicted: 786
+Predicted: 32906
+Predicted: 818
+Predicted: 1049098
+Predicted: 63
+Predicted: 196874
+Predicted: 8282
+Predicted: 357
+Predicted: 117
+Predicted: 5274
+Predicted: 84
+Predicted: 6292490
+Predicted: 4389
+Predicted: 184
+Predicted: 2622218
+Predicted: 263306
+Predicted: 16965
+Predicted: 153
+Predicted: 33098
+Predicted: 1173
+Predicted: 272992
+Predicted: 2078
+Predicted: 2097674
+Predicted: 424
+Predicted: 66693
+Predicted: 18800
+Predicted: 70320
+Predicted: 265221
+Predicted: 238
+Predicted: 16785930
+Predicted: 2099466
+Predicted: 1384
+Predicted: 4792
+Predicted: 114
+Predicted: 274
+Predicted: 366
+Predicted: 1428
+Predicted: 574
+Predicted: 1066
+Predicted: 3106
+Predicted: 4234
+Predicted: 16650
+Predicted: 140365
+Predicted: 8988
+Predicted: 66058
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/gemm/_work_timing_wide/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/gemm/_work_timing_small/graph.pb
+Predicted: 210
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/rms_norm/_work_timing_hidden_512/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/silu_activation/_work_timing_large_1k/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/gemm/_work_timing_large_tile/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/gemm/_work_timing_med_256/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/gemm/_work_timing_square/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/gemm/_work_timing_large_1k/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/copy_2d/_work_timing_small/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/matmul_binarymap/_work_timing_small/graph.pb
+Predicted: 263178
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/copy_2d/_work_timing_fine/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/gemm/_work_timing_med_512/graph.pb
+Predicted: 35373
+Predicted: 50332682
+Predicted: 134234634
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/matmul_binarymap/_work_timing_large/graph.pb
+Predicted: 530
+Predicted: 541773
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/copy_2d/_work_timing_large/graph.pb
+Predicted: 272525
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/element_wise_add/_work_timing_small/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/matmul_binarymap/_work_timing_wide_tile/graph.pb
+Predicted: 1049610
+Predicted: 1066
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/bufferize_roundtrip/_work_timing_small/graph.pb
+Predicted: 4138
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/gemm/_work_timing_large_2k/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/bufferize_roundtrip/_work_timing_square/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/copy_2d/_work_timing_large_1k/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/gemm/_work_timing_rect_wide/graph.pb
+Weight shape: (1, 8, 2, 1)
+Weight shape: (1, 8, 2, 1)
+Weight shape: (1, 8, 1, 2)
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/copy_2d/_work_timing_med_512/graph.pb
+Predicted: 8330
+Weight shape: (1, 16, 1, 1)
+Weight shape: (1, 16, 1, 1)
+Weight shape: (1, 16, 1, 1)
+Weight shape: (1, 4, 1, 1)
+Weight shape: (1, 4, 1, 1)
+Weight shape: (1, 4, 1, 1)
+Predicted: 525322
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/copy_2d/_work_timing_square/graph.pb
+Predicted: 33034
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/matmul_binarymap/_work_timing_med_256/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/matmul_binarymap/_work_timing_med_512/graph.pb
+Weight shape: (1, 1, 1, 1)
+Weight shape: (1, 1, 1, 1)
+Weight shape: (1, 1, 1, 1)
+Weight shape: (1, 8, 8, 1)
+Weight shape: (1, 8, 8, 1)
+Weight shape: (1, 8, 1, 8)
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/copy_2d/_work_timing_med_256/graph.pb
+Predicted: 2098186
+Weight shape: (1, 1, 1, 1)
+Weight shape: (1, 1, 1, 1)
+Weight shape: (1, 1, 1, 1)
+Weight shape: (1, 16, 16, 1)
+Weight shape: (1, 16, 16, 1)
+Weight shape: (1, 16, 1, 16)
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/matmul_binarymap/_work_timing_square/graph.pb
+Weight shape: (1, 1, 2, 1)
+Weight shape: (1, 1, 2, 1)
+Weight shape: (1, 1, 1, 2)
+Weight shape: (1, 8, 7, 1)
+Weight shape: (1, 8, 7, 1)
+Weight shape: (1, 8, 1, 7)
+Predicted: 131594
+Weight shape: (1, 1, 7, 1)
+Weight shape: (1, 1, 7, 1)
+Weight shape: (1, 1, 1, 7)
+Weight shape: (1, 1, 8, 1)
+Weight shape: (1, 1, 8, 1)
+Weight shape: (1, 1, 1, 8)
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/bufferize_roundtrip/_work_timing_large_4k/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/gemm/_work_timing_rect_tall/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/bufferize_roundtrip/_work_timing_large/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/copy_2d/_work_timing_large_2k/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/bufferize_roundtrip/_work_timing_large_2k/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/copy_2d/_work_timing_large_4k/graph.pb
+Weight shape: (1, 16, 16, 1)
+Weight shape: (1, 16, 16, 1)
+Weight shape: (1, 16, 1, 16)
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/bufferize_roundtrip/_work_timing_large_1k/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/rms_norm/_work_timing_small/graph.pb
+Weight shape: (1, 1, 16, 1)
+Weight shape: (1, 1, 16, 1)
+Weight shape: (1, 1, 1, 16)
+Predicted: 526
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/matmul_binarymap/_work_timing_large_2k/graph.pb
+Predicted: 851
+Predicted: 2094
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/bufferize_roundtrip/_work_timing_med_256/graph.pb
+Predicted: 542
+Predicted: 67
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/silu_activation/_work_timing_square/graph.pb
+Weight shape: (1, 1, 16, 1)
+Weight shape: (1, 1, 16, 1)
+Weight shape: (1, 1, 1, 16)
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/rms_norm/_work_timing_head_dim/graph.pb
+Predicted: 8238
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/rms_norm/_work_timing_wide/graph.pb
+Predicted: 851
+Predicted: 5531
+Predicted: 239
+Predicted: 1787
+Predicted: 221
+Predicted: 3587
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/silu_activation/_work_timing_small/graph.pb
+Predicted: 22094
+Predicted: 2101400
+Predicted: 49706
+Predicted: 558
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/silu_activation/_work_timing_large_2k/graph.pb
+  [1/194] gemm                           large_tile       pred=    2090  actual=    2093  err=-0.1%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/bufferize_roundtrip/_work_timing_med_512/graph.pb
+Predicted: 68498
+Predicted: 267418
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/silu_activation/_work_timing_large/graph.pb
+Predicted: 263242
+  [2/194] gemm                           wide             pred=    6170  actual=    6173  err=-0.0%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/matmul_binarymap/_work_timing_large_1k/graph.pb
+Predicted: 16785698
+  [3/194] gemm                           small            pred=     786  actual=     789  err=-0.4%
+  [4/194] gemm                           square           pred=    2066  actual=    2069  err=-0.1%
+  [5/194] copy_2d                        small            pred=      63  actual=      65  err=-3.1%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/silu_activation/_work_timing_moe_scale/graph.pb
+Predicted: 6773
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/rms_norm/_work_timing_hidden_1k/graph.pb
+Predicted: 1037
+  [6/194] matmul_binarymap               small            pred=     818  actual=     821  err=-0.4%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/silu_activation/_work_timing_med_512/graph.pb
+Predicted: 902
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/silu_activation/_work_timing_med_256/graph.pb
+  [7/194] matmul_binarymap               wide_tile        pred=    5274  actual=    5277  err=-0.1%
+Predicted: 520155
+  [8/194] copy_2d                        fine             pred=     117  actual=     119  err=-1.7%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/rms_norm/_work_timing_qwen_scale/graph.pb
+  [9/194] rms_norm                       hidden_512       pred=    8988  actual=    8997  err=-0.1%
+Predicted: 118613
+Predicted: 9060688
+  [10/194] element_wise_add               small            pred=     210  actual=     213  err=-1.4%
+  [11/194] matmul_binarymap               large            pred=    8282  actual=    8286  err=-0.0%
+  [12/194] copy_2d                        large            pred=     357  actual=     359  err=-0.6%
+  [13/194] gemm                           med_256          pred=   32906  actual=   32909  err=-0.0%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/gemm/_work_timing_large_4k/graph.pb
+Predicted: 1202004
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/rms_norm/_work_timing_hidden_2k/graph.pb
+  [14/194] bufferize_roundtrip            small            pred=      84  actual=      77  err=9.1%
+  [15/194] bufferize_roundtrip            square           pred=     184  actual=     166  err=10.8%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/matmul_binarymap/_work_timing_large_4k/graph.pb
+Predicted: 283170
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/element_wise_add/_work_timing_square/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/rms_norm/_work_timing_hidden_4k/graph.pb
+  [16/194] silu_activation                large_1k         pred=   66058  actual=   66060  err=-0.0%
+  [17/194] copy_2d                        square           pred=     153  actual=     155  err=-1.3%
+  [18/194] copy_2d                        med_512          pred=    4389  actual=    4391  err=-0.0%
+  [19/194] copy_2d                        large_1k         pred=   16965  actual=   16967  err=-0.0%
+  [20/194] copy_2d                        med_256          pred=    1173  actual=    1175  err=-0.2%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/rms_norm/_work_timing_long_seq_4k/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/silu_activation/_work_timing_large_4k/graph.pb
+  [21/194] matmul_binarymap               square           pred=    2078  actual=    2083  err=-0.2%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/element_wise_add/_work_timing_hidden/graph.pb
+  [22/194] matmul_binarymap               med_256          pred=   33098  actual=   33102  err=-0.0%
+Predicted: 8413274
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/element_wise_add/_work_timing_large/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/element_wise_add/_work_timing_med_256/graph.pb
+Predicted: 146
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/element_wise_add/_work_timing_med_512/graph.pb
+Predicted: 274
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/element_wise_add/_work_timing_large_2k/graph.pb
+Predicted: 274
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/element_wise_add/_work_timing_large_4k/graph.pb
+Predicted: 538
+  [23/194] bufferize_roundtrip            large            pred=     424  actual=     418  err=1.4%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/element_wise_add/_work_timing_large_1k/graph.pb
+Predicted: 4234
+  [24/194] rms_norm                       small            pred=     238  actual=     246  err=-3.3%
+Predicted: 18398870
+  [25/194] silu_activation                small            pred=     114  actual=     117  err=-2.6%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/gated_mlp/_work_timing_tiny/graph.pb
+Predicted: 2107450
+  [26/194] bufferize_roundtrip            med_256          pred=    1384  actual=    1377  err=0.5%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/sdpa_core/_work_timing_single_head/graph.pb
+  [27/194] silu_activation                square           pred=     274  actual=     277  err=-1.1%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/qkv_projection/_work_timing_q_proj/graph.pb
+  [28/194] rms_norm                       head_dim         pred=     366  actual=     374  err=-2.1%
+  [29/194] bufferize_roundtrip            large_1k         pred=   18800  actual=   18782  err=0.1%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/qkv_projection/_work_timing_small/graph.pb
+  [30/194] silu_activation                moe_scale        pred=    3106  actual=    3109  err=-0.1%
+  [31/194] rms_norm                       wide             pred=    1428  actual=    1436  err=-0.6%
+  [32/194] bufferize_roundtrip            med_512          pred=    4792  actual=    4786  err=0.1%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/sdpa_core/_work_timing_tiny/graph.pb
+  [33/194] silu_activation                large            pred=    1066  actual=    1069  err=-0.3%
+  [34/194] silu_activation                med_512          pred=   16650  actual=   16652  err=-0.0%
+  [35/194] rms_norm                       qwen_scale       pred=     574  actual=     583  err=-1.5%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/qkv_projection/_work_timing_qwen_scale/graph.pb
+  [36/194] silu_activation                med_256          pred=    4234  actual=    4237  err=-0.1%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/sdpa_core/_work_timing_long_ctx_512/graph.pb
+  [37/194] gemm                           med_512          pred=  196874  actual=  196878  err=-0.0%
+  [38/194] rms_norm                       hidden_1k        pred=   35373  actual=   35384  err=-0.0%
+  [39/194] element_wise_add               square           pred=     530  actual=     533  err=-0.6%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/sdpa_core/_work_timing_qwen_scale/graph.pb
+  [40/194] copy_2d                        large_2k         pred=   66693  actual=   66695  err=-0.0%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_expert_single/_work_timing_tiny/graph.pb
+Predicted: 132
+Predicted: 1132
+Predicted: 66058
+  [41/194] bufferize_roundtrip            large_2k         pred=   70320  actual=   70302  err=0.0%
+Predicted: 235
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/sdpa_core/_work_timing_small/graph.pb
+Predicted: 4498
+Predicted: 292
+  [42/194] element_wise_add               hidden           pred=    1066  actual=    1069  err=-0.3%
+Predicted: 428
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/sdpa_core/_work_timing_multi_head/graph.pb
+  [43/194] element_wise_add               med_256          pred=    8330  actual=    8334  err=-0.0%
+  [44/194] element_wise_add               large            pred=    4138  actual=    4141  err=-0.1%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/sdpa_core/_work_timing_long_ctx_1k/graph.pb
+  [45/194] gated_mlp                      tiny             pred=     526  actual=     534  err=-1.5%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/qkv_projection/_work_timing_large_d2k/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/qkv_projection/_work_timing_med_d512/graph.pb
+  [46/194] element_wise_add               med_512          pred=   33034  actual=   33037  err=-0.0%
+Predicted: 563
+Predicted: 1693
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/qkv_projection/_work_timing_kv_proj/graph.pb
+Predicted: 1358
+Predicted: 9754
+Predicted: 67114
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/sdpa_core/_work_timing_long_ctx_2k/graph.pb
+Predicted: 37962
+Predicted: 291
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/sdpa_core/_work_timing_long_ctx_4k/graph.pb
+Predicted: 305
+Predicted: 67098
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/qkv_projection/_work_timing_large_d1k/graph.pb
+Predicted: 1131
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/qkv_projection/_work_timing_large_d4k/graph.pb
+Predicted: 131
+Predicted: 4494
+Predicted: 10829
+  [47/194] qkv_projection                 small            pred=     542  actual=     546  err=-0.7%
+  [48/194] qkv_projection                 q_proj           pred=    2094  actual=    2098  err=-0.2%
+Predicted: 42127
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/gated_mlp/_work_timing_qwen_16x/graph.pb
+  [49/194] sdpa_core                      single_head      pred=     851  actual=     858  err=-0.8%
+  [50/194] matmul_binarymap               med_512          pred=  263306  actual=  263310  err=-0.0%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_expert_single/_work_timing_qwen_16x/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_expert_single/_work_timing_small/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/gated_mlp/_work_timing_mixtral_8x/graph.pb
+Predicted: 185
+Predicted: 124
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_expert_single/_work_timing_mixtral_8x/graph.pb
+Predicted: 226
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/gated_mlp/_work_timing_large_d1k/graph.pb
+Predicted: 379
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/gated_mlp/_work_timing_large_d2k/graph.pb
+  [51/194] sdpa_core                      tiny             pred=      67  actual=      74  err=-9.5%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_expert_single/_work_timing_large_d1k/graph.pb
+Predicted: 546
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_expert_single/_work_timing_large_d4k/graph.pb
+Predicted: 2154
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/vector_reduce_sum/_work_timing_small/graph.pb
+Predicted: 8586
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/vector_reduce_sum/_work_timing_square/graph.pb
+  [52/194] rms_norm                       hidden_2k        pred=  140365  actual=  140375  err=-0.0%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/vector_reduce_sum/_work_timing_tall/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/vector_reduce_sum/_work_timing_wide/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/vector_reduce_sum/_work_timing_med_256/graph.pb
+Predicted: 1459
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/gated_mlp/_work_timing_large_d4k/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_expert_single/_work_timing_large_d2k/graph.pb
+Predicted: 132624
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/chained_unary/_work_timing_small/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/chained_unary/_work_timing_large/graph.pb
+Predicted: 5782
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/vector_reduce_sum/_work_timing_large_1k/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/chained_unary/_work_timing_med_256/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/chained_unary/_work_timing_square/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/softmax/_work_timing_small/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/softmax/_work_timing_multi_tile/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/layernorm/_work_timing_multi_tile/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/layernorm/_work_timing_wide/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/softmax/_work_timing_hidden_512/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/chained_unary/_work_timing_large_1k/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/softmax/_work_timing_wide/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/softmax/_work_timing_hidden_1k/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/broadcast_diamond/_work_timing_square/graph.pb
+  [53/194] moe_expert_single              tiny             pred=     239  actual=     249  err=-4.0%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/layernorm/_work_timing_small/graph.pb
+  [54/194] sdpa_core                      qwen_scale       pred=     851  actual=     859  err=-0.9%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/broadcast_diamond/_work_timing_large_1k/graph.pb
+  [55/194] sdpa_core                      long_ctx_512     pred=    5531  actual=    5541  err=-0.2%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/broadcast_diamond/_work_timing_large/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/broadcast_diamond/_work_timing_med_256/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/broadcast_diamond/_work_timing_small/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/layernorm/_work_timing_hidden_512/graph.pb
+  [56/194] qkv_projection                 qwen_scale       pred=    8238  actual=    8243  err=-0.1%
+4˘Xb0T|¯Íz  êº4¯Íz  ∫Ååôöº–                ∫Ååôöº–êq|¯Íz  @Ä2*Îz  "áØv?+                "áØv?+è|¯Íz  `7¯Íz  ‚"Y◊OÕSuccessfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/layernorm/_work_timing_hidden_1k/graph.pb
+Predicted: 146
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/bufferize_chain/_work_timing_small/graph.pb
+Predicted: 80426
+Saved SelectGen_636 data to SelectGen_636.npy
+Saved SelectGen_637 data to SelectGen_637.npy
+Predicted: 274
+Saved SelectGen_948 data to SelectGen_948.npy
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_routed/_work_timing_tiny/graph.pb
+Predicted: 542
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/multi_load_compute/_work_timing_small/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/bufferize_chain/_work_timing_square/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/multi_load_compute/_work_timing_square/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/multi_load_compute/_work_timing_large/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/multi_load_compute/_work_timing_med_256/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/bufferize_chain/_work_timing_large/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/multi_load_compute/_work_timing_large_1k/graph.pb
+Predicted: 397
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/bufferize_chain/_work_timing_med_256/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/outer_product_accum/_work_timing_small/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/bufferize_chain/_work_timing_large_1k/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/outer_product_accum/_work_timing_rect/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/outer_product_accum/_work_timing_deep_batch/graph.pb
+Saved SelectGen_648 data to SelectGen_648.npy
+  [57/194] gated_mlp                      small            pred=    3587  actual=    3591  err=-0.1%
+  [58/194] sdpa_core                      small            pred=     221  actual=     228  err=-3.1%
+  [59/194] element_wise_add               large_1k         pred=  131594  actual=  131598  err=-0.0%
+Saved SelectGen_649 data to SelectGen_649.npy
+Saved SelectGen_915 data to SelectGen_915.npy
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_routed/_work_timing_small_topk2/graph.pb
+Predicted: 346
+Saved SelectGen_642 data to SelectGen_642.npy
+Predicted: 2186
+  [60/194] silu_activation                large_2k         pred=  263178  actual=  263181  err=-0.0%
+Saved SelectGen_643 data to SelectGen_643.npy
+Predicted: 207
+Saved SelectGen_751 data to SelectGen_751.npy
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_routed/_work_timing_small/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/outer_product_accum/_work_timing_large_256/graph.pb
+Predicted: 554
+Saved SelectGen_654 data to SelectGen_654.npy
+Saved SelectGen_655 data to SelectGen_655.npy
+Predicted: 367
+Saved SelectGen_1015 data to SelectGen_1015.npy
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_routed/_work_timing_tiny_topk2/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/outer_product_accum/_work_timing_large/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/residual_add_norm/_work_timing_small/graph.pb
+Predicted: 752
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/residual_add_norm/_work_timing_multi_tile/graph.pb
+  [61/194] sdpa_core                      multi_head       pred=    1787  actual=    1795  err=-0.4%
+Predicted: 3043
+Predicted: 2456
+  [62/194] qkv_projection                 kv_proj          pred=     558  actual=     563  err=-0.9%
+Saved SelectGen_1350 data to SelectGen_1350.npy
+Saved SelectGen_1351 data to SelectGen_1351.npy
+Saved SelectGen_1431 data to SelectGen_1431.npy
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_routed/_work_timing_small_nf4/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/residual_add_norm/_work_timing_wide/graph.pb
+Predicted: 751
+  [63/194] sdpa_core                      long_ctx_1k      pred=   22094  actual=   22113  err=-0.1%
+Saved SelectGen_660 data to SelectGen_660.npy
+Saved SelectGen_661 data to SelectGen_661.npy
+Saved SelectGen_899 data to SelectGen_899.npy
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_routed/_work_timing_small_more_tokens/graph.pb
+  [64/194] moe_expert_single              qwen_16x         pred=    1037  actual=    1051  err=-1.3%
+  [65/194] moe_expert_single              small            pred=     902  actual=     918  err=-1.7%
+Predicted: 17980
+  [66/194] vector_reduce_sum              tall             pred=     274  actual=     277  err=-1.1%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/residual_add_norm/_work_timing_hidden_512/graph.pb
+Predicted: 2015
+Saved SelectGen_1043 data to SelectGen_1043.npy
+Predicted: 66
+  [67/194] vector_reduce_sum              small            pred=     146  actual=     149  err=-2.0%
+Saved SelectGen_1044 data to SelectGen_1044.npy
+  [68/194] vector_reduce_sum              wide             pred=     538  actual=     541  err=-0.6%
+Predicted: 72813
+Saved SelectGen_1116 data to SelectGen_1116.npy
+Predicted: 162
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_routed/_work_timing_small_nf2/graph.pb
+Predicted: 1062
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/scaled_dot_product_simple/_work_timing_small/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/scaled_dot_product_simple/_work_timing_multi_d/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/residual_add_norm/_work_timing_hidden_1k/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/scaled_dot_product_simple/_work_timing_medium/graph.pb
+  [69/194] vector_reduce_sum              med_256          pred=    4234  actual=    4237  err=-0.1%
+Predicted: 4218
+Predicted: 8586
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/scaled_dot_product_simple/_work_timing_large/graph.pb
+  [70/194] chained_unary                  small            pred=     132  actual=     138  err=-4.3%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/scaled_dot_product_simple/_work_timing_large_256/graph.pb
+  [71/194] gated_mlp                      qwen_16x         pred=    6773  actual=    6775  err=-0.0%
+  [72/194] vector_reduce_sum              square           pred=     274  actual=     277  err=-1.1%
+Predicted: 68
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/sdpa_scaled/_work_timing_tiny/graph.pb
+  [73/194] chained_unary                  med_256          pred=    4498  actual=    4544  err=-1.0%
+  [74/194] layernorm                      small            pred=     305  actual=     319  err=-4.4%
+Predicted: 222
+Predicted: 852
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/sdpa_scaled/_work_timing_small/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/sdpa_scaled/_work_timing_single_head/graph.pb
+Predicted: 1788
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/sdpa_scaled/_work_timing_multi_head/graph.pb
+Predicted: 5532
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/sdpa_scaled/_work_timing_long_ctx_512/graph.pb
+  [75/194] chained_unary                  large            pred=    1132  actual=    1148  err=-1.4%
+Predicted: 116
+  [76/194] chained_unary                  square           pred=     292  actual=     298  err=-2.0%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/multi_query_attn/_work_timing_small/graph.pb
+  [77/194] broadcast_diamond              square           pred=     291  actual=     296  err=-1.7%
+  [78/194] softmax                        small            pred=     235  actual=     241  err=-2.5%
+  [79/194] layernorm                      multi_tile       pred=     563  actual=     655  err=-14.0%
+  [80/194] layernorm                      wide             pred=    1693  actual=    1716  err=-1.3%
+Predicted: 701
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/multi_query_attn/_work_timing_four_heads/graph.pb
+  [81/194] softmax                        multi_tile       pred=     428  actual=     442  err=-3.2%
+  [82/194] broadcast_diamond              med_256          pred=    4494  actual=    4499  err=-0.1%
+  [83/194] bufferize_chain                small            pred=     185  actual=     143  err=29.4%
+Predicted: 5331
+Predicted: 6395
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/multi_query_attn/_work_timing_eight_heads/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/multi_query_attn/_work_timing_wide_ctx/graph.pb
+  [84/194] softmax                        hidden_512       pred=    9754  actual=    9759  err=-0.1%
+  [85/194] flash_attn_full                tiny             SKIPPED: [Errno 2] No such file or directory: '/home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/flash_attn_full/step_impl.py'
+  [86/194] flash_attn_full                small            SKIPPED: [Errno 2] No such file or directory: '/home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/flash_attn_full/step_impl.py'
+  [87/194] flash_attn_full                medium           SKIPPED: [Errno 2] No such file or directory: '/home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/flash_attn_full/step_impl.py'
+  [88/194] flash_attn_full                multi_head       SKIPPED: [Errno 2] No such file or directory: '/home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/flash_attn_full/step_impl.py'
+  [89/194] flash_attn_full                long_ctx         SKIPPED: [Errno 2] No such file or directory: '/home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/flash_attn_full/step_impl.py'
+  [90/194] flash_attn_reuse               tiny             SKIPPED: [Errno 2] No such file or directory: '/home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/flash_attn_reuse/step_impl.py'
+  [91/194] flash_attn_reuse               small            SKIPPED: [Errno 2] No such file or directory: '/home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/flash_attn_reuse/step_impl.py'
+  [92/194] flash_attn_reuse               single_head      SKIPPED: [Errno 2] No such file or directory: '/home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/flash_attn_reuse/step_impl.py'
+  [93/194] flash_attn_reuse               multi_block      SKIPPED: [Errno 2] No such file or directory: '/home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/flash_attn_reuse/step_impl.py'
+  [94/194] flash_attn_reuse               long_ctx         SKIPPED: [Errno 2] No such file or directory: '/home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/flash_attn_reuse/step_impl.py'
+  [95/194] softmax                        wide             pred=    1358  actual=    1392  err=-2.4%
+  [96/194] qkv_projection                 med_d512         pred=   49706  actual=   49710  err=-0.0%
+  [97/194] broadcast_diamond              small            pred=     131  actual=     136  err=-3.7%
+  [98/194] broadcast_diamond              large            pred=    1131  actual=    1136  err=-0.4%
+Predicted: 322
+  [99/194] sdpa_core                      long_ctx_2k      pred=   68498  actual=   68529  err=-0.0%
+Predicted: 20891
+Predicted: 88
+  [100/194] moe_routed                     tiny             pred=     124  actual=     145  err=-14.5%
+Predicted: 375
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/sdpa_two_pass/_work_timing_small/graph.pb
+Predicted: 1240
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/multi_query_attn/_work_timing_large/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/sdpa_two_pass/_work_timing_tiny/graph.pb
+  [101/194] layernorm                      hidden_512       pred=   10829  actual=   10909  err=-0.7%
+Predicted: 2692
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/sdpa_two_pass/_work_timing_single_tile/graph.pb
+  [102/194] bufferize_chain                large            pred=    1459  actual=    1165  err=25.2%
+  [103/194] copy_2d                        large_4k         pred=  265221  actual=  265222  err=-0.0%
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/sdpa_two_pass/_work_timing_multi_tile/graph.pb
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/sdpa_two_pass/_work_timing_long_ctx/graph.pb
+  [104/194] multi_load_compute             square           pred=     546  actual=     551  err=-0.9%
+  [105/194] bufferize_chain                square           pred=     379  actual=     314  err=20.7%
+  [106/194] multi_load_compute             large            pred=    2154  actual=    2158  err=-0.2%
+  [107/194] outer_product_accum            rect             pred=     274  actual=     277  err=-1.1%
+  [108/194] multi_load_compute             small            pred=     226  actual=     230  err=-1.7%
+  [109/194] softmax                        hidden_1k        pred=   37962  actual=   38452  err=-1.3%
+  [110/194] bufferize_chain                med_256          pred=    5782  actual=    4573  err=26.4%
+  [111/194] rms_norm                       long_seq_4k      pred=  272525  actual=  272535  err=-0.0%
+  [112/194] outer_product_accum            small            pred=     146  actual=     150  err=-2.7%
+  [113/194] bufferize_roundtrip            large_4k         pred=  272992  actual=  272950  err=0.0%
+Predicted: 16935
+Saved SelectGen_1132 data to SelectGen_1132.npy
+Saved SelectGen_1133 data to SelectGen_1133.npy
+  [114/194] moe_routed                     tiny_topk2       pred=     207  actual=     193  err=7.3%
+Saved SelectGen_1279 data to SelectGen_1279.npy
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_routed/_work_timing_med_d256/graph.pb
+  [115/194] outer_product_accum            deep_batch       pred=     542  actual=     545  err=-0.6%
+  [116/194] outer_product_accum            large_256        pred=    2186  actual=    2189  err=-0.1%
+  [117/194] moe_routed                     small_topk2      pred=     397  actual=     430  err=-7.7%
+  [118/194] vector_reduce_sum              large_1k         pred=   66058  actual=   66060  err=-0.0%
+  [119/194] outer_product_accum            large            pred=     554  actual=     557  err=-0.5%
+  [120/194] multi_load_compute             med_256          pred=    8586  actual=    8590  err=-0.0%
+  [121/194] residual_add_norm              small            pred=     367  actual=     377  err=-2.7%
+  [122/194] moe_routed                     small            pred=     346  actual=     374  err=-7.5%
+  [123/194] chained_unary                  large_1k         pred=   67114  actual=   67279  err=-0.2%
+  [124/194] residual_add_norm              multi_tile       pred=     752  actual=     701  err=7.3%
+  [125/194] layernorm                      hidden_1k        pred=   42127  actual=   56768  err=-25.8%
+Predicted: 5105
+Saved SelectGen_1612 data to SelectGen_1612.npy
+Saved SelectGen_1613 data to SelectGen_1613.npy
+Saved SelectGen_1693 data to SelectGen_1693.npy
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_routed/_work_timing_small_nf8/graph.pb
+Predicted: 231350
+Saved SelectGen_1706 data to SelectGen_1706.npy
+Saved SelectGen_1707 data to SelectGen_1707.npy
+Saved SelectGen_1847 data to SelectGen_1847.npy
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_routed/_work_timing_large_d1k/graph.pb
+  [126/194] broadcast_diamond              large_1k         pred=   67098  actual=   67104  err=-0.0%
+  [127/194] moe_expert_single              mixtral_8x       pred=  118613  actual=  118630  err=-0.0%
+  [128/194] moe_routed                     small_more_tokens  pred=     751  actual=     860  err=-12.7%
+  [129/194] residual_add_norm              wide             pred=    2456  actual=    2467  err=-0.4%
+  [130/194] moe_routed                     small_nf4        pred=    3043  actual=    3098  err=-1.8%
+  [131/194] scaled_dot_product_simple      medium           pred=    1062  actual=    1067  err=-0.5%
+  [132/194] scaled_dot_product_simple      multi_d          pred=     162  actual=     167  err=-3.0%
+  [133/194] scaled_dot_product_simple      small            pred=      66  actual=      71  err=-7.0%
+  [134/194] bufferize_chain                large_1k         pred=   80426  actual=   68909  err=16.7%
+  [135/194] scaled_dot_product_simple      large            pred=    4218  actual=    4222  err=-0.1%
+  [136/194] moe_routed                     small_nf2        pred=    2015  actual=    2059  err=-2.1%
+  [137/194] scaled_dot_product_simple      large_256        pred=    8586  actual=    8590  err=-0.0%
+  [138/194] sdpa_scaled                    tiny             pred=      68  actual=      77  err=-11.7%
+  [139/194] multi_query_attn               small            SKIPPED: Simulator failed (rc=1):
+thread '<unnamed>' panicked at src/proto_driver/mod.rs:3402:62:
+called `Result::unwrap()` on an `Err` value: DisconnectedReceiver(ChannelID { id: 71 })
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+Traceback (most recent call last):
+  File "<string>", line 10, in <module>
+pyo3_runtime.PanicException: called `Result::unwrap()` on an `Err` value: DisconnectedReceiver(ChannelID { id: 71 })
+
+  [140/194] sdpa_scaled                    single_head      pred=     852  actual=     861  err=-1.0%
+  [141/194] sdpa_scaled                    small            pred=     222  actual=     231  err=-3.9%
+  [142/194] sdpa_scaled                    multi_head       pred=    1788  actual=    1798  err=-0.6%
+  [143/194] residual_add_norm              hidden_512       pred=   17980  actual=   17991  err=-0.1%
+Predicted: 41060
+Saved SelectGen_1876 data to SelectGen_1876.npy
+Saved SelectGen_1877 data to SelectGen_1877.npy
+  [144/194] multi_query_attn               eight_heads      SKIPPED: Simulator failed (rc=1):
+thread '<unnamed>' panicked at src/proto_driver/mod.rs:3402:62:
+called `Result::unwrap()` on an `Err` value: DisconnectedReceiver(ChannelID { id: 71 })
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+Traceback (most recent call last):
+  File "<string>", line 10, in <module>
+pyo3_runtime.PanicException: called `Result::unwrap()` on an `Err` value: DisconnectedReceiver(ChannelID { id: 71 })
+
+Saved SelectGen_2025 data to SelectGen_2025.npy
+Predicted: 9203
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_routed/_work_timing_med_d256_nf2/graph.pb
+Saved SelectGen_2208 data to SelectGen_2208.npy
+Saved SelectGen_2209 data to SelectGen_2209.npy
+Saved SelectGen_2281 data to SelectGen_2281.npy
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_routed/_work_timing_small_nf16/graph.pb
+  [145/194] multi_query_attn               four_heads       SKIPPED: Simulator failed (rc=1):
+thread '<unnamed>' panicked at src/proto_driver/mod.rs:3402:62:
+called `Result::unwrap()` on an `Err` value: DisconnectedReceiver(ChannelID { id: 71 })
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+Traceback (most recent call last):
+  File "<string>", line 10, in <module>
+pyo3_runtime.PanicException: called `Result::unwrap()` on an `Err` value: DisconnectedReceiver(ChannelID { id: 71 })
+
+  [146/194] multi_query_attn               wide_ctx         SKIPPED: Simulator failed (rc=1):
+thread '<unnamed>' panicked at src/proto_driver/mod.rs:3402:62:
+called `Result::unwrap()` on an `Err` value: DisconnectedReceiver(ChannelID { id: 71 })
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+Traceback (most recent call last):
+  File "<string>", line 10, in <module>
+pyo3_runtime.PanicException: called `Result::unwrap()` on an `Err` value: DisconnectedReceiver(ChannelID { id: 71 })
+
+  [147/194] sdpa_scaled                    long_ctx_512     pred=    5532  actual=    5544  err=-0.2%
+  [148/194] multi_query_attn               large            SKIPPED: Simulator failed (rc=1):
+thread '<unnamed>' panicked at src/proto_driver/mod.rs:3402:62:
+called `Result::unwrap()` on an `Err` value: DisconnectedReceiver(ChannelID { id: 71 })
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+Traceback (most recent call last):
+  File "<string>", line 10, in <module>
+pyo3_runtime.PanicException: called `Result::unwrap()` on an `Err` value: DisconnectedReceiver(ChannelID { id: 71 })
+
+  [149/194] sdpa_two_pass                  small            pred=     322  actual=     336  err=-4.2%
+  [150/194] sdpa_two_pass                  single_tile      pred=     375  actual=     388  err=-3.4%
+  [151/194] sdpa_two_pass                  tiny             pred=      88  actual=     102  err=-13.7%
+  [152/194] sdpa_two_pass                  multi_tile       pred=    1240  actual=    1254  err=-1.1%
+  [153/194] sdpa_two_pass                  long_ctx         pred=    2692  actual=    2703  err=-0.4%
+Predicted: 2783557
+Saved SelectGen_2046 data to SelectGen_2046.npy
+Saved SelectGen_2047 data to SelectGen_2047.npy
+Saved SelectGen_2187 data to SelectGen_2187.npy
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_routed/_work_timing_large_d4k/graph.pb
+  [154/194] multi_load_compute             large_1k         pred=  132624  actual=  132622  err=0.0%
+  [155/194] residual_add_norm              hidden_1k        pred=   72813  actual=   70778  err=2.9%
+  [156/194] qkv_projection                 large_d1k        pred=  263242  actual=  263247  err=-0.0%
+  [157/194] sdpa_core                      long_ctx_4k      pred=  267418  actual=  267474  err=-0.0%
+Predicted: 622516
+Saved SelectGen_2495 data to SelectGen_2495.npy
+Saved SelectGen_2496 data to SelectGen_2496.npy
+Saved SelectGen_2636 data to SelectGen_2636.npy
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_routed/_work_timing_large_d1k_nf2/graph.pb
+Predicted: 65700
+Saved SelectGen_2294 data to SelectGen_2294.npy
+Saved SelectGen_2295 data to SelectGen_2295.npy
+  [158/194] moe_routed                     med_d256         pred=   16935  actual=   17218  err=-1.6%
+Saved SelectGen_2447 data to SelectGen_2447.npy
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_routed/_work_timing_med_d256_nf4/graph.pb
+  [159/194] moe_expert_single              large_d1k        pred=  283170  actual=  283227  err=-0.0%
+  [160/194] moe_routed                     small_nf8        pred=    5105  actual=    5650  err=-9.6%
+  [161/194] element_wise_add               large_2k         pred=  525322  actual=  525326  err=-0.0%
+Predicted: 114950
+Saved SelectGen_2854 data to SelectGen_2854.npy
+Saved SelectGen_2855 data to SelectGen_2855.npy
+Saved SelectGen_3008 data to SelectGen_3008.npy
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_routed/_work_timing_med_d256_nf8/graph.pb
+  [162/194] moe_routed                     small_nf16       pred=    9203  actual=    9247  err=-0.5%
+Predicted: 1015780
+Saved SelectGen_2670 data to SelectGen_2670.npy
+Saved SelectGen_2671 data to SelectGen_2671.npy
+Saved SelectGen_2822 data to SelectGen_2822.npy
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_routed/_work_timing_large_d1k_nf4/graph.pb
+  [163/194] rms_norm                       hidden_4k        pred=  541773  actual=  541783  err=-0.0%
+Predicted: 1802528
+Saved SelectGen_3454 data to SelectGen_3454.npy
+Saved SelectGen_3455 data to SelectGen_3455.npy
+Saved SelectGen_3595 data to SelectGen_3595.npy
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_routed/_work_timing_large_d1k_nf8/graph.pb
+Predicted: 3376036
+Saved SelectGen_3616 data to SelectGen_3616.npy
+Saved SelectGen_3617 data to SelectGen_3617.npy
+Saved SelectGen_3757 data to SelectGen_3757.npy
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_routed/_work_timing_large_d1k_nf16/graph.pb
+  [164/194] moe_routed                     med_d256_nf2     pred=   41060  actual=   35804  err=14.7%
+Predicted: 213432
+Saved SelectGen_3231 data to SelectGen_3231.npy
+Saved SelectGen_3232 data to SelectGen_3232.npy
+Saved SelectGen_3433 data to SelectGen_3433.npy
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_routed/_work_timing_med_d256_nf16/graph.pb
+Predicted: 410376
+Saved SelectGen_3778 data to SelectGen_3778.npy
+Saved SelectGen_3779 data to SelectGen_3779.npy
+Saved SelectGen_3919 data to SelectGen_3919.npy
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_routed/_work_timing_med_d256_nf32/graph.pb
+  [165/194] gemm                           large_1k         pred= 1049098  actual= 1049102  err=-0.0%
+Predicted: 804236
+Saved SelectGen_3940 data to SelectGen_3940.npy
+Saved SelectGen_3941 data to SelectGen_3941.npy
+Saved SelectGen_4081 data to SelectGen_4081.npy
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/moe_routed/_work_timing_med_d256_nf64/graph.pb
+  [166/194] gated_mlp                      mixtral_8x       pred=  520155  actual=  519966  err=0.0%
+  [167/194] moe_routed                     med_d256_nf4     pred=   65700  actual=   62390  err=5.3%
+  [168/194] silu_activation                large_4k         pred= 1049610  actual= 1049613  err=-0.0%
+  [169/194] moe_routed                     large_d1k        pred=  231350  actual=  234815  err=-1.5%
+  [170/194] moe_routed                     med_d256_nf8     pred=  114950  actual=  114201  err=0.7%
+total_on_chip_requirement: 22298626
+off_chip_traffic_val: 2812281088 (bytes)
+  [171/194] gated_mlp                      large_d1k        pred= 1202004  actual= 1200221  err=0.1%
+Predicted: 10683902
+Saved MetadataGen_4445 data to MetadataGen_4445.npy
+Saved MetadataGen_4446 data to MetadataGen_4446.npy
+Saved MetadataGen_4447 data to MetadataGen_4447.npy
+Saved SelectGen_4684 data to SelectGen_4684.npy
+Saved SelectGen_4685 data to SelectGen_4685.npy
+Saved SelectGen_4825 data to SelectGen_4825.npy
+Successfully wrote to /home/ubuntu/patrick/AbstractOpt/STePTiming/StepDB/seed_kernels/end_to_end/_work_timing_mixtral_tile32/graph.pb
+  [172/194] matmul_binarymap               large_1k         pred= 2099466  actual= 2099471  err=-0.0%
+  [173/194] moe_routed                     med_d256_nf16    pred=  213432  actual=  223909  err=-4.7%
+  [174/194] gemm                           rect_tall        pred= 2097674  actual= 2097677  err=-0.0%
+  [175/194] element_wise_add               large_4k         pred= 2098186  actual= 2098189  err=-0.0%
+  [176/194] qkv_projection                 large_d2k        pred= 2101400  actual= 2101390  err=0.0%
+  [177/194] moe_expert_single              large_d2k        pred= 2107450  actual= 2108584  err=-0.1%
+  [178/194] gemm                           rect_wide        pred= 2622218  actual= 2622221  err=-0.0%
+  [179/194] moe_routed                     large_d1k_nf2    pred=  622516  actual=  566698  err=9.8%
+  [180/194] moe_routed                     med_d256_nf32    pred=  410376  actual=  430052  err=-4.6%
+  [181/194] moe_routed                     large_d1k_nf4    pred= 1015780  actual=  923327  err=10.0%
+  [182/194] moe_routed                     med_d256_nf64    pred=  804236  actual=  837276  err=-3.9%
+  [183/194] gemm                           large_2k         pred= 6292490  actual= 6292494  err=-0.0%
+  [184/194] moe_routed                     large_d4k        pred= 2783557  actual= 2731276  err=1.9%
+  [185/194] moe_routed                     large_d1k_nf8    pred= 1802528  actual= 1759466  err=2.4%
+  [186/194] moe_expert_single              large_d4k        pred= 8413274  actual= 8416562  err=-0.0%
+  [187/194] gated_mlp                      large_d2k        pred= 9060688  actual= 9052317  err=0.1%
+  [188/194] moe_routed                     large_d1k_nf16   pred= 3376036  actual= 3334222  err=1.3%
+  [189/194] matmul_binarymap               large_2k         pred=16785930  actual=16785933  err=-0.0%
+  [190/194] qkv_projection                 large_d4k        pred=16785698  actual=16785550  err=0.0%
+  [191/194] gated_mlp                      large_d4k        pred=18398870  actual=18367013  err=0.2%
+  [192/194] end_to_end                     mixtral_tile32   pred=10683902  actual=12236674  err=-12.7%
+  [193/194] gemm                           large_4k         pred=50332682  actual=50332685  err=-0.0%
+  [194/194] matmul_binarymap               large_4k         pred=134234634  actual=134234638  err=-0.0%
+
+================================================================================
+  Kernel                         Preset           Predicted     Actual   Error%
+================================================================================
+  broadcast_diamond              large                 1131       1136    -0.4%
+  broadcast_diamond              large_1k             67098      67104    -0.0%
+  broadcast_diamond              med_256               4494       4499    -0.1%
+  broadcast_diamond              small                  131        136    -3.7%
+  broadcast_diamond              square                 291        296    -1.7%
+  bufferize_chain                large                 1459       1165    25.2%
+  bufferize_chain                large_1k             80426      68909    16.7%
+  bufferize_chain                med_256               5782       4573    26.4%
+  bufferize_chain                small                  185        143    29.4%
+  bufferize_chain                square                 379        314    20.7%
+  bufferize_roundtrip            large                  424        418     1.4%
+  bufferize_roundtrip            large_1k             18800      18782     0.1%
+  bufferize_roundtrip            large_2k             70320      70302     0.0%
+  bufferize_roundtrip            large_4k            272992     272950     0.0%
+  bufferize_roundtrip            med_256               1384       1377     0.5%
+  bufferize_roundtrip            med_512               4792       4786     0.1%
+  bufferize_roundtrip            small                   84         77     9.1%
+  bufferize_roundtrip            square                 184        166    10.8%
+  chained_unary                  large                 1132       1148    -1.4%
+  chained_unary                  large_1k             67114      67279    -0.2%
+  chained_unary                  med_256               4498       4544    -1.0%
+  chained_unary                  small                  132        138    -4.3%
+  chained_unary                  square                 292        298    -2.0%
+  copy_2d                        fine                   117        119    -1.7%
+  copy_2d                        large                  357        359    -0.6%
+  copy_2d                        large_1k             16965      16967    -0.0%
+  copy_2d                        large_2k             66693      66695    -0.0%
+  copy_2d                        large_4k            265221     265222    -0.0%
+  copy_2d                        med_256               1173       1175    -0.2%
+  copy_2d                        med_512               4389       4391    -0.0%
+  copy_2d                        small                   63         65    -3.1%
+  copy_2d                        square                 153        155    -1.3%
+  element_wise_add               hidden                1066       1069    -0.3%
+  element_wise_add               large                 4138       4141    -0.1%
+  element_wise_add               large_1k            131594     131598    -0.0%
+  element_wise_add               large_2k            525322     525326    -0.0%
+  element_wise_add               large_4k           2098186    2098189    -0.0%
+  element_wise_add               med_256               8330       8334    -0.0%
+  element_wise_add               med_512              33034      33037    -0.0%
+  element_wise_add               small                  210        213    -1.4%
+  element_wise_add               square                 530        533    -0.6%
+  end_to_end                     mixtral_tile32    10683902   12236674   -12.7%
+  gated_mlp                      large_d1k          1202004    1200221     0.1%
+  gated_mlp                      large_d2k          9060688    9052317     0.1%
+  gated_mlp                      large_d4k         18398870   18367013     0.2%
+  gated_mlp                      mixtral_8x          520155     519966     0.0%
+  gated_mlp                      qwen_16x              6773       6775    -0.0%
+  gated_mlp                      small                 3587       3591    -0.1%
+  gated_mlp                      tiny                   526        534    -1.5%
+  gemm                           large_1k           1049098    1049102    -0.0%
+  gemm                           large_2k           6292490    6292494    -0.0%
+  gemm                           large_4k          50332682   50332685    -0.0%
+  gemm                           large_tile            2090       2093    -0.1%
+  gemm                           med_256              32906      32909    -0.0%
+  gemm                           med_512             196874     196878    -0.0%
+  gemm                           rect_tall          2097674    2097677    -0.0%
+  gemm                           rect_wide          2622218    2622221    -0.0%
+  gemm                           small                  786        789    -0.4%
+  gemm                           square                2066       2069    -0.1%
+  gemm                           wide                  6170       6173    -0.0%
+  layernorm                      hidden_1k            42127      56768   -25.8%
+  layernorm                      hidden_512           10829      10909    -0.7%
+  layernorm                      multi_tile             563        655   -14.0%
+  layernorm                      small                  305        319    -4.4%
+  layernorm                      wide                  1693       1716    -1.3%
+  matmul_binarymap               large                 8282       8286    -0.0%
+  matmul_binarymap               large_1k           2099466    2099471    -0.0%
+  matmul_binarymap               large_2k          16785930   16785933    -0.0%
+  matmul_binarymap               large_4k         134234634  134234638    -0.0%
+  matmul_binarymap               med_256              33098      33102    -0.0%
+  matmul_binarymap               med_512             263306     263310    -0.0%
+  matmul_binarymap               small                  818        821    -0.4%
+  matmul_binarymap               square                2078       2083    -0.2%
+  matmul_binarymap               wide_tile             5274       5277    -0.1%
+  moe_expert_single              large_d1k           283170     283227    -0.0%
+  moe_expert_single              large_d2k          2107450    2108584    -0.1%
+  moe_expert_single              large_d4k          8413274    8416562    -0.0%
+  moe_expert_single              mixtral_8x          118613     118630    -0.0%
+  moe_expert_single              qwen_16x              1037       1051    -1.3%
+  moe_expert_single              small                  902        918    -1.7%
+  moe_expert_single              tiny                   239        249    -4.0%
+  moe_routed                     large_d1k           231350     234815    -1.5%
+  moe_routed                     large_d1k_nf16     3376036    3334222     1.3%
+  moe_routed                     large_d1k_nf2       622516     566698     9.8%
+  moe_routed                     large_d1k_nf4      1015780     923327    10.0%
+  moe_routed                     large_d1k_nf8      1802528    1759466     2.4%
+  moe_routed                     large_d4k          2783557    2731276     1.9%
+  moe_routed                     med_d256             16935      17218    -1.6%
+  moe_routed                     med_d256_nf16       213432     223909    -4.7%
+  moe_routed                     med_d256_nf2         41060      35804    14.7%
+  moe_routed                     med_d256_nf32       410376     430052    -4.6%
+  moe_routed                     med_d256_nf4         65700      62390     5.3%
+  moe_routed                     med_d256_nf64       804236     837276    -3.9%
+  moe_routed                     med_d256_nf8        114950     114201     0.7%
+  moe_routed                     small                  346        374    -7.5%
+  moe_routed                     small_more_tokens        751        860   -12.7%
+  moe_routed                     small_nf16            9203       9247    -0.5%
+  moe_routed                     small_nf2             2015       2059    -2.1%
+  moe_routed                     small_nf4             3043       3098    -1.8%
+  moe_routed                     small_nf8             5105       5650    -9.6%
+  moe_routed                     small_topk2            397        430    -7.7%
+  moe_routed                     tiny                   124        145   -14.5%
+  moe_routed                     tiny_topk2             207        193     7.3%
+  multi_load_compute             large                 2154       2158    -0.2%
+  multi_load_compute             large_1k            132624     132622     0.0%
+  multi_load_compute             med_256               8586       8590    -0.0%
+  multi_load_compute             small                  226        230    -1.7%
+  multi_load_compute             square                 546        551    -0.9%
+  outer_product_accum            deep_batch             542        545    -0.6%
+  outer_product_accum            large                  554        557    -0.5%
+  outer_product_accum            large_256             2186       2189    -0.1%
+  outer_product_accum            rect                   274        277    -1.1%
+  outer_product_accum            small                  146        150    -2.7%
+  qkv_projection                 kv_proj                558        563    -0.9%
+  qkv_projection                 large_d1k           263242     263247    -0.0%
+  qkv_projection                 large_d2k          2101400    2101390     0.0%
+  qkv_projection                 large_d4k         16785698   16785550     0.0%
+  qkv_projection                 med_d512             49706      49710    -0.0%
+  qkv_projection                 q_proj                2094       2098    -0.2%
+  qkv_projection                 qwen_scale            8238       8243    -0.1%
+  qkv_projection                 small                  542        546    -0.7%
+  residual_add_norm              hidden_1k            72813      70778     2.9%
+  residual_add_norm              hidden_512           17980      17991    -0.1%
+  residual_add_norm              multi_tile             752        701     7.3%
+  residual_add_norm              small                  367        377    -2.7%
+  residual_add_norm              wide                  2456       2467    -0.4%
+  rms_norm                       head_dim               366        374    -2.1%
+  rms_norm                       hidden_1k            35373      35384    -0.0%
+  rms_norm                       hidden_2k           140365     140375    -0.0%
+  rms_norm                       hidden_4k           541773     541783    -0.0%
+  rms_norm                       hidden_512            8988       8997    -0.1%
+  rms_norm                       long_seq_4k         272525     272535    -0.0%
+  rms_norm                       qwen_scale             574        583    -1.5%
+  rms_norm                       small                  238        246    -3.3%
+  rms_norm                       wide                  1428       1436    -0.6%
+  scaled_dot_product_simple      large                 4218       4222    -0.1%
+  scaled_dot_product_simple      large_256             8586       8590    -0.0%
+  scaled_dot_product_simple      medium                1062       1067    -0.5%
+  scaled_dot_product_simple      multi_d                162        167    -3.0%
+  scaled_dot_product_simple      small                   66         71    -7.0%
+  sdpa_core                      long_ctx_1k          22094      22113    -0.1%
+  sdpa_core                      long_ctx_2k          68498      68529    -0.0%
+  sdpa_core                      long_ctx_4k         267418     267474    -0.0%
+  sdpa_core                      long_ctx_512          5531       5541    -0.2%
+  sdpa_core                      multi_head            1787       1795    -0.4%
+  sdpa_core                      qwen_scale             851        859    -0.9%
+  sdpa_core                      single_head            851        858    -0.8%
+  sdpa_core                      small                  221        228    -3.1%
+  sdpa_core                      tiny                    67         74    -9.5%
+  sdpa_scaled                    long_ctx_512          5532       5544    -0.2%
+  sdpa_scaled                    multi_head            1788       1798    -0.6%
+  sdpa_scaled                    single_head            852        861    -1.0%
+  sdpa_scaled                    small                  222        231    -3.9%
+  sdpa_scaled                    tiny                    68         77   -11.7%
+  sdpa_two_pass                  long_ctx              2692       2703    -0.4%
+  sdpa_two_pass                  multi_tile            1240       1254    -1.1%
+  sdpa_two_pass                  single_tile            375        388    -3.4%
+  sdpa_two_pass                  small                  322        336    -4.2%
+  sdpa_two_pass                  tiny                    88        102   -13.7%
+  silu_activation                large                 1066       1069    -0.3%
+  silu_activation                large_1k             66058      66060    -0.0%
+  silu_activation                large_2k            263178     263181    -0.0%
+  silu_activation                large_4k           1049610    1049613    -0.0%
+  silu_activation                med_256               4234       4237    -0.1%
+  silu_activation                med_512              16650      16652    -0.0%
+  silu_activation                moe_scale             3106       3109    -0.1%
+  silu_activation                small                  114        117    -2.6%
+  silu_activation                square                 274        277    -1.1%
+  softmax                        hidden_1k            37962      38452    -1.3%
+  softmax                        hidden_512            9754       9759    -0.1%
+  softmax                        multi_tile             428        442    -3.2%
+  softmax                        small                  235        241    -2.5%
+  softmax                        wide                  1358       1392    -2.4%
+  vector_reduce_sum              large_1k             66058      66060    -0.0%
+  vector_reduce_sum              med_256               4234       4237    -0.1%
+  vector_reduce_sum              small                  146        149    -2.0%
+  vector_reduce_sum              square                 274        277    -1.1%
+  vector_reduce_sum              tall                   274        277    -1.1%
+  vector_reduce_sum              wide                   538        541    -0.6%
+  --- Skipped 15 kernel(s) due to errors ---
+    flash_attn_full/tiny: [Errno 2] No such file or directory: '/home/ubuntu/patrick/AbstractOpt/STePTimin
+    flash_attn_full/small: [Errno 2] No such file or directory: '/home/ubuntu/patrick/AbstractOpt/STePTimin
+    flash_attn_full/medium: [Errno 2] No such file or directory: '/home/ubuntu/patrick/AbstractOpt/STePTimin
+    flash_attn_full/multi_head: [Errno 2] No such file or directory: '/home/ubuntu/patrick/AbstractOpt/STePTimin
+    flash_attn_full/long_ctx: [Errno 2] No such file or directory: '/home/ubuntu/patrick/AbstractOpt/STePTimin
+    flash_attn_reuse/tiny: [Errno 2] No such file or directory: '/home/ubuntu/patrick/AbstractOpt/STePTimin
+    flash_attn_reuse/small: [Errno 2] No such file or directory: '/home/ubuntu/patrick/AbstractOpt/STePTimin
+    flash_attn_reuse/single_head: [Errno 2] No such file or directory: '/home/ubuntu/patrick/AbstractOpt/STePTimin
+    flash_attn_reuse/multi_block: [Errno 2] No such file or directory: '/home/ubuntu/patrick/AbstractOpt/STePTimin
+    flash_attn_reuse/long_ctx: [Errno 2] No such file or directory: '/home/ubuntu/patrick/AbstractOpt/STePTimin
+    multi_query_attn/small: Simulator failed (rc=1):
+thread '<unnamed>' panicked at src/proto_driver/mod.rs:
+    multi_query_attn/eight_heads: Simulator failed (rc=1):
+thread '<unnamed>' panicked at src/proto_driver/mod.rs:
+    multi_query_attn/four_heads: Simulator failed (rc=1):
+thread '<unnamed>' panicked at src/proto_driver/mod.rs:
+    multi_query_attn/wide_ctx: Simulator failed (rc=1):
+thread '<unnamed>' panicked at src/proto_driver/mod.rs:
+    multi_query_attn/large: Simulator failed (rc=1):
+thread '<unnamed>' panicked at src/proto_driver/mod.rs:
+================================================================================
+  Average error: 2.7% (179 kernels, 15 skipped)

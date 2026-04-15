@@ -162,21 +162,25 @@ def compute_gold(dims):
             k_cache[i, num_token_list[i]] = K[i]
             v_cache[i, num_token_list[i]] = V[i]
 
-        # [6] GQA attention (exp-normalize, no max subtraction, no scaling)
-        attn_output = torch.zeros(batch, mc.num_heads, mc.head_dim)
+        # [6] GQA attention (exp-normalize softmax, no 1/sqrt(d) scaling)
+        # Use float64 to match the STeP streaming softmax which computes raw
+        # exp(scores) without max subtraction.  Float32 overflows for large
+        # scores; float64 handles exp(±700) without overflow.
+        attn_output = torch.zeros(batch, mc.num_heads, mc.head_dim, dtype=torch.float64)
         for i in range(batch):
             seq_len = num_token_list[i] + 1
             for h_kv in range(mc.num_kv_heads):
                 q_lo = h_kv * mc.query_per_kvhead
                 q_hi = q_lo + mc.query_per_kvhead
-                q_group = Q[i, q_lo:q_hi, :]              # [qpkv, D]
-                k_seq = k_cache[i, :seq_len, h_kv, :]     # [S, D]
-                v_seq = v_cache[i, :seq_len, h_kv, :]     # [S, D]
+                q_group = Q[i, q_lo:q_hi, :].double()     # [qpkv, D]
+                k_seq = k_cache[i, :seq_len, h_kv, :].double()  # [S, D]
+                v_seq = v_cache[i, :seq_len, h_kv, :].double()  # [S, D]
 
                 scores = q_group @ k_seq.T                 # [qpkv, S]
                 exp_scores = torch.exp(scores)
                 context = exp_scores @ v_seq               # [qpkv, D]
                 attn_output[i, q_lo:q_hi, :] = context / exp_scores.sum(dim=-1, keepdim=True)
+        attn_output = attn_output.float()
 
         # [7] O-projection: [B, num_heads * head_dim] @ [num_heads * head_dim, HID]
         attn_flat = attn_output.view(batch, mc.num_heads * mc.head_dim)

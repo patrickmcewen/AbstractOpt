@@ -35,6 +35,16 @@ def build_graph(dims):
         par_dispatch=4,
     )
 
+    # Load input
+    load2 = LinearOffChipLoad(
+        underlying=A,
+        stride=(K // tile_k, 1),
+        out_shape_tiled=(M // tile_m, K // tile_k),
+        tile_row=tile_m,
+        tile_col=tile_k,
+        par_dispatch=4,
+    )
+
     k_tiles = K // tile_k
 
     # x^2 via Square unary op
@@ -108,7 +118,7 @@ def build_graph(dims):
     # infer_broadcast will insert the necessary Broadcast node.
     normed = BinaryMap(
         graph=step_graph,
-        in1=load,
+        in1=load2,
         in2=rsqrt_node,
         fn=Mul(),
         write_back_mu=True,

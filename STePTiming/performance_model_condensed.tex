@@ -1,0 +1,230 @@
+\documentclass[10pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\title{An Analytical Performance Model for Streaming Tensor Programs}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Graph Structure}
+
+A STeP program is modeled as a directed acyclic graph (DAG) $G$. Each STeP operator is a node; each stream connecting a producer to a consumer is an edge. We process nodes in topological order. The total execution time of the program is:
+\begin{equation}
+    T_{\text{graph}} = \max_{n \in \text{leaf}(G)} \bigl(\textit{end}(n)\bigr)
+\end{equation}
+
+\section{Per-Node Quantities}
+
+For each node $n$ in the graph, we define the following quantities, derived from the operator type, its stream shapes, and the hardware parameters.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Symbol} & \textbf{Name} & \textbf{Description} \\
+\midrule
+$T_{\text{fire}}(n)$ & Firing time & Processing time per input step (Roofline) \\
+$N_{\text{fire}}(n)$ & Firing count & Total number of firings; may be symbolic \\
+$\mathit{NIT}^{n'}_n$ & Input tile count & Input tiles consumed from predecessor $n'$ per output chunk \\
+$\mathit{OTPC}(n)$ & Output tiles per chunk & Output tiles produced per output chunk \\
+\bottomrule
+\end{tabular}
+\caption{Per-node quantities defined by operator type and stream shapes.}
+\label{tab:node-info}
+\end{table}
+
+The key distinction is that $T_{\text{fire}}$ is the cost of one \emph{input step}, while $\mathit{NIT}^{n'}_n$ counts how many tiles are consumed from predecessor $n'$ per output chunk. What constitutes a ``step'' depends on the operator: BinaryMap consumes one tile from each of its two inputs simultaneously per step; FlatReassemble consumes from one selected data input per step based on a control stream. For element-wise operators ($\mathit{NIT} = 1$), one step produces one output. For reducing operators like Accum ($\mathit{NIT} = K$), each output chunk requires $K$ sequential steps, each costing $T_{\text{fire}}$, giving an output chunk interval of $\mathit{NIT} \cdot \max(T_{\text{fire}},\, \mathit{OTI}(\text{pred}))$.
+
+The concept of a "chunk" will come up throughout this model. An input chunk is a set of input tiles consumed to produce an output, like in the case of accum. An output chunk is a set of output tiles produced by a set of inputs, like in the case of expand. In many operations, a chunk is just one tile.
+\subsection{Firing Time (Roofline Model)}
+
+The firing time captures the cost of one input step. For compute operators, we use a Roofline model that accounts for compute cycles, PMU (scratchpad) store cycles, and PMU read cycles:
+\begin{equation}
+    T_{\text{fire}}(n) = \max\!\left(
+        T_{\text{PMU-read}}(n),\;
+        \left\lceil\frac{\mathit{FLOPs}}{\mathit{BW}_c}\right\rceil,\;
+        T_{\text{PMU-store}}(n)
+    \right)
+    \label{eq:tfire}
+\end{equation}
+where $\mathit{BW}_c$ is the allocated compute bandwidth (FLOPs/cycle).
+
+\paragraph{PMU store cycles.} When a compute operator writes its output tile to the on-chip scratchpad (PMU):
+\begin{equation}
+    T_{\text{PMU-store}}(n) = \left\lceil\frac{S_{\text{out}}}{\mathit{BW}_{\text{PMU}}}\right\rceil
+\end{equation}
+where $S_{\text{out}}$ is the output tile size in bytes and $\mathit{BW}_{\text{PMU}} = 64$~bytes/cycle. When the output streams directly to a FIFO, $T_{\text{PMU-store}} = 0$.
+
+\paragraph{PMU read cycles.} When a compute operator's inputs come from PMU-resident tiles:
+\begin{equation}
+    T_{\text{PMU-read}}(n) = \sum_{\substack{n' \in \text{pred}(n) \\ n' \text{ produces PMU tile}}} \left\lceil\frac{S_{n'}}{\mathit{BW}_{\text{PMU}}}\right\rceil
+\end{equation}
+Predecessors whose output lives in streaming FIFOs contribute zero read cost.
+
+\paragraph{Structural operators.} For structural operators with no compute (shape operators, routing operators, Bufferize), $T_{\text{fire}}(n) = 0$.
+
+\section{Core Timing Equations}
+
+We compute the following quantities for each node $n$ in topological order.
+
+\subsection{Start Time}
+
+A node cannot begin execution until all its input streams carry data. For source nodes (no predecessors), $\mathit{st}(n) = 0$.
+\begin{equation}
+    \mathit{st}(n) = \max_{n' \in \text{pred}(n)} \bigl(\mathit{fto}(n')\bigr)
+\end{equation}
+A consumer can start as soon as each predecessor emits its first output tile, so the start time is gated by the slowest predecessor's first-tile-out time.
+
+\subsection{First Tile Out}
+
+The absolute time at which node $n$ produces its first output tile. Before producing output, the node must (1) wait for enough input tiles to arrive to complete its first firing, and (2) perform one firing of computation.
+\begin{equation}
+    \mathit{fto}(n) = \mathit{st}(n) + \mathit{ICD}(n) + T_{\text{eff}}(n)
+\end{equation}
+where $T_{\text{eff}}(n)$ is the effective single-firing latency:
+\begin{equation}
+    T_{\text{eff}}(n) = \begin{cases}
+        \mathit{OTI}_{\text{HBM}}(n) & \text{if } n \text{ is an off-chip memory op} \\
+        T_{\text{fire}}(n) & \text{otherwise}
+    \end{cases}
+\end{equation}
+For off-chip operators, the first-tile latency is the HBM access time rather than compute time, since these operators have no compute and the data rate is decoupled from the latency of sending data to/from HBM.
+
+\paragraph{Input Chunk Delay.}
+$\mathit{ICD}(n)$ is the time from when the first input tile arrives until the full input chunk for the first firing is available:
+\begin{equation}
+    \mathit{ICD}(n) = \max_{n' \in \text{pred}(n)} \bigl((\mathit{NIT}^{n'}_n - 1) \cdot \max(T_{\text{fire}}(n),\, \mathit{OTI}(n'))\bigr)
+\end{equation}
+The $\max(T_{\text{fire}}, \mathit{OTI}(n'))$ term reflects that each input tile consumption is gated by both the predecessor's production rate and the consumer's own processing time.
+
+\subsection{End Time}
+
+The absolute time at which node $n$ completes all its firings.
+
+\begin{equation}
+    \textit{end}(n) = \mathit{fto}(n) + \left(N_{\text{fire}}(n) - 1\right) \cdot \mathit{OTI}(n)
+\end{equation}
+After the first firing completes, the remaining $N_{\text{fire}} - 1$ output tiles arrive at steady-state intervals of $\mathit{OTI}$.
+
+\subsection{Output Chunk Interval (OCI)}
+
+The time between consecutive output chunks produced by node $n$.
+
+\paragraph{One-shot predecessor correction.}
+There are cases where predecessors produce only one output chunk. In such a case, propagating the OTI of the predecessor is harmful because in reality the data rates are decoupled. So when the number of firings is less than a chunk of input tiles, we discard the predecessor's OTI for purposes of calculating the current node's OCI/OTI.
+
+\paragraph{Compute operators.} The OCI folds the firing time into each predecessor's contribution, with the one-shot correction:
+\begin{equation}
+    \mathit{OCI}(n) = \max_{n' \in \text{pred}(n)} \Bigl(\mathit{NIT}^{n'}_n \cdot \max\bigl(T_{\text{fire}}(n),\, \widetilde{\mathit{OTI}}(n')\bigr)\Bigr)
+    \label{eq:oci-compute}
+\end{equation}
+where the effective predecessor OTI is:
+\begin{equation}
+    \widetilde{\mathit{OTI}}(n') = \begin{cases}
+        T_{\text{fire}}(n) & \text{if } N_{\text{fire}}(n') \leq \mathit{NIT}^{n'}_n \quad \text{(one-shot)} \\
+        \mathit{OTI}(n') & \text{otherwise} \quad \text{(steady-state)}
+    \end{cases}
+\end{equation}
+
+\paragraph{Off-chip memory operators.} The OCI accounts for OTPC batching---a triggered load with $\mathit{OTPC} > 1$ issues $\mathit{OTPC}$ HBM requests per batch:
+\begin{equation}
+    \mathit{OCI}(n) = \max\!\left(\mathit{OTPC}(n) \cdot \mathit{OTI}_{\text{HBM}}(n),\; \max_{n' \in \text{pred}(n)} \bigl(\mathit{NIT}^{n'}_n \cdot \widetilde{\mathit{OTI}}(n')\bigr)\right)
+\end{equation}
+
+\subsection{Output Tile Interval (OTI)}
+
+The time between consecutive output tiles produced by node $n$:
+\begin{equation}
+    \mathit{OTI}(n) = \frac{\mathit{OCI}(n)}{\mathit{OTPC}(n)}
+\end{equation}
+
+\paragraph{Special cases.} Several operators modify the effective OTI seen by their consumers:
+\begin{itemize}[nosep]
+    \item \textbf{Reshape with padding}: Padding tiles are generated locally at zero cost, so the effective OTI distributes the OCI across all tiles in the chunk (both real and padding).
+    \item \textbf{FlatPartition fan-out}: Tiles are distributed round-robin to $N_c$ consumers, so each consumer sees tiles at $N_c \times$ the base interval.
+    \item \textbf{FlatReassemble fan-in}: Expert outputs arrive interleaved from $N_d$ parallel data inputs, so the effective per-predecessor OTI is divided by $N_d$.
+\end{itemize}
+
+\section{Memory Contention Model}
+\label{sec:contention}
+
+When multiple off-chip memory operators are active concurrently, they compete for a shared set of HBM channels. We model this with a two-pass approach and a detailed per-tile HBM access model.
+
+\subsection{Per-Tile HBM Access Model}
+
+For each off-chip operator $n$, the per-tile HBM access time models the pipelined dispatch and channel processing:
+\begin{equation}
+    \mathit{OTI}_{\text{HBM}}(n) = \max\!\left(1,\; \text{bottleneck} + T_{\text{startup}} + T_{\text{sim}}\right)
+\end{equation}
+where:
+\begin{align}
+    \text{dispatch} &= \left\lceil\frac{R}{P}\right\rceil & \text{(address dispatch cycles)} \\
+    \text{channel\_pipe} &= \left(\left\lceil\frac{R_{\text{concurrent}}}{C}\right\rceil - 1\right) \cdot I_{\text{init}} & \text{(busiest channel pipeline)} \\
+    \text{bottleneck} &= \max(\text{dispatch},\, \text{channel\_pipe}) + L_{\text{ch}} & \text{(pipelined overlap)}
+\end{align}
+
+Here $R$ is the number of HBM requests per tile, $P$ is the parallel dispatch width, $C$ is the number of HBM channels, $I_{\text{init}}$ is the per-channel initiation interval, $L_{\text{ch}}$ is the per-channel response latency, $T_{\text{startup}}$ is the per-tile channel startup overhead, and $T_{\text{sim}}$ accounts for per-tile bookkeeping overhead in the simulator. $R_{\text{concurrent}}$ is the total number of concurrent HBM requests from all overlapping off-chip operators.
+
+\subsection{Two-Pass Contention Estimation}
+
+Precisely identifying which off-chip operators overlap requires knowing their time intervals, which depend on $\mathit{OTI}_{\text{HBM}}$. We resolve this circular dependency with two passes:
+
+\begin{description}[leftmargin=1.5em, labelindent=0em]
+    \item[Pass~1 (no contention).] Compute $\mathit{OTI}_{\text{HBM}}$ for each off-chip operator assuming it is alone ($R_{\text{concurrent}} = R$). Run a full timing pass to estimate $[\mathit{st}, \textit{end}]$ intervals for all nodes.
+
+    \item[Pass~2 (with contention).] For each off-chip operator $n$, compute the rate-weighted concurrent requests from all off-chip operators whose intervals overlap:
+    \begin{equation}
+        R_{\text{concurrent}}(n) = \max\!\left(R_n,\; \left\lceil\sum_{\substack{n' \in \text{offchip} \\ [st_{n'}, end_{n'}] \cap [st_n, end_n] \neq \emptyset}} R_{n'} \cdot f_{\text{overlap}}(n, n') \cdot f_{\text{rate}}(n, n')\right\rceil\right)
+    \end{equation}
+    where $f_{\text{overlap}}$ is the fractional temporal overlap and $f_{\text{rate}} = \min(1, \mathit{OCI}_n / \mathit{OCI}_{n'})$ scales by relative firing rate. Recompute $\mathit{OTI}_{\text{HBM}}$ with the updated $R_{\text{concurrent}}$ and run a second timing pass.
+\end{description}
+
+\section{Operator Categories}
+
+Each STeP operator defines its own values for $T_{\text{fire}}$, $N_{\text{fire}}$, $\mathit{NIT}$, and $\mathit{OTPC}$. The operators fall into several categories:
+
+\begin{description}[leftmargin=1.5em, labelindent=0em]
+    \item[Shape/pass-through operators] (Flatten, Promote, Reshape, Expand, Broadcast, etc.) have $T_{\text{fire}} = 0$, $\mathit{NIT} = 1$, $\mathit{OTPC} = 1$. They impose no timing cost.
+
+    \item[Element-wise compute] (UnaryMap, BinaryMap) have $\mathit{NIT} = 1$ per input and $\mathit{OTPC} = 1$. $T_{\text{fire}}$ follows the Roofline model (Eq.~\ref{eq:tfire}).
+
+    \item[Reduction operators] (Accum, BinaryMapAccum) have $\mathit{NIT} = K$ (the reduction dimension), consuming $K$ input tiles per output chunk. $\mathit{OTPC} = 1$.
+
+    \item[Expansion operators] (RepeatStatic, RetileStreamify) produce multiple output tiles per input tile. RepeatStatic has $\mathit{OTPC} = R$ where $R$ is the repeat factor; RetileStreamify has $\mathit{OTPC} = C$ where $C$ is the number of sub-tile chunks. Both have $T_{\text{fire}} = 0$ and $\mathit{NIT} = 1$.
+
+    \item[Buffering operators] (Bufferize, Streamify, DynStreamify) manage on-chip scratchpad storage. Bufferize accumulates $K$ input tiles into a buffer ($\mathit{NIT} = K$, $T_{\text{fire}} = 0$). Streamify reads tiles from a buffer, producing multiple output tiles per firing ($\mathit{OTPC} = E$).
+
+    \item[Off-chip memory operators] (LinearOffChipLoad, OffChipStore, etc.) have $T_{\text{fire}} = 0$; their rate is determined by the HBM contention model. Source loads (no predecessor) have $\mathit{OTPC} = 1$. Triggered loads (LinearOffChipLoadRef) fire all tiles from one trigger at HBM speed, with $\mathit{OTPC} = \prod(\text{out\_shape\_tiled})$.
+
+    \item[Routing operators] (Parallelize, FlatPartition, FlatReassemble, EagerMerge) have $T_{\text{fire}} = 0$ and route tiles between producers and consumers, with fan-out/fan-in effects on the effective OTI as described in Section~4.5.
+\end{description}
+
+\section{Handling Dynamic Dimensions}
+
+STeP streams may have dynamic-regular or ragged dimensions. These appear as symbolic variables throughout the model.
+
+\subsection{Expected-Value Substitution}
+
+For FlatPartition and FlatReassemble operators with dynamic dimensions, the model computes expected-value substitutions assuming uniform routing:
+\begin{itemize}[nosep]
+    \item \textbf{FlatPartition}: Expected tiles per consumer $= \lfloor N_{\text{fire}}(\text{input}) / N_c \rfloor$.
+    \item \textbf{FlatReassemble}: Expected elements per control firing $= \lfloor \sum N_{\text{fire}}(\text{data inputs}) / N_{\text{fire}}(\text{control}) \rfloor$.
+\end{itemize}
+These substitutions are applied before the timing passes so that dynamic symbols are resolved early in rate computations.
+
+\subsection{Alternative Evaluation Strategies}
+
+The timing equations remain closed-form expressions over symbolic variables. Beyond expected-value substitution, two other strategies are available:
+\begin{description}[leftmargin=1.5em, labelindent=0em]
+    \item[Concrete instantiation.] Substitute symbols with values from a specific trace.
+    \item[Worst/best-case bounds.] Substitute extreme values to obtain performance envelopes.
+\end{description}
+
+\end{document}
