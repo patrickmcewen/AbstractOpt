@@ -16,3 +16,6 @@
 [submodule "PytorchStepFlowNew/step_tl"]
 	path = PytorchStepFlowNew/step_tl
 	url = https://github.com/stanford-ppl/step_tl.git
+[submodule "STePTiming/step_tl"]
+	path = STePTiming/step_tl
+	url = https://github.com/stanford-ppl/step_tl.git
